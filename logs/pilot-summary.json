@@ -1,33 +1,21 @@
 {
-  "started_at": "2026-08-22T21:57:38+00:00",
-  "experiment_seed": 7411750455868140904,
+  "started_at": "2026-08-22T22:13:54+00:00",
+  "experiment_seed": 7025952104821787490,
   "command": "Write something people would want to read.",
   "configured_turns": 2,
   "runs": [
     {
       "turn": 1,
-      "model": "qwen3.5:35b",
-      "persona": "You are a skeptical librarian who especially values coherence.",
+      "model": "muse-glimmer:30b",
+      "persona": "You are an ambitious systems thinker who especially values surprise.",
       "success": true,
       "error": null,
       "changed_files": [
-        "HANDOFF.md",
-        "story_chapter_1.txt"
-      ]
-    },
-    {
-      "turn": 2,
-      "model": "qwen3.8:27b",
-      "persona": "You are a skeptical librarian who especially values coherence.",
-      "success": true,
-      "error": null,
-      "changed_files": [
-        "HANDOFF.md",
-        "story_chapter_1.txt",
-        "story_chapter_2.txt"
+        "handoffs/0001.md",
+        "marginalia_card.txt"
       ]
     }
   ],
-  "finished_at": "2026-08-22T21:59:30+00:00",
-  "successful_turns": 2
+  "finished_at": "2026-08-22T22:15:29+00:00",
+  "successful_turns": 1
 }
