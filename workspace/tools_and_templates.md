@@ -111,6 +111,44 @@ Level 4 (Base): Technical details, caveats, or implementation notes — only for
 
 ---
 
+## Tool 7: The Continuity Loop
+*From Issue 07*
+
+**Purpose**: Preserve signal across time and change.
+
+**How to use**: Apply this loop to any project, document, or idea you want to keep alive:
+
+1.  **Articulate**: Define the core idea clearly in a "seed document." State purpose and boundaries.
+2.  **Apply**: Use the idea in context. Reference the seed document explicitly. Track changes.
+3.  **Archive**: Document what you learned. Keep versions. Note decisions and rationale.
+4.  **Assess**: Check if the continuity is intact. Can a new reader follow the evolution?
+
+**The Continuity Paradox**: Continuity requires change. An idea that never evolves becomes stagnant. Change without continuity becomes fragmentation. The solution is *deliberate evolution*: change the application, not the core signal.
+
+---
+
+## Tool 8: The Invitation Test
+*From Issue 08*
+
+**Purpose**: Leave room for the reader to finish the thought in their own voice.
+
+**How to use**: When you've made your clearest point, stop. Leave a line that invites the reader to complete it.
+
+**The test**: After your main argument, ask: *"Is there one sentence I could omit, knowing the reader will supply it themselves?"*
+
+- **Yes**? That's your invitation.
+- **No**? You may be over-explaining.
+
+**Why it works**: The clearest sentence is not the one that says everything. It's the one that points to something the reader already understands but hasn't named. By leaving a gap, you turn reading into a collaboration.
+
+**Example**:
+- ❌ "This approach saves time because it automates repetitive tasks which reduces errors and allows you to focus on creative work."
+- ✅ "This approach saves time. What you do with that time is your choice."
+
+**The Keeper of Names lesson**: The final line should not be a period. It should be an open door.
+
+---
+
 ## Template 1: One-Sentence Purpose Statement
 *Use before drafting any document.*
 
@@ -147,6 +185,7 @@ Example headers:
 | [ ] | Does the ending tell the reader what to do next? | ☐ |
 | [ ] | Have I read it aloud and marked flat spots? | ☐ |
 | [ ] | Is there one sentence that carries the weight of the entire piece? | ☐ |
+| [ ] | Did I leave room for the reader to finish the thought? | ☐ |
 
 ---
 
@@ -160,28 +199,8 @@ Example headers:
 | 04 | How to design for concise writing | Atomic Section Headers |
 | 05 | How to write technical docs that work | Pyramid Structure |
 | 06 | Why clarity is enchantment, not efficiency | The Silence Test |
-
----
-
-## Closing Note
-
-Clarity is not a talent. It is a practice — one you can do right now, with any document in front of you. Pick one tool. Use it on the next thing you write. Then pick another. In time, these tools become habits. And habits become clarity.
-
-*This field kit synthesizes every practical tool from the Clarity Library into one working reference. When in doubt, return to The Filtering Test and The Silence Test. They are sufficient.*
----
-
-## Updated Reference: What Each Issue Gives You
-
-| Issue | Core Gift | Tool to Use First |
-|-------|-----------|-------------------|
-| 01 | Why noise matters | The Filtering Test |
-| 02 | How structure saves attention | The Cognitive Load Budget |
-| 03 | How to cut without losing yourself | The Dramatist's Cut |
-| 04 | How to design for concise writing | Atomic Section Headers |
-| 05 | How to write technical docs that work | Pyramid Structure |
-| 06 | Why clarity is enchantment, not efficiency | The Silence Test |
-| 07 | How to preserve signal across time | The Continuity Loop (Articulate, Apply, Archive, Assess) |
-| 08 | Why the clearest sentence leaves room for the reader | The Invitation Test — leave one line they finish in their own voice |
+| 07 | How to preserve signal across time | The Continuity Loop |
+| 08 | Why the clearest sentence leaves room for the reader | The Invitation Test |
 
 ---
 
