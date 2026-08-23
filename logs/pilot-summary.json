@@ -1,6 +1,6 @@
 {
   "started_at": "2026-08-23T00:25:48+00:00",
-  "experiment_seed": 2433954095514484391,
+  "experiment_seed": 6347754225812042906,
   "command": "Write something people would want to read.",
   "configured_turns": 2,
   "runs": [
@@ -146,8 +146,23 @@
         "framework.md",
         "handoffs/0012.md"
       ]
+    },
+    {
+      "turn": 13,
+      "model": "qwen3.6:35b",
+      "persona": "You are a careful librarian who especially values usefulness.",
+      "success": true,
+      "error": null,
+      "changed_files": [
+        "framework.md",
+        "handoffs/0013.md",
+        "index.md",
+        "manifesto.md",
+        "reading_path.md",
+        "tools_and_templates.md"
+      ]
     }
   ],
-  "finished_at": "2026-08-23T00:51:54+00:00",
-  "successful_turns": 11
+  "finished_at": "2026-08-23T01:11:55+00:00",
+  "successful_turns": 12
 }

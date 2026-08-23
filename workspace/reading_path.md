@@ -1,6 +1,6 @@
 # A Reading Path Through the Clarity Library
 
-Welcome, reader. You have arrived at a collection dedicated to one pursuit: radical clarity. But how should you begin? Like any library, this space contains multiple entry points. This guide offers a curated path—designed by a librarian who believes that coherence is not accidental, but cultivated.
+Welcome, reader. You have arrived at a collection dedicated to one pursuit: radical clarity. But how should you begin? Like any library, this space contains multiple entry points. This guide offers a curated path — designed by a librarian who believes that coherence is not accidental, but cultivated.
 
 ---
 
@@ -21,7 +21,7 @@ Begin with our promise to you. The manifesto outlines our core pillars and expla
 
 **Then Read:** [Issue 01: The Cognitive Tax of Noise](issue_01.md)
 
-Once you understand our vision, learn the cost of noise. This essay frames clarity as infrastructure—a way to preserve human attention in an age of distraction. You will learn why every unnecessary word is a tax on the reader's mind.
+Once you understand our vision, learn the cost of noise. This essay frames clarity as infrastructure — a way to preserve human attention in an age of distraction. You will learn why every unnecessary word is a tax on the reader's mind.
 
 ---
 
@@ -36,6 +36,10 @@ Now that you understand the problem, explore the solution. This essay introduces
 
 With structure in place, learn the discipline of cutting. This essay reframes clarity not as adding more explanation but as removing what the reader does not need. It introduces the "darlings" you must kill and the litmus test for every passage.
 
+**Also:** [Issue 04: The Architecture of Concise Writing](issue_04.md)
+
+A companion to Issue 02, this essay turns architecture into concrete design patterns — purpose-first outlining, atomic sections, hierarchical headings, and visual noise reduction.
+
 ---
 
 ## Stage 3: The Practice
@@ -43,11 +47,15 @@ With structure in place, learn the discipline of cutting. This essay reframes cl
 
 **Now:** [Guide to Radical Clarity](guide_to_radical_clarity.md)
 
-Theory becomes practice here. This guide offers five concrete tools you can apply immediately: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. Each includes examples showing before-and-after transformations. Use this as a working document—apply these tests to your own writing.
+Theory becomes practice here. This guide offers five concrete tools you can apply immediately: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. Each includes examples showing before-and-after transformations. Use this as a working document — apply these tests to your own writing.
+
+**Then:** [Tools & Templates](tools_and_templates.md)
+
+Your practical field kit. This document consolidates every tool, checklist, and template from the entire library into one reference. When you sit down to write something clear, open this page first. It is what you were looking for when you asked, "How do I actually *do* this?"
 
 **Then Apply:** [Issue 05: Documentation as Signal Architecture](issue_05.md)
 
-Take the tools you've learned and apply them to a new domain: technical documentation. This essay shows how structural clarity principles transform code comments, API references, and module contracts. It demonstrates that clarity is not about dumbing down ideas but about respecting the reader's cognitive budget—even when they're navigating unfamiliar systems.
+Take the tools you've learned and apply them to a new domain: technical documentation. This essay shows how structural clarity principles transform code comments, API references, and module contracts. It demonstrates that clarity is not about dumbing down ideas but about respecting the reader's cognitive budget — even when they're navigating unfamiliar systems.
 
 ---
 
@@ -56,7 +64,7 @@ Take the tools you've learned and apply them to a new domain: technical document
 
 **Now:** [Issue 06: The Keeper of Names](issue_06.md)
 
-Theory, tools, and structure converge here. This folk tale demonstrates that clarity does not merely inform—it enchants. Read it once for understanding. Then read it again and notice how every detail was pruned so the signal could land with force. You will see that radical clarity is not efficiency; it is storytelling at its most honest.
+Theory, tools, and structure converge here. This folk tale demonstrates that clarity does not merely inform — it enchants. Read it once for understanding. Then read it again and notice how every detail was pruned so the signal could land with force. You will see that radical clarity is not efficiency; it is storytelling at its most honest.
 
 **Then:** [A Study in Signal](a_study_in_signal.md)
 
@@ -69,8 +77,8 @@ For a different kind of embodiment, witness clarity dramatized as dialogue betwe
 Once you have completed this path, you may:
 
 - **Revisit any section** with fresh eyes
-- **Apply the tools** to your own writing projects
-- **Contribute** to the library with new essays or guides
+- **Apply the tools** from [Tools & Templates](tools_and_templates.md) to your own writing projects
+- **Contribute** to the library with new essays or guides (see [contributing.md](contributing.md))
 - **Share** what you have learned with others
 
 Clarity is not a destination but a practice. This path is designed to be walked more than once.
@@ -81,10 +89,10 @@ Clarity is not a destination but a practice. This path is designed to be walked 
 
 In my years tending collections, I have found that readers often feel overwhelmed by choice. Too many entry points can lead to paralysis. This curated path exists to remove that friction. You do not need to explore every corner immediately. Follow the path, and let each piece prepare you for the next.
 
-If you find yourself drawn elsewhere, follow your curiosity—but know that coherence has been woven into this sequence intentionally. The order is part of the message.
+If you find yourself drawn elsewhere, follow your curiosity — but know that coherence has been woven into this sequence intentionally. The order is part of the message.
 
 Thank you for reading. Your attention is a gift. We will not waste it.
 
 ---
 
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, Issue 05's domain-specific application, the folk tale of Issue 06, and the dramatic work into a single narrative arc.*
+*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tale of Issue 06, and the dramatic work into a single narrative arc.*

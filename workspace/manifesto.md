@@ -19,6 +19,9 @@ We promise to respect your time. We will never waste your attention on fluff. Wh
 
 ## Our Tools
 
-To help you achieve radical clarity, we have created the Guide to Radical Clarity. This practical companion provides actionable tools and techniques to implement our principles in your own writing and communication. Whether you are drafting an email, writing a report, or crafting an essay, this guide will help you cut through the noise and deliver your message with precision and impact.
+To help you achieve radical clarity, we have created two practical resources:
 
-[Read the Guide to Radical Clarity](#guide_to_radical_clarity.md).
+1. **[Guide to Radical Clarity](guide_to_radical_clarity.md)** — Five tools and techniques for implementing the principles of radical clarity in your own writing and communication.
+2. **[Tools & Templates](tools_and_templates.md)** — A consolidated field kit with every tool, checklist, and template from the entire library, ready to use on any document.
+
+Whether you are drafting an email, writing a report, or crafting an essay, these resources will help you cut through the noise and deliver your message with precision and impact.
