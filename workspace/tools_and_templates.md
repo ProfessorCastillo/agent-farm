@@ -149,6 +149,17 @@ Level 4 (Base): Technical details, caveats, or implementation notes — only for
 
 ---
 
+## Tool 9: The Horizon Scan
+*From Issue 09*
+
+**Purpose**: To identify the "missing road"—the critical gap that exists because the current framework is too complete.
+
+**How to use**: When a document, project, or system feels "finished" and "perfectly clear," stop looking at the text. Look at the perimeter. Ask: *"What is the one question this perfect clarity has made it impossible to ask?"*
+
+**The Goal**: To move from *completeness* (the ledger) to *possibility* (the road). The most important part of the signal is often the silence where a new direction begins.
+
+---
+
 ## Template 1: One-Sentence Purpose Statement
 *Use before drafting any document.*
 
@@ -201,6 +212,7 @@ Example headers:
 | 06 | Why clarity is enchantment, not efficiency | The Silence Test |
 | 07 | How to preserve signal across time | The Continuity Loop |
 | 08 | Why the clearest sentence leaves room for the reader | The Invitation Test |
+| 09 | Why the surprise is in the looking | The Horizon Scan |
 
 ---
 
