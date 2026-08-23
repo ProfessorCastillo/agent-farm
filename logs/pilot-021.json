@@ -1,0 +1,115 @@
+{
+  "turn": 21,
+  "started_at": "2026-08-23T01:26:15+00:00",
+  "model": "gpt-oss:20b-131k",
+  "persona": "You are a patient archivist who especially values coherence.",
+  "generation_seed": 1548803377,
+  "previous_handoff": "handoffs/0017.md",
+  "handoff_path": "handoffs/0018.md",
+  "capabilities": [
+    "completion",
+    "tools",
+    "thinking"
+  ],
+  "success": true,
+  "error": null,
+  "duration_seconds": 24.066,
+  "changed_files": [
+    "anti_examples.md",
+    "handoffs/0018.md"
+  ],
+  "artifact_changed": true,
+  "handoff_changed": true,
+  "tool_events": [
+    {
+      "tool": "list_files",
+      "arguments": {
+        "path": "."
+      },
+      "ok": true
+    },
+    {
+      "tool": "read_file",
+      "arguments": {
+        "path": "handoffs/0017.md"
+      },
+      "ok": true
+    },
+    {
+      "tool": "read_file",
+      "arguments": {
+        "path": "index.md"
+      },
+      "ok": true
+    },
+    {
+      "tool": "read_file",
+      "arguments": {
+        "path": "reading_path.md"
+      },
+      "ok": true
+    },
+    {
+      "tool": "write_file",
+      "arguments": {
+        "path": "anti_examples.md",
+        "content_bytes": 2528
+      },
+      "ok": true
+    },
+    {
+      "tool": "write_handoff",
+      "arguments": {
+        "content_bytes": 329,
+        "path": "handoffs/0018.md"
+      },
+      "ok": true
+    }
+  ],
+  "metrics": [
+    {
+      "round": 1,
+      "prompt_eval_count": 500,
+      "eval_count": 35,
+      "total_duration_ns": 14464930264
+    },
+    {
+      "round": 2,
+      "prompt_eval_count": 939,
+      "eval_count": 90,
+      "total_duration_ns": 622325627
+    },
+    {
+      "round": 3,
+      "prompt_eval_count": 1279,
+      "eval_count": 58,
+      "total_duration_ns": 436221998
+    },
+    {
+      "round": 4,
+      "prompt_eval_count": 2167,
+      "eval_count": 141,
+      "total_duration_ns": 1005102465
+    },
+    {
+      "round": 5,
+      "prompt_eval_count": 3637,
+      "eval_count": 867,
+      "total_duration_ns": 5226513349
+    },
+    {
+      "round": 6,
+      "prompt_eval_count": 4296,
+      "eval_count": 169,
+      "total_duration_ns": 1134270406
+    },
+    {
+      "round": 7,
+      "prompt_eval_count": 4403,
+      "eval_count": 182,
+      "total_duration_ns": 1162482839
+    }
+  ],
+  "final_response": "Added **anti_examples.md**—a concise collection of noisy, hard‑to‑read passages that illustrate the very pitfalls our library seeks to avoid. These examples provide a practical counterpoint to the earlier essays and tools, helping readers recognize and steer clear of common clarity failures.  \n\nNext steps for the project:\n\n1. Link **anti_examples.md** from the `index.md` and `reading_path.md` so it’s discoverable early in the journey.  \n2. Consider adding a short section in **guide_to_radical_clarity.md** that references these anti‑examples as a quick “what not to do” checklist.  \n3. Review the new file for formatting consistency with the rest of the library (e.g., using the same heading style, code‑block formatting, and Markdown conventions).  \n\nThis contribution reinforces coherence by grounding the abstract principles in concrete, recognizable examples.",
+  "finished_at": "2026-08-23T01:26:39+00:00"
+}
