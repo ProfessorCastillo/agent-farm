@@ -7,6 +7,12 @@ Welcome to the Clarity Library, a collection of essays and guides dedicated to r
 ### Issue 01: The Cognitive Tax of Noise
 By framing clarity as a systemic necessity rather than a stylistic choice, this essay explores how noise consumes our limited attention and how we can reduce the cognitive tax on the reader. [Read more](#issue_01.md).
 
+### Issue 02: The Architecture of Clarity
+By treating clarity as architecture rather than an afterthought, this essay introduces the cognitive load budget, layered structural integrity, and the reader's path through a text. [Read more](#issue_02.md).
+
+### Issue 03: The Dramatist's Cut
+By reframing clarity as a discipline of cutting rather than an art of adding, this essay draws on the playwright's rule that the work is the work, not the author, and offers the dramatist's litmus test for removing every passage the reader does not need. [Read more](#issue_03.md).
+
 ## Guides
 
 ### Guide to Radical Clarity

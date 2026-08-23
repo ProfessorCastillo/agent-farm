@@ -99,3 +99,18 @@ Base: We should continue to invest in user experience improvements.
 ## Conclusion
 
 Radical clarity is not about dumming down your ideas; it is about respecting your reader's time and cognitive resources. By applying these tools and techniques, you can create writing that is not only clear but also engaging and impactful. Remember: clarity is a skill, and like any skill, it improves with practice.
+
+
+### 6. The Dramatist's Cut
+
+**Purpose:** To remove the passages the writer loves but the reader does not need.
+
+**How to Use:**
+1. Identify your "darlings" — the sentences, metaphors, and examples you wrote with particular affection.
+2. For each, ask: "Would I cut this and still say what I mean?"
+3. If the answer is yes, cut it. The attachment you feel is the measure of the cost you impose on the reader.
+4. Replace it only if a more essential version exists.
+
+**Example:**
+- Original: "Like a ship navigating treacherous waters, the team must steer through the uncertain seas of market volatility."
+- Cut: "The team must navigate market uncertainty."
