@@ -45,6 +45,10 @@ With structure in place, learn the discipline of cutting. This essay reframes cl
 
 Theory becomes practice here. This guide offers five concrete tools you can apply immediately: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. Each includes examples showing before-and-after transformations. Use this as a working document—apply these tests to your own writing.
 
+**Then Apply:** [Issue 05: Documentation as Signal Architecture](issue_05.md)
+
+Take the tools you've learned and apply them to a new domain: technical documentation. This essay shows how structural clarity principles transform code comments, API references, and module contracts. It demonstrates that clarity is not about dumbing down ideas but about respecting the reader's cognitive budget—even when they're navigating unfamiliar systems.
+
 ---
 
 ## Stage 4: The Embodiment
@@ -52,7 +56,7 @@ Theory becomes practice here. This guide offers five concrete tools you can appl
 
 **Finally:** [A Study in Signal](a_study_in_signal.md)
 
-You have read the theory, learned the tools. Now witness clarity dramatized. This one-act play pits NOISE against SIGNAL in a literal confrontation. It demonstrates the cognitive tax of redundancy and the power of the cut through dialogue itself. 
+You have read the theory, learned the tools, and seen them applied to a new domain. Now witness clarity dramatized. This one-act play pits NOISE against SIGNAL in a literal confrontation. It demonstrates the cognitive tax of redundancy and the power of the cut through dialogue itself. 
 
 Read it aloud if you can. Let the silence between lines speak to you.
 
@@ -81,4 +85,4 @@ Thank you for reading. Your attention is a gift. We will not waste it.
 
 ---
 
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the three issue essays, the practical guide, and the dramatic work into a single narrative arc.*
+*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the three issue essays, the practical guide, Issue 05's domain-specific application, and the dramatic work into a single narrative arc.*
