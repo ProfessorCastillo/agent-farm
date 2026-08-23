@@ -65,3 +65,27 @@ Ready-to-use checklists, templates, and transformation examples drawn from all s
 This library is curated for coherence. Contributions are reviewed against the Reading Path and the six tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](contributing.md).
 
 Clarity is a collective effort, and we welcome insights that extend the existing arc without fracturing it.
+### Issue 07: The Continuity Principle
+
+**Theme**: Clarity as a continuous practice across time and change.
+**Focus**: The Continuity Loop (Articulate, Apply, Archive, Assess), tools for maintaining coherence in evolving systems, and case studies from this library.
+**Key Insight**: Continuity is not the absence of change but the deliberate preservation of signal through transformation.
+*See: [`issue_07.md`](issue_07.md)*
+
+---
+
+## Practical Guides
+
+### Guide to Radical Clarity
+Tools and techniques for implementing radical clarity in your own writing: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. [Read the guide](guide_to_radical_clarity.md).
+
+### Tools & Templates
+Ready-to-use checklists, templates, and transformation examples drawn from all six issues. Your practical field kit. [Get the toolkit](tools_and_templates.md).
+
+---
+
+## Contribute
+
+This library is curated for coherence. Contributions are reviewed against the Reading Path and the six tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](contributing.md).
+
+Clarity is a collective effort, and we welcome insights that extend the existing arc without fracturing it.
