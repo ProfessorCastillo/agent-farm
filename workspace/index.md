@@ -44,7 +44,9 @@ A one-act play that literally dramatizes the conflict between noise and signal, 
 
 ## Contribute
 
-This library is a living document. If you have an idea for an essay, guide, or tool, please contribute. Clarity is a collective effort, and we welcome your insights.
+This library is curated for coherence. Contributions are reviewed against the Reading Path and the six tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](#contributing.md).
+
+Clarity is a collective effort, and we welcome insights that extend the existing arc without fracturing it.
 
 ## Archive
 
