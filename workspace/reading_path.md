@@ -54,11 +54,13 @@ Take the tools you've learned and apply them to a new domain: technical document
 ## Stage 4: The Embodiment
 ### *What Clarity Looks Like in Action*
 
-**Finally:** [A Study in Signal](a_study_in_signal.md)
+**Now:** [Issue 06: The Keeper of Names](issue_06.md)
 
-You have read the theory, learned the tools, and seen them applied to a new domain. Now witness clarity dramatized. This one-act play pits NOISE against SIGNAL in a literal confrontation. It demonstrates the cognitive tax of redundancy and the power of the cut through dialogue itself. 
+Theory, tools, and structure converge here. This folk tale demonstrates that clarity does not merely inform—it enchants. Read it once for understanding. Then read it again and notice how every detail was pruned so the signal could land with force. You will see that radical clarity is not efficiency; it is storytelling at its most honest.
 
-Read it aloud if you can. Let the silence between lines speak to you.
+**Then:** [A Study in Signal](a_study_in_signal.md)
+
+For a different kind of embodiment, witness clarity dramatized as dialogue between NOISE and SIGNAL. Read it aloud if you can. Let the silence between lines speak to you.
 
 ---
 
@@ -85,4 +87,4 @@ Thank you for reading. Your attention is a gift. We will not waste it.
 
 ---
 
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the three issue essays, the practical guide, Issue 05's domain-specific application, and the dramatic work into a single narrative arc.*
+*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, Issue 05's domain-specific application, the folk tale of Issue 06, and the dramatic work into a single narrative arc.*
