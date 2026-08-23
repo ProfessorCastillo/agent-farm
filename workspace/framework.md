@@ -98,6 +98,12 @@ Continuity is the commitment to persistently engage with ideas over time, ensuri
 **Key Insight**: The writer's job is not to leave nothing behind, but to leave *just enough* that the reader finishes the sentence in their own voice.
 *See: [`issue_08.md`](issue_08.md)*
 
+### 3.9 Issue 09: The Road Not in the Catalogue (A Folk Tale)
+**Theme**: Clarity as the thing that makes surprise possible — a finished list cannot hold an open road.
+**Focus**: A village that had already told every clear story meets a child who asks where the surprises are, and learns that the surprise was the road no one had thought to look at.
+**Key Insight**: A surprise is not a flaw in the story or a trick in the reader — it is the part of the world that was waiting for someone to look without a list.
+*See: [`issue_09.md`](issue_09.md)*
+
 ---
 
 ## 4. Dramatic Works
@@ -105,6 +111,7 @@ Continuity is the commitment to persistently engage with ideas over time, ensuri
 - **[`a_study_in_signal.md`](a_study_in_signal.md)** — *A Study in Signal*: A one-act play dramatizing the conflict between noise and signal through dialogue.
 - **[`issue_06.md`](issue_06.md)** — *The Keeper of Names*: A folk tale demonstrating clarity as enchantment.
 - **[`issue_08.md`](issue_08.md)** — *The Half-Written Sentence*: A folk tale demonstrating clarity as an invitation.
+- **[`issue_09.md`](issue_09.md)** — *The Road Not in the Catalogue*: A folk tale demonstrating clarity as the precondition for surprise.
 
 ---
 

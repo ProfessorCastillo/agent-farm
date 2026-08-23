@@ -72,7 +72,11 @@ Clarity is not just about individual pieces — it's about maintaining coherence
 
 **Then:** [Issue 08: The Half-Written Sentence](issue_08.md)
 
-The final act of embodiment. This folk tale turns continuity back on itself: a city that carved a single clear sentence over its well discovers that the clearest sentence is one that leaves room for the *next* reader to finish it in their own voice. It asks you to finish the last sentence yourself.
+The act of invitation. This folk tale turns continuity back on itself: a city that carved a single clear sentence over its well discovers that the clearest sentence is one that leaves room for the *next* reader to finish it in their own voice. It asks you to finish the last sentence yourself.
+
+**Then:** [Issue 09: The Road Not in the Catalogue](issue_09.md)
+
+The act of surprise. This folk tale closes the triad: a village that has already told every clear story meets a child who asks where the surprises are — and learns that the surprise was never in the ledger, but in the road no one had thought to look at. It is the library's answer to the reader who has read everything and is waiting for something to happen.
 
 **Then:** [A Study in Signal](a_study_in_signal.md)
 
@@ -103,4 +107,4 @@ Thank you for reading. Your attention is a gift. We will not waste it.
 
 ---
 
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tales of Issues 06 and 08, the continuity principles of Issue 07, and the dramatic work into a single narrative arc.*
+*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tales of Issues 06, 08, and 09, the continuity principles of Issue 07, and the dramatic work into a single narrative arc.*

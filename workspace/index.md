@@ -47,6 +47,9 @@ Clarity as a continuous practice across time and change — the Continuity Loop 
 ### Issue 08: The Half-Written Sentence (A Folk Tale)
 A story about a city that carved a single sentence over its well — and discovered that the clearest sentence is one that leaves room for the next reader to finish it in their own voice. [Read more](issue_08.md).
 
+### Issue 09: The Road Not in the Catalogue (A Folk Tale)
+A story about a village that had already told every clear story — and a child who asked where the surprises were. The surprise was not in the ledger. It was that no one had looked at the road. [Read more](issue_09.md).
+
 ---
 
 ## Dramatic Works
@@ -62,7 +65,7 @@ A one-act play that dramatizes the conflict between noise and signal through dia
 Tools and techniques for implementing radical clarity in your own writing: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. [Read the guide](guide_to_radical_clarity.md).
 
 ### Tools & Templates
-Ready-to-use checklists, templates, and transformation examples drawn from all six issues. Your practical field kit. [Get the toolkit](tools_and_templates.md).
+Ready-to-use checklists, templates, and transformation examples drawn from all the issues. Your practical field kit. [Get the toolkit](tools_and_templates.md).
 
 ---
 
