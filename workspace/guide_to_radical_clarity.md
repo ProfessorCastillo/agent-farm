@@ -114,3 +114,28 @@ Radical clarity is not about dumming down your ideas; it is about respecting you
 **Example:**
 - Original: "Like a ship navigating treacherous waters, the team must steer through the uncertain seas of market volatility."
 - Cut: "The team must navigate market uncertainty."
+### 7. The Invitation Test
+
+**Purpose:** To verify that your clearest sentence leaves room for the *next* reader to finish the meaning in their own voice — the deepest test of clarity.
+
+**How to Use:**
+1. Identify the one sentence that carries the weight of your piece.
+2. Ask: *"If a reader who is one generation, one year, or one context away from me reads this, can they walk into it, find their own feet, and carry it somewhere I never imagined?"*
+3. If the sentence closes every door, soften its edges just enough to leave room.
+4. Confirm the sentence is still unmistakable — the reader must finish it *correctly*, only in their own words.
+
+**Example:**
+- Closed: "Remember to hydrate adequately throughout the day."
+- Invited: "Drink deep."
+
+---
+
+## The Process of Radical Clarity
+
+### Editing
+1. Apply the Filtering Test to remove unnecessary words.
+2. Conduct a Jargon Audit to eliminate obscure language.
+3. Use the Pyramid Structure to organize your information.
+4. Perform the Empathy Check to ensure your writing respects the reader.
+5. Apply the Silence Test to remove filler words.
+6. Run the Invitation Test to leave the reader room to finish the meaning.

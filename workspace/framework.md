@@ -28,8 +28,6 @@ Signals are the patterns, messages, and constraints that emerge from interaction
 
 *See: [`a_study_in_signal.md`](a_study_in_signal.md)*
 
----
-
 ### 2.2 Radical Clarity
 Radical clarity is the practice of distilling ideas until their essence is unmistakable. It involves:
 - **Deconstruction**: Breaking down complex ideas into their components.
@@ -41,8 +39,6 @@ Radical clarity is the practice of distilling ideas until their essence is unmis
 - How can we create artifacts (writing, systems, tools) that embody clarity?
 
 *See: [`guide_to_radical_clarity.md`](guide_to_radical_clarity.md)*
-
----
 
 ### 2.3 Continuity
 Continuity is the commitment to persistently engage with ideas over time, ensuring that:
@@ -90,57 +86,25 @@ Continuity is the commitment to persistently engage with ideas over time, ensuri
 **Key Insight**: What survives isn't data — it's the shape of a feeling carved so clean anyone can feel its edges.
 *See: [`issue_06.md`](issue_06.md)*
 
----
-
-## 4. Dramatic Works
-
-- **[`a_study_in_signal.md`](a_study_in_signal.md)** — *A Study in Signal*: A one-act play dramatizing the conflict between noise and signal through dialogue.
-- **[`issue_06.md`](issue_06.md)** — *The Keeper of Names*: A folk tale demonstrating clarity as enchantment.
-
----
-
-## 5. How to Engage
-To contribute to or learn from this project:
-1. **Read the Reading Path**: [`reading_path.md`](reading_path.md) provides a curated sequence from foundation to embodiment.
-2. **Explore the Issues**: Each issue addresses a distinct challenge within the framework.
-3. **Apply Radical Clarity**: Use the principles in [`guide_to_radical_clarity.md`](guide_to_radical_clarity.md).
-4. **Use the Toolkit**: [`tools_and_templates.md`](tools_and_templates.md) offers ready-to-use templates and checklists.
-5. **Contribute**: Read [`contributing.md`](contributing.md) before proposing new material.
-
----
-
-## 6. Roadmap for Continuity
-To ensure the project maintains its focus on continuity:
-- **Regular Handoffs**: Each participant documents their contributions and insights for the next.
-- **Synthesis After Explorations**: New ideas are explicitly connected to existing ones.
-- **Open Feedback**: All material is reviewed and revised iteratively.
-
----
-
-## 7. Next Steps
-- **Expand the Framework**: Add more themes or connections as the project grows.
-- **Create New Issues**: Identify emerging challenges or questions.
-- **Develop Tools**: Build templates, guides, or systems that embody radical clarity.
-
----
-
-### Final Note
-This framework is a living document. It will evolve as the project does, but its structure ensures that we never lose sight of the core ideas that unite us.
-
-*Last updated: June 2025*
 ### 3.7 Issue 07: The Continuity Principle
-
 **Theme**: Clarity as a continuous practice across time and change.
 **Focus**: The Continuity Loop (Articulate, Apply, Archive, Assess), tools for maintaining coherence in evolving systems, and case studies from this library.
 **Key Insight**: Continuity is not the absence of change but the deliberate preservation of signal through transformation.
 *See: [`issue_07.md`](issue_07.md)*
 
+### 3.8 Issue 08: The Half-Written Sentence (A Folk Tale)
+**Theme**: Clarity as a gift that leaves the reader room to finish the meaning.
+**Focus**: A city that carved one sentence over its well, and discovered the clearest sentence is one the next reader completes in their own voice.
+**Key Insight**: The writer's job is not to leave nothing behind, but to leave *just enough* that the reader finishes the sentence in their own voice.
+*See: [`issue_08.md`](issue_08.md)*
+
 ---
 
 ## 4. Dramatic Works
 
 - **[`a_study_in_signal.md`](a_study_in_signal.md)** — *A Study in Signal*: A one-act play dramatizing the conflict between noise and signal through dialogue.
 - **[`issue_06.md`](issue_06.md)** — *The Keeper of Names*: A folk tale demonstrating clarity as enchantment.
+- **[`issue_08.md`](issue_08.md)** — *The Half-Written Sentence*: A folk tale demonstrating clarity as an invitation.
 
 ---
 
@@ -172,4 +136,4 @@ To ensure the project maintains its focus on continuity:
 ### Final Note
 This framework is a living document. It will evolve as the project does, but its structure ensures that we never lose sight of the core ideas that unite us.
 
-*Last updated: June 2025*
+*Last updated: 2025*

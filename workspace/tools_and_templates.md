@@ -168,3 +168,25 @@ Example headers:
 Clarity is not a talent. It is a practice — one you can do right now, with any document in front of you. Pick one tool. Use it on the next thing you write. Then pick another. In time, these tools become habits. And habits become clarity.
 
 *This field kit synthesizes every practical tool from the Clarity Library into one working reference. When in doubt, return to The Filtering Test and The Silence Test. They are sufficient.*
+---
+
+## Updated Reference: What Each Issue Gives You
+
+| Issue | Core Gift | Tool to Use First |
+|-------|-----------|-------------------|
+| 01 | Why noise matters | The Filtering Test |
+| 02 | How structure saves attention | The Cognitive Load Budget |
+| 03 | How to cut without losing yourself | The Dramatist's Cut |
+| 04 | How to design for concise writing | Atomic Section Headers |
+| 05 | How to write technical docs that work | Pyramid Structure |
+| 06 | Why clarity is enchantment, not efficiency | The Silence Test |
+| 07 | How to preserve signal across time | The Continuity Loop (Articulate, Apply, Archive, Assess) |
+| 08 | Why the clearest sentence leaves room for the reader | The Invitation Test — leave one line they finish in their own voice |
+
+---
+
+## Closing Note
+
+Clarity is not a talent. It is a practice — one you can do right now, with any document in front of you. Pick one tool. Use it on the next thing you write. Then pick another. In time, these tools become habits. And habits become clarity.
+
+*This field kit synthesizes every practical tool from the Clarity Library into one working reference. When in doubt, return to The Filtering Test and The Silence Test. They are sufficient.*

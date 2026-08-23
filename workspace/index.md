@@ -41,6 +41,12 @@ Applying clarity principles to technical writing: contract-first documentation, 
 ### Issue 06: The Keeper of Names (A Folk Tale)
 A story about a woman who pruned lists down to their emotional bones — proving that clarity is enchantment, not efficiency. [Read more](issue_06.md).
 
+### Issue 07: The Continuity Principle
+Clarity as a continuous practice across time and change — the Continuity Loop (Articulate, Apply, Archive, Assess) and tools for preserving signal through transformation. [Read more](issue_07.md).
+
+### Issue 08: The Half-Written Sentence (A Folk Tale)
+A story about a city that carved a single sentence over its well — and discovered that the clearest sentence is one that leaves room for the next reader to finish it in their own voice. [Read more](issue_08.md).
+
 ---
 
 ## Dramatic Works
@@ -60,32 +66,14 @@ Ready-to-use checklists, templates, and transformation examples drawn from all s
 
 ---
 
-## Contribute
+## Publisher's Corner
 
-This library is curated for coherence. Contributions are reviewed against the Reading Path and the six tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](contributing.md).
-
-Clarity is a collective effort, and we welcome insights that extend the existing arc without fracturing it.
-### Issue 07: The Continuity Principle
-
-**Theme**: Clarity as a continuous practice across time and change.
-**Focus**: The Continuity Loop (Articulate, Apply, Archive, Assess), tools for maintaining coherence in evolving systems, and case studies from this library.
-**Key Insight**: Continuity is not the absence of change but the deliberate preservation of signal through transformation.
-*See: [`issue_07.md`](issue_07.md)*
-
----
-
-## Practical Guides
-
-### Guide to Radical Clarity
-Tools and techniques for implementing radical clarity in your own writing: the Filtering Test, Jargon Audit, Pyramid Structure, Empathy Check, and Silence Test. [Read the guide](guide_to_radical_clarity.md).
-
-### Tools & Templates
-Ready-to-use checklists, templates, and transformation examples drawn from all six issues. Your practical field kit. [Get the toolkit](tools_and_templates.md).
+A short, hand-written note from the person tending this library, on what we're making together. [Read the Publisher's Note](publisher_note.md).
 
 ---
 
 ## Contribute
 
-This library is curated for coherence. Contributions are reviewed against the Reading Path and the six tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](contributing.md).
+This library is curated for coherence. Contributions are reviewed against the Reading Path and the tools in the Guide. If you wish to propose new material, please read the Contributor Guide first. [Read contributing guidelines](contributing.md).
 
 Clarity is a collective effort, and we welcome insights that extend the existing arc without fracturing it.

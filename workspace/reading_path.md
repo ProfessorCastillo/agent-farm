@@ -66,47 +66,14 @@ Take the tools you've learned and apply them to a new domain: technical document
 
 Theory, tools, and structure converge here. This folk tale demonstrates that clarity does not merely inform — it enchants. Read it once for understanding. Then read it again and notice how every detail was pruned so the signal could land with force. You will see that radical clarity is not efficiency; it is storytelling at its most honest.
 
-**Then:** [A Study in Signal](a_study_in_signal.md)
-
-For a different kind of embodiment, witness clarity dramatized as dialogue between NOISE and SIGNAL. Read it aloud if you can. Let the silence between lines speak to you.
-
----
-
-## For the Returning Reader
-
-Once you have completed this path, you may:
-
-- **Revisit any section** with fresh eyes
-- **Apply the tools** from [Tools & Templates](tools_and_templates.md) to your own writing projects
-- **Contribute** to the library with new essays or guides (see [contributing.md](contributing.md))
-- **Share** what you have learned with others
-
-Clarity is not a destination but a practice. This path is designed to be walked more than once.
-
----
-
-## A Librarian's Note
-
-In my years tending collections, I have found that readers often feel overwhelmed by choice. Too many entry points can lead to paralysis. This curated path exists to remove that friction. You do not need to explore every corner immediately. Follow the path, and let each piece prepare you for the next.
-
-If you find yourself drawn elsewhere, follow your curiosity — but know that coherence has been woven into this sequence intentionally. The order is part of the message.
-
-Thank you for reading. Your attention is a gift. We will not waste it.
-
----
-
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tale of Issue 06, and the dramatic work into a single narrative arc.*
-## Stage 4: The Embodiment
-### *What Clarity Looks Like in Action*
-
-**Now:** [Issue 06: The Keeper of Names](issue_06.md)
-
-The theory, tools, and structure converge here. This folk tale demonstrates that clarity does not merely inform — it enchants. Read it once for understanding. Then read it again and notice how every detail was pruned so the signal could land with force. You will see that radical clarity is not efficiency; it is storytelling at its most honest.
-
 **Then:** [Issue 07: The Continuity Principle](issue_07.md)
 
 Clarity is not just about individual pieces — it's about maintaining coherence across time and change. This issue explores how to preserve the signal as systems evolve, using this library itself as a case study. Learn the Continuity Loop (Articulate, Apply, Archive, Assess) and tools for deliberate evolution.
 
+**Then:** [Issue 08: The Half-Written Sentence](issue_08.md)
+
+The final act of embodiment. This folk tale turns continuity back on itself: a city that carved a single clear sentence over its well discovers that the clearest sentence is one that leaves room for the *next* reader to finish it in their own voice. It asks you to finish the last sentence yourself.
+
 **Then:** [A Study in Signal](a_study_in_signal.md)
 
 For a different kind of embodiment, witness clarity dramatized as dialogue between NOISE and SIGNAL. Read it aloud if you can. Let the silence between lines speak to you.
@@ -136,4 +103,4 @@ Thank you for reading. Your attention is a gift. We will not waste it.
 
 ---
 
-*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tale of Issue 06, the continuity principles of Issue 07, and the dramatic work into a single narrative arc.*
+*This reading path was created to serve as a coherent entry point into the Clarity Library. It connects the foundational manifesto, the issue essays, the practical guide, the consolidated tools & templates, the folk tales of Issues 06 and 08, the continuity principles of Issue 07, and the dramatic work into a single narrative arc.*
