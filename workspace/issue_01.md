@@ -24,3 +24,11 @@ By stripping away the unnecessary, the writer reduces the filtering cost for the
 The cost of noise is the loss of deep thought. When we are forced to spend our energy filtering, we have little left for synthesis or innovation. To value clarity is to value the preservation of human attention.
 
 If we wish to solve complex problems, we must first stop wasting our intelligence on the noise.
+
+## Further Reading
+
+To continue exploring the themes of clarity and cognitive efficiency, we invite you to explore the rest of the Clarity Library. Our [Index](#index.md) provides a curated table of contents for all our essays and guides.
+
+For practical tools and techniques to achieve radical clarity in your own writing, check out our [Guide to Radical Clarity](#guide_to_radical_clarity.md).
+
+We believe that clarity is a collective effort, and we welcome your insights and contributions. Together, we can reduce the cognitive tax of noise and elevate the signal.

@@ -16,3 +16,9 @@ Writing must be useful. Whether it is informing, persuading, or entertaining, th
 
 ## Our Promise to the Reader
 We promise to respect your time. We will never waste your attention on fluff. When you read our work, you can trust that you are encountering the distilled essence of thought.
+
+## Our Tools
+
+To help you achieve radical clarity, we have created the Guide to Radical Clarity. This practical companion provides actionable tools and techniques to implement our principles in your own writing and communication. Whether you are drafting an email, writing a report, or crafting an essay, this guide will help you cut through the noise and deliver your message with precision and impact.
+
+[Read the Guide to Radical Clarity](#guide_to_radical_clarity.md).
