@@ -29,3 +29,8 @@ This library is a living document. If you have an idea for an essay, guide, or t
 ## Archive
 
 As the library grows, we will archive older issues to ensure easy navigation. Stay tuned for more insights and tools to come.
+
+## Dramatic Works
+
+### A Study in Signal
+A one-act play that literally dramatizes the conflict between noise and signal, exploring the cognitive tax of redundancy through dialogue. [Read the script](#a_study_in_signal.md).
