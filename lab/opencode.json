@@ -36,17 +36,6 @@
     "task": "deny",
     "skill": "deny",
     "question": "deny",
-    "bash": {
-      "*": "deny",
-      "pwd": "allow",
-      "ls": "allow",
-      "ls *": "allow",
-      "find . *": "allow",
-      "rg *": "allow",
-      "sed -n *": "allow",
-      "head *": "allow",
-      "tail *": "allow",
-      "wc *": "allow"
-    }
+    "bash": "deny"
   }
 }

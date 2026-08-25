@@ -1,68 +1,107 @@
-# Next steps
+# Next steps — resume at GitHub Actions
 
-The website-evolution lab is implemented and validated locally. Complete this checklist in order to preserve the pilot, authorize publication, verify host isolation, and then enable the half-hour schedule.
+You stopped at **Settings → Pages** with this message:
 
-Current state:
+> Actions is currently unavailable for your repository.
 
-- Local implementation commit: `00edb35`
-- Local `main` is ahead of `origin/main`; nothing has been pushed
-- GitHub Pages is not enabled
-- The publisher deploy key exists locally but is not registered with GitHub
-- The systemd units are not installed or enabled
-- The writing pilot is preserved on `experiments/writing-pilot` and tagged `writing-pilot-2026-08-23`
-- The local test suite has 13 passing tests, and the full preflight passed
+That means repository Actions are disabled. Do not select either suggested
+**Jekyll** or **Static HTML** workflow. The repository already has the custom
+`.github/workflows/pages.yml` needed to deploy only `site/`.
 
-## 1. Push the preserved pilot
+The audit fixes are still local and uncommitted. Local verification currently
+passes 65 tests, and no systemd units or timers have been activated.
 
-Use your normal GitHub credentials to push the archive branch and annotated tag before changing remote `main`:
+## 1. Enable GitHub Actions now
+
+Open **Settings → Actions → General**.
+
+Under **Actions permissions**:
+
+1. Select **Allow ProfessorCastillo, and select non-ProfessorCastillo, actions
+   and reusable workflows**.
+2. In the options that appear, select **Allow actions created by GitHub**.
+3. Leave **Allow Marketplace actions by verified creators** unchecked.
+4. Leave **Allow or block specified actions and reusable workflows** unchecked.
+   The workflow uses only GitHub-owned `actions/*` actions, and every direct
+   action reference is already pinned to a full commit SHA.
+5. Select **Require actions to be pinned to a full-length commit SHA**.
+
+Use these remaining settings:
+
+- **Artifact and log retention:** 30 days.
+- **Cache retention:** leave the default.
+- **Fork pull request approval:** **Require approval for all external
+  contributors**.
+- **Workflow permissions:** **Read repository contents and packages
+  permissions**.
+- **Allow GitHub Actions to create and approve pull requests:** unchecked.
+
+Scroll to the bottom and click **Save**. This save is the step that clears the
+“Actions is currently unavailable” blocker. GitHub's reference for these
+controls is [Managing GitHub Actions settings][actions-settings].
+
+If the page will not save or still says Actions are disabled after a refresh,
+check whether an account, organization, or enterprise policy is overriding the
+repository. Do not proceed to scheduling the lab until Actions can run.
+
+## 2. Return to Pages and deploy the existing workflow
+
+Return to **Settings → Pages** and refresh the page.
+
+1. Under **Build and deployment → Source**, select **GitHub Actions**.
+2. Do not click **Configure** on either suggested workflow.
+3. Open **Actions → Deploy evolving site to GitHub Pages**.
+4. Click **Run workflow**, select branch **main**, and click the green
+   **Run workflow** button.
+5. Wait for the run to finish successfully.
+6. Open <https://professorcastillo.github.io/agent-farm/> and confirm the current
+   site loads.
+
+The previous failed run reached `actions/configure-pages` before Pages was
+available. Start a new manual run after enabling Actions rather than debugging
+that old run. The audit-fix push in step 3 will not itself trigger Pages because
+the workflow intentionally runs on changes to `site/**` or the workflow file,
+not changes to the Python harness.
+
+GitHub documents selecting an existing custom workflow under
+[Configuring a publishing source][pages-source].
+
+[actions-settings]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository
+[pages-source]: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+## 3. Review and publish the local audit fixes
 
 ```bash
-git push origin experiments/writing-pilot
-git push origin writing-pilot-2026-08-23
-```
-
-Confirm both appear on GitHub before continuing. The pilot files removed from `main` remain recoverable from this branch and tag.
-
-## 2. Push the lab baseline
-
-Review the local state:
-
-```bash
+git diff --check
+.venv/bin/python -m unittest discover -s tests -v
 git status --short --branch
-git log -1 --oneline
 ```
 
-Then push without force:
+Review the diff, commit it with your normal identity, and push without force:
 
 ```bash
+git add agent_lab lab scripts tests README.md plan.md next-steps.md \
+  docs/github-setup.md pyproject.toml
+git commit -m "harden autonomous website lab"
 git push origin main
 ```
 
-If Git reports that remote `main` has moved, stop and reconcile the remote changes instead of force-pushing.
+If remote `main` moved, reconcile it rather than force-pushing. The preserved
+pilot remains at `experiments/writing-pilot` and
+`writing-pilot-2026-08-23`.
 
-## 3. Give the publisher write access
+## 4. Register the publisher deploy key, if needed
 
-Display the already-generated public key:
+Display only the public key:
 
 ```bash
 sed -n '1p' .secrets/github-pages-deploy-key.pub
 ```
 
-In the GitHub repository:
-
-1. Open **Settings → Deploy keys → Add deploy key**.
-2. Set the title to `agent-farm publisher`.
-3. Paste the public key.
-4. Select **Allow write access**.
-5. Save the key.
-
-Expected fingerprint:
-
-```text
-SHA256:3GARRHylL8AoUikyo5A6F1Zi66mpuU7ipg/LnIlu21s
-```
-
-Never upload, copy, or commit `.secrets/github-pages-deploy-key`, which is the private key. OpenCode cannot read `.secrets`; only the separate publisher service receives this credential.
+In **Settings → Deploy keys → Add deploy key**, use the title
+`agent-farm publisher`, paste the public key, select **Allow write access**, and
+save it. Never upload or commit `.secrets/github-pages-deploy-key`; that is the
+private key.
 
 Test the registered key:
 
@@ -72,136 +111,114 @@ ssh -T -i .secrets/github-pages-deploy-key \
   git@github.com
 ```
 
-GitHub should identify the repository and say that shell access is unavailable. The command can return a nonzero status because GitHub does not provide interactive SSH shells.
+GitHub can return a nonzero status after identifying the repository because it
+does not provide an interactive shell. Repository rules must continue to permit
+this deploy key to push directly to `main` and `observations`.
 
-The repository currently has no repository rulesets. Keep direct deploy-key pushes to `main` available. A future rule requiring pull requests or blocking the deploy key will stop publication unless that key is explicitly allowed to bypass the rule.
-
-## 4. Enable GitHub Actions and Pages
-
-In **Settings → Actions → General**, ensure Actions is enabled and workflows using the official `actions/*` actions are permitted.
-
-In **Settings → Pages**:
-
-1. Find **Build and deployment**.
-2. Set **Source** to **GitHub Actions**.
-
-The committed workflow at `.github/workflows/pages.yml` uploads only `site/`. It does not need a repository secret: Pages uses GitHub's short-lived `GITHUB_TOKEN`. The deploy key is only for the headless publisher's Git pushes.
-
-In **Actions → Deploy evolving site to GitHub Pages**, run the workflow once if the push did not already trigger it. Confirm that:
-
-- The workflow succeeds.
-- A `github-pages` environment is created.
-- The public Pages URL loads the neutral placeholder.
-
-## 5. Re-run local preflight
-
-From the repository root:
+## 5. Run the application preflight
 
 ```bash
 .venv/bin/python -m agent_lab.cli preflight
 ```
 
-Do not continue unless every preflight check passes, including the OpenCode runtime, all ten configured Ollama models, static validation, and browser validation.
+Do not continue unless every check passes: the inherited lineage, exact
+OpenCode policy and version, all ten Ollama models, Ollama connectivity, deploy
+key mode, static validation, and mandatory Playwright validation.
 
-## 6. Install the system services
-
-Install and verify the system-level units:
+## 6. Install the four system units
 
 ```bash
 ./scripts/install-system-units.sh
 ```
 
-The installer requires sudo. It installs the units but deliberately does not enable or start the timer. Although these are system units, the actual runner and publisher processes execute as the unprivileged `adminvince` user.
+The installer uses sudo, verifies the unit files, and deliberately does not
+start or enable them. The units are system-level so the IP filter is enforceable,
+but the processes run as unprivileged user `adminvince`.
 
-## 7. Prove runner network isolation
-
-This is a mandatory activation gate. User-level systemd network filtering was tested on this host and did not block public network access, so the lab uses system-level units.
-
-The first probe must succeed because Ollama is on host loopback:
+## 7. Prove filesystem and network isolation
 
 ```bash
-sudo systemd-run --wait --pipe --collect \
-  -p User=adminvince \
-  -p IPAddressDeny=any \
-  -p IPAddressAllow=localhost \
-  /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
-  http://127.0.0.1:11434/api/tags
+./scripts/probe-system-isolation.sh
 ```
 
-The second probe must fail because GitHub is on the public internet:
+This mandatory probe uses the service sandbox properties and verifies:
 
-```bash
-sudo systemd-run --wait --pipe --collect \
-  -p User=adminvince \
-  -p IPAddressDeny=any \
-  -p IPAddressAllow=localhost \
-  /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
-  https://github.com
-```
+- the read-only project seed remains visible;
+- the user's private home and publisher key are invisible;
+- the publisher can read its repository key while unrelated home content stays hidden;
+- OpenCode can read a staged canary but cannot read or leak a sibling state canary;
+- host Ollama is reachable through `127.0.0.1:11434`;
+- the public internet is blocked.
 
-Do not start the lab if the GitHub request succeeds. Inspect the host's systemd/cgroup network-filter support before proceeding.
+Do not start the lab if any check fails. The probe exercises the resolved
+OpenCode denial policy as well as the systemd filesystem and network boundary.
 
-## 8. Run one complete turn manually
+## 8. Run one turn through the sandbox
 
-Start one runner turn:
+Do not invoke `run-once` directly for a production turn. Start the system
+service so the filesystem and network sandbox applies:
 
 ```bash
 sudo systemctl start agent-farm-run.service
-```
-
-The publisher is connected through `OnSuccess=`, so it runs only after the runner produces an accepted candidate. Inspect both services:
-
-```bash
 sudo journalctl \
   -u agent-farm-run.service \
   -u agent-farm-publish.service \
-  -n 200 \
+  -n 250 \
   --no-pager
 ```
 
-Before scheduling recurring turns, confirm all of the following:
+Both successful and failed runner exits trigger the publisher. An accepted
+candidate is revalidated, pushed atomically to `main` and `observations`, and
+then installed as the authoritative lineage. A rejected/no-change/failed turn
+updates only `observations`; its candidate never enters the lineage.
 
-- OpenCode selected one model from the frozen pool.
-- The candidate made a material change and passed static and browser validation.
-- The publisher revalidated the candidate.
-- New commits appeared on both `main` and `observations`.
-- The two refs were pushed atomically.
-- The Pages workflow succeeded.
-- The public site displays the accepted version.
-- The observation record and screenshots exist under `.lab-state`.
+Before scheduling, verify:
 
-If the turn fails, leave the timer disabled and diagnose the journals and `.lab-state` artifacts.
+- the runner selected one configured model and finalized exactly one turn;
+- the publisher removed the corresponding spool entry only after remote push;
+- the observation contains no raw model output, paths, filenames, or error text;
+- if accepted, Pages displays the accepted commit and
+  `.lab-state/lineage/site` matches it;
+- if rejected, `main` and the lineage remain unchanged.
 
-## 9. Enable the half-hour schedule
+If publication fails, leave the runner timer disabled and retry safely with:
 
-Only after the manual turn succeeds:
+```bash
+sudo systemctl start agent-farm-publish.service
+```
+
+The durable spool makes this retry consume no model turn.
+
+## 9. Enable both schedules
+
+Only after the manual gate passes:
 
 ```bash
 sudo .venv/bin/python -m agent_lab.cli resume
-systemctl list-timers agent-farm-run.timer
+sudo systemctl list-timers agent-farm-run.timer agent-farm-publish.timer
 ```
 
-The timer uses `OnUnitInactiveSec=30min`, so the next interval begins after the previous turn finishes rather than overlapping a slow run.
+The first scheduled run waits 10 minutes after activation; later runs wait 30
+minutes after the runner becomes inactive. The independent publisher timer
+checks for pending work every five minutes. A pending spool prevents a new model
+turn.
 
-Check status at any time:
+Check status:
 
 ```bash
 .venv/bin/python -m agent_lab.cli status
-sudo systemctl status agent-farm-run.timer
+sudo systemctl status agent-farm-run.timer agent-farm-publish.timer
 ```
 
 ## Emergency stop
 
-Disable future scheduled turns:
-
 ```bash
 sudo .venv/bin/python -m agent_lab.cli pause
-```
-
-This stops and disables the timer. Inspect any currently running service separately:
-
-```bash
 sudo systemctl status agent-farm-run.service agent-farm-publish.service
 ```
 
-For design details and troubleshooting context, see [plan.md](plan.md), [README.md](README.md), and [docs/github-setup.md](docs/github-setup.md).
+`pause` disables both future timers; it does not kill an already running
+service. Inspect or stop an active service explicitly if necessary.
+
+For design context, see [plan.md](plan.md), [README.md](README.md), and
+[docs/github-setup.md](docs/github-setup.md).

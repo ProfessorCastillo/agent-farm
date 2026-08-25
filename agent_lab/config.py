@@ -16,8 +16,10 @@ class OpenCodeConfig:
 class ValidationConfig:
     max_site_bytes: int
     max_file_bytes: int
+    max_files: int
     max_pages: int
     browser_timeout_seconds: int
+    browser_total_timeout_seconds: int
     require_browser: bool
 
 
@@ -47,8 +49,15 @@ class LabConfig:
 
 def _require(data: dict[str, Any], key: str, expected: type) -> Any:
     value = data.get(key)
-    if not isinstance(value, expected):
+    if type(value) is not expected:
         raise ValueError(f"{key} must be {expected.__name__}")
+    return value
+
+
+def _positive_int(data: dict[str, Any], key: str) -> int:
+    value = _require(data, key, int)
+    if value <= 0:
+        raise ValueError(f"{key} must be positive")
     return value
 
 
@@ -65,7 +74,7 @@ def load_config(path: Path) -> LabConfig:
     path = path.resolve()
     with path.open("rb") as handle:
         data = tomllib.load(handle)
-    if data.get("schema_version") != 1:
+    if _require(data, "schema_version", int) != 1:
         raise ValueError("unsupported config schema_version")
 
     repo = path.parent.parent.resolve()
@@ -79,15 +88,19 @@ def load_config(path: Path) -> LabConfig:
     validation_data = _require(data, "validation", dict)
     publish_data = _require(data, "publish", dict)
 
+    require_browser = _require(validation_data, "require_browser", bool)
+    if not require_browser:
+        raise ValueError("validation.require_browser must be true for production runs")
+
     return LabConfig(
         repo=repo,
         site_dir=_inside(repo, _require(data, "site_dir", str), "site_dir"),
         state_dir=_inside(repo, _require(data, "state_dir", str), "state_dir"),
         observations_branch=_require(data, "observations_branch", str),
-        model_pool_version=int(_require(data, "model_pool_version", int)),
-        turn_timeout_seconds=int(_require(data, "turn_timeout_seconds", int)),
-        raw_retention_days=int(_require(data, "raw_retention_days", int)),
-        raw_retention_bytes=int(_require(data, "raw_retention_bytes", int)),
+        model_pool_version=_positive_int(data, "model_pool_version"),
+        turn_timeout_seconds=_positive_int(data, "turn_timeout_seconds"),
+        raw_retention_days=_positive_int(data, "raw_retention_days"),
+        raw_retention_bytes=_positive_int(data, "raw_retention_bytes"),
         prompt=_require(data, "prompt", str).strip(),
         models=models,
         opencode=OpenCodeConfig(
@@ -95,13 +108,17 @@ def load_config(path: Path) -> LabConfig:
             version=_require(opencode_data, "version", str),
         ),
         validation=ValidationConfig(
-            max_site_bytes=int(_require(validation_data, "max_site_bytes", int)),
-            max_file_bytes=int(_require(validation_data, "max_file_bytes", int)),
-            max_pages=int(_require(validation_data, "max_pages", int)),
-            browser_timeout_seconds=int(
-                _require(validation_data, "browser_timeout_seconds", int)
+            max_site_bytes=_positive_int(validation_data, "max_site_bytes"),
+            max_file_bytes=_positive_int(validation_data, "max_file_bytes"),
+            max_files=_positive_int(validation_data, "max_files"),
+            max_pages=_positive_int(validation_data, "max_pages"),
+            browser_timeout_seconds=_positive_int(
+                validation_data, "browser_timeout_seconds"
             ),
-            require_browser=bool(_require(validation_data, "require_browser", bool)),
+            browser_total_timeout_seconds=_positive_int(
+                validation_data, "browser_total_timeout_seconds"
+            ),
+            require_browser=require_browser,
         ),
         publish=PublishConfig(
             remote=_require(publish_data, "remote", str),
@@ -109,4 +126,3 @@ def load_config(path: Path) -> LabConfig:
             deploy_key=_inside(repo, _require(publish_data, "deploy_key", str), "publish.deploy_key"),
         ),
     )
-

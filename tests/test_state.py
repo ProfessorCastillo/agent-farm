@@ -44,3 +44,12 @@ class SchedulerTests(TestCase):
             with self.assertRaisesRegex(RuntimeError, "unfinished run"):
                 state.reserve("run-2")
 
+    def test_completion_advances_a_reservation_exactly_once(self) -> None:
+        with TemporaryDirectory() as temporary:
+            path = Path(temporary) / "scheduler.json"
+            state = SchedulerState(path, 1, ("ollama/a",))
+            state.reserve("run-1")
+            state.complete("run-1")
+            with self.assertRaisesRegex(RuntimeError, "not reserved"):
+                state.complete("run-1")
+            self.assertEqual(json.loads(path.read_text())["position"], 1)

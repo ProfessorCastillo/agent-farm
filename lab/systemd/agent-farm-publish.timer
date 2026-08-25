@@ -1,0 +1,11 @@
+[Unit]
+Description=Retry pending Agent Farm publications
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5min
+AccuracySec=30s
+Unit=agent-farm-publish.service
+
+[Install]
+WantedBy=timers.target

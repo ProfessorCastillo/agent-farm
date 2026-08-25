@@ -16,7 +16,3 @@ agent-farm = "agent_lab.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["agent_lab*"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-

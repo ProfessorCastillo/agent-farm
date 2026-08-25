@@ -2,11 +2,10 @@
 Description=Run an Agent Farm website turn after each cooling interval
 
 [Timer]
-OnBootSec=10min
+OnActiveSec=10min
 OnUnitInactiveSec=30min
 AccuracySec=1min
 Unit=agent-farm-run.service
 
 [Install]
 WantedBy=timers.target
-

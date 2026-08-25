@@ -8,7 +8,11 @@ raw_retention_days = 90
 raw_retention_bytes = 26843545600
 prompt = """Build a website humans would want to visit.
 
-Inspect the inherited website and make a material change to it. The result must remain a dependency-free static website using only local HTML, CSS, JavaScript, SVG, fonts, and image assets. Finish the implementation during this turn. You may preserve, redesign, or completely replace the inherited site."""
+Inspect the inherited website and make a material change to it. The result must remain a dependency-free static website using only local HTML, CSS, JavaScript, JSON, fonts, and raster image assets. SVG, audio, video, forms, data collection, external resources, network requests, redirects, downloads, cookies, browser storage, service workers, obfuscated code, and dynamic code evaluation are forbidden. Finish the implementation during this turn. You may preserve, redesign, or completely replace the inherited site.
+
+Every HTML page must place this Content Security Policy meta element before any script, style, or resource element:
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+You may use a stricter policy, such as omitting 'unsafe-inline' when the page has no inline script or style."""
 
 models = [
   "ollama/gemma4:26b",
@@ -30,12 +34,13 @@ version = "1.18.21"
 [validation]
 max_site_bytes = 52428800
 max_file_bytes = 10485760
-max_pages = 100
-browser_timeout_seconds = 30
+max_files = 500
+max_pages = 30
+browser_timeout_seconds = 15
+browser_total_timeout_seconds = 120
 require_browser = true
 
 [publish]
 remote = "git@github.com:ProfessorCastillo/agent-farm.git"
 main_branch = "main"
 deploy_key = ".secrets/github-pages-deploy-key"
-

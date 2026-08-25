@@ -1,19 +1,10 @@
 # GitHub setup
 
-The repository is public at `ProfessorCastillo/agent-farm`, but GitHub Pages is not enabled yet. Complete these steps only after reviewing and pushing the initial lab commit.
+The writing pilot is already preserved remotely on
+`experiments/writing-pilot` and at tag `writing-pilot-2026-08-23`. Complete the
+remaining repository setup before activating either systemd timer.
 
-## 1. Preserve and push the pilot
-
-Push the local archive branch and annotated tag using your normal account credentials:
-
-```bash
-git push origin experiments/writing-pilot
-git push origin writing-pilot-2026-08-23
-```
-
-Do this before replacing the remote `main` branch with the website-lab baseline.
-
-## 2. Create the dedicated deploy key
+## 1. Create the dedicated deploy key
 
 Create a new key without a passphrase at the path expected by `lab/config.toml`:
 
@@ -37,7 +28,7 @@ Keep direct pushes to `main` available to this key. The repository currently has
 
 The private key is visible only to the publisher service. OpenCode runs without access to `.secrets`.
 
-## 3. Push the lab baseline
+## 2. Push the lab code
 
 Review the main-branch changes, commit them with your normal identity, and push:
 
@@ -46,6 +37,35 @@ git push origin main
 ```
 
 Do not force-push. If remote `main` has moved, reconcile it before activating the lab.
+
+## 3. Restrict GitHub Actions
+
+In **Settings → Actions → General**:
+
+1. Select **Allow ProfessorCastillo, and select non-ProfessorCastillo, actions
+   and reusable workflows**.
+2. Enable **Allow or block specified actions and reusable workflows**, then
+   allow the four exact action references used by `.github/workflows/pages.yml`:
+
+   ```text
+   actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09,
+   actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b,
+   actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b,
+   actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+   ```
+
+3. Select **Require actions to be pinned to a full-length commit SHA**.
+4. Select **Require approval for all external contributors** for fork pull
+   request workflows.
+5. Select **Read repository contents and packages permissions** as the default
+   workflow permission.
+6. Leave **Allow GitHub Actions to create and approve pull requests** unchecked.
+
+The Pages workflow declares its narrowly scoped `pages: write` and
+`id-token: write` permissions itself. See GitHub's documentation for
+[selected action policies][actions-settings].
+
+[actions-settings]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository
 
 ## 4. Enable GitHub Pages
 
@@ -61,27 +81,15 @@ No repository secret is required for Pages deployment: the workflow uses GitHub'
 .venv/bin/python -m agent_lab.cli preflight
 ssh -T -i .secrets/github-pages-deploy-key -o IdentitiesOnly=yes git@github.com
 ./scripts/install-system-units.sh
+./scripts/probe-system-isolation.sh
 ```
 
-Before starting the runner, prove that the system service's network filter behaves correctly on this host. The first command must succeed because it targets host loopback; the second command must fail because it targets the public internet:
-
-```bash
-sudo systemd-run --wait --pipe --collect \
-  -p User=adminvince \
-  -p IPAddressDeny=any \
-  -p IPAddressAllow=localhost \
-  /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
-  http://127.0.0.1:11434/api/tags
-
-sudo systemd-run --wait --pipe --collect \
-  -p User=adminvince \
-  -p IPAddressDeny=any \
-  -p IPAddressAllow=localhost \
-  /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
-  https://github.com
-```
-
-Do not start the lab if the external request succeeds. User-manager units are not an acceptable substitute on this host: the same filter was tested under `systemd-run --user` and did not block external traffic.
+The isolation probe must show that the project seed is readable, the runner
+cannot see the private home or deploy key, the publisher can see only its
+repository key, host-loopback Ollama is reachable, and the public internet is
+blocked. Do not start the lab if any check fails. User-level
+units are not a substitute on this host because their IP filter did not enforce
+the external-network denial.
 
 Once the isolation probe passes, run one complete turn manually:
 
@@ -94,8 +102,13 @@ Verify one complete run, its observation, its Git commit, and the Pages deployme
 
 ```bash
 sudo .venv/bin/python -m agent_lab.cli resume
-systemctl list-timers agent-farm-run.timer
+sudo systemctl list-timers agent-farm-run.timer agent-farm-publish.timer
 ```
+
+The runner's first scheduled firing is 10 minutes after activation and later
+firings are 30 minutes after the prior run becomes inactive. The five-minute
+publication-retry timer is also enabled by `resume`; a pending publication
+blocks the next model turn.
 
 Emergency stop:
 

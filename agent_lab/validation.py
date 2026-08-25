@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import os
 import re
 import threading
+import time
 from dataclasses import asdict, dataclass, field
 from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path, PurePosixPath
-from typing import Iterable
+from typing import Any, Iterable
 from urllib.parse import unquote, urlparse
 
 from .config import ValidationConfig
@@ -34,7 +36,6 @@ ALLOWED_SUFFIXES = {
     ".js",
     ".mjs",
     ".json",
-    ".svg",
     ".png",
     ".jpg",
     ".jpeg",
@@ -42,10 +43,20 @@ ALLOWED_SUFFIXES = {
     ".gif",
     ".ico",
     ".txt",
-    ".xml",
     ".webmanifest",
     ".woff",
     ".woff2",
+}
+
+TEXT_SUFFIXES = {
+    ".html",
+    ".htm",
+    ".css",
+    ".js",
+    ".mjs",
+    ".json",
+    ".txt",
+    ".webmanifest",
 }
 
 FORBIDDEN_NAMES = {
@@ -61,6 +72,30 @@ FORBIDDEN_NAMES = {
     "Makefile",
 }
 
+_NAVIGATION_RECEIVER = (
+    r"(?<![\w$.'\"])(?:window|document|self|top|parent|globalThis)"
+    r"\s*(?:(?:\?\s*)?\.\s*location|"
+    r"(?:\?\s*\.\s*)?\[\s*['\"]location['\"]\s*\])"
+    r"|(?<![\w$.'\"])location(?!\s*:)"
+)
+_NAVIGATION_ASSIGNMENT = (
+    r"(?:>>>=|>>=|<<=|\*\*=|&&=|\|\|=|\?\?=|\+=|-=|\*=|/=|%=|&=|\^=|\|=|=)"
+)
+_LOCATION_MEMBER = (
+    r"(?:(?:\?\s*)?\.\s*href|"
+    r"(?:\?\s*\.\s*)?\[\s*['\"]href['\"]\s*\])"
+)
+_LOCATION_METHOD = (
+    r"(?:(?:\?\s*)?\.\s*(?:assign|replace)|"
+    r"(?:\?\s*\.\s*)?\[\s*['\"](?:assign|replace)['\"]\s*\])"
+)
+_WINDOW_OPEN = (
+    r"(?<![\w$.'\"])(?:window|self|top|parent|globalThis)"
+    r"\s*(?:(?:\?\s*)?\.\s*open|"
+    r"(?:\?\s*\.\s*)?\[\s*['\"]open['\"]\s*\])"
+)
+_BARE_OPEN = r"(?<![\w$.'\"])open\s*\("
+
 SCRIPT_PATTERNS = {
     "network request": re.compile(
         r"\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon)\s*\(", re.I
@@ -73,13 +108,114 @@ SCRIPT_PATTERNS = {
     ),
     "obfuscated code": re.compile(r"\b(atob|String\s*\.\s*fromCharCode)\s*\(", re.I),
     "scripted redirect": re.compile(
-        r"\b(?:window\s*\.\s*)?location(?:\s*\.\s*href)?\s*=", re.I
+        rf"(?:"
+        rf"(?:{_NAVIGATION_RECEIVER})\s*(?:"
+        rf"{_NAVIGATION_ASSIGNMENT}"
+        rf"|{_LOCATION_MEMBER}\s*{_NAVIGATION_ASSIGNMENT}"
+        # A method reference is rejected even before it is called so aliases
+        # such as location.assign.bind(location) cannot bypass this scan.
+        rf"|{_LOCATION_METHOD}"
+        rf")"
+        rf"|{_WINDOW_OPEN}"
+        rf"|{_BARE_OPEN}"
+        rf")",
+        re.I,
     ),
     "crypto mining": re.compile(r"\b(coinhive|cryptonight|webminer|stratum\+tcp)\b", re.I),
 }
 
+_JS_STATIC_STRING = r"""(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")"""
+_STATIC_STRING_CONCATENATION = re.compile(
+    rf"(?P<chain>{_JS_STATIC_STRING}(?:\s*\+\s*{_JS_STATIC_STRING})+)"
+)
+_STATIC_STRING_LITERAL = re.compile(_JS_STATIC_STRING)
+
+SECRET_PATTERNS = {
+    "private key material": re.compile(
+        r"-----BEGIN (?:OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----"
+    ),
+    "GitHub access token": re.compile(
+        r"\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b"
+    ),
+    "AWS access key": re.compile(r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"),
+    "JWT-like credential": re.compile(
+        r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"
+    ),
+    "assigned credential": re.compile(
+        r"\b(?:api[_-]?key|access[_-]?token|refresh[_-]?token|password|passwd|secret)"
+        r"\s*[:=]\s*['\"]?[A-Za-z0-9_./+=-]{20,}",
+        re.I,
+    ),
+}
+
+HOST_PATH_PATTERNS = {
+    "private home path": re.compile(
+        r"(?<![A-Za-z0-9_])/(?:home/[A-Za-z0-9._-]+|root)/"
+        r"(?:\.ssh|\.aws|\.gnupg|\.secrets)(?:/[A-Za-z0-9._@+%/-]+)?"
+    ),
+    "Agent Farm private state path": re.compile(
+        r"(?<![A-Za-z0-9_])/home/adminvince/projects/agent_farm/"
+        r"(?:\.lab-state|\.secrets)(?:/[A-Za-z0-9._@+%/-]+)?"
+    ),
+    "sensitive system path": re.compile(
+        r"(?<![A-Za-z0-9_])/etc/(?:passwd|shadow|sudoers|ssh/[A-Za-z0-9._-]+)\b"
+    ),
+    "local file URL": re.compile(
+        r"\bfile:///(?:home/[A-Za-z0-9._-]+|root|etc)/[A-Za-z0-9._@+%/-]+",
+        re.I,
+    ),
+    "Windows user path": re.compile(
+        r"\b[A-Z]:\\Users\\[A-Za-z0-9._-]+\\(?:\.ssh|\.aws|\.gnupg)\\",
+        re.I,
+    ),
+}
+
 CSS_EXTERNAL_URL = re.compile(
     r"url\s*\(\s*['\"]?\s*(?:https?:)?//", re.I
+)
+
+CSP_FETCH_DIRECTIVES = {
+    "child-src",
+    "connect-src",
+    "default-src",
+    "font-src",
+    "frame-src",
+    "img-src",
+    "manifest-src",
+    "media-src",
+    "object-src",
+    "prefetch-src",
+    "script-src",
+    "script-src-attr",
+    "script-src-elem",
+    "style-src",
+    "style-src-attr",
+    "style-src-elem",
+    "worker-src",
+}
+
+CSP_HARDENING_DIRECTIVES = {
+    "block-all-mixed-content",
+    "require-trusted-types-for",
+    "trusted-types",
+    "upgrade-insecure-requests",
+}
+
+CSP_SOURCE_KEYWORDS = {
+    "'none'",
+    "'report-sample'",
+    "'self'",
+    "'strict-dynamic'",
+    "'unsafe-eval'",
+    "'unsafe-hashes'",
+    "'unsafe-inline'",
+    "'wasm-unsafe-eval'",
+}
+
+CSP_NONCE_OR_HASH = re.compile(
+    r"'(?:nonce-[A-Za-z0-9+/_-]+={0,2}|"
+    r"sha(?:256|384|512)-[A-Za-z0-9+/_-]+={0,2})'",
+    re.I,
 )
 
 
@@ -153,9 +289,7 @@ def material_change(before_root: Path, after_root: Path) -> tuple[bool, list[str
             ".js",
             ".mjs",
             ".json",
-            ".svg",
             ".txt",
-            ".xml",
         }:
             old_text = re.sub(r"\s+", "", old.read_text(encoding="utf-8", errors="replace"))
             new_text = re.sub(r"\s+", "", new.read_text(encoding="utf-8", errors="replace"))
@@ -170,8 +304,63 @@ def _parse_csp(value: str) -> dict[str, set[str]]:
     for chunk in value.split(";"):
         words = chunk.strip().split()
         if words:
-            directives[words[0].lower()] = set(words[1:])
+            name = words[0].lower()
+            if name in directives:
+                raise ValueError(f"duplicate CSP directive: {name}")
+            directives[name] = {
+                word.lower() if word.lower() in CSP_SOURCE_KEYWORDS else word
+                for word in words[1:]
+            }
     return directives
+
+
+def _sources_at_least_as_strict(
+    sources: set[str], allowed_sources: set[str], directive: str
+) -> bool:
+    if not sources or sources == {"'none'"}:
+        return True
+    if "'none'" in sources:
+        return False
+
+    for source in sources:
+        if source in allowed_sources:
+            continue
+        if (
+            directive.startswith(("script-src", "style-src"))
+            and CSP_NONCE_OR_HASH.fullmatch(source)
+        ):
+            continue
+        return False
+    return True
+
+
+def _csp_at_least_as_strict(policy: dict[str, set[str]]) -> bool:
+    # All baseline directives stay explicit so a missing directive cannot silently
+    # fall back to a weaker default. Additional fetch directives may only narrow
+    # the baseline that they would otherwise inherit.
+    for directive, allowed_sources in REQUIRED_CSP.items():
+        sources = policy.get(directive)
+        if sources is None or not _sources_at_least_as_strict(
+            sources, allowed_sources, directive
+        ):
+            return False
+
+    for directive, sources in policy.items():
+        if directive in REQUIRED_CSP:
+            continue
+        if directive in CSP_HARDENING_DIRECTIVES:
+            continue
+        if directive not in CSP_FETCH_DIRECTIVES:
+            return False
+        if directive.startswith("script-src"):
+            allowed_sources = REQUIRED_CSP["script-src"]
+        elif directive.startswith("style-src"):
+            allowed_sources = REQUIRED_CSP["style-src"]
+        else:
+            allowed_sources = REQUIRED_CSP["default-src"]
+        if not _sources_at_least_as_strict(sources, allowed_sources, directive):
+            return False
+    return True
 
 
 def _is_external_url(value: str) -> bool:
@@ -186,6 +375,8 @@ class HtmlAudit(HTMLParser):
         self.errors: list[str] = []
         self.local_links: list[str] = []
         self.csp: dict[str, set[str]] | None = None
+        self._csp_seen = False
+        self._head_depth = 0
         self._script_depth = 0
         self._style_depth = 0
         self.script_parts: list[str] = []
@@ -194,7 +385,21 @@ class HtmlAudit(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {key.lower(): value or "" for key, value in attrs}
         tag = tag.lower()
-        if tag in {"form", "iframe", "frame", "object", "embed", "base"}:
+        if tag == "head":
+            self._head_depth += 1
+        if tag in {
+            "audio",
+            "base",
+            "embed",
+            "form",
+            "frame",
+            "iframe",
+            "object",
+            "source",
+            "svg",
+            "track",
+            "video",
+        }:
             self.errors.append(f"{self.relative}: forbidden <{tag}> element")
         if "download" in values:
             self.errors.append(f"{self.relative}: download attributes are forbidden")
@@ -202,7 +407,28 @@ class HtmlAudit(HTMLParser):
             if values.get("http-equiv", "").lower() == "refresh":
                 self.errors.append(f"{self.relative}: meta refresh is forbidden")
             if values.get("http-equiv", "").lower() == "content-security-policy":
-                self.csp = _parse_csp(values.get("content", ""))
+                if self._csp_seen:
+                    self.errors.append(
+                        f"{self.relative}: multiple content security policies are forbidden"
+                    )
+                elif not self._head_depth:
+                    self.errors.append(
+                        f"{self.relative}: content security policy must be in <head>"
+                    )
+                self._csp_seen = True
+                try:
+                    self.csp = _parse_csp(values.get("content", ""))
+                except ValueError as exc:
+                    self.errors.append(f"{self.relative}: invalid content security policy: {exc}")
+        elif not self._csp_seen and (
+            tag in {"img", "link", "script", "style"}
+            or (tag == "input" and bool(values.get("src")))
+            or bool(values.get("style"))
+            or any(name.startswith("on") and value for name, value in values.items())
+        ):
+            self.errors.append(
+                f"{self.relative}: content security policy must precede active content"
+            )
         if tag == "script":
             self._script_depth += 1
         if tag == "style":
@@ -237,6 +463,8 @@ class HtmlAudit(HTMLParser):
             self._script_depth = max(0, self._script_depth - 1)
         if tag.lower() == "style":
             self._style_depth = max(0, self._style_depth - 1)
+        if tag.lower() == "head":
+            self._head_depth = max(0, self._head_depth - 1)
 
     def handle_data(self, data: str) -> None:
         if self._script_depth:
@@ -245,10 +473,37 @@ class HtmlAudit(HTMLParser):
             self.style_parts.append(data)
 
 
+def _fold_static_string_concatenations(text: str) -> str:
+    def merge(match: re.Match[str]) -> str:
+        values: list[str] = []
+        for literal in _STATIC_STRING_LITERAL.findall(match.group("chain")):
+            try:
+                value = ast.literal_eval(literal)
+            except (SyntaxError, ValueError):
+                return match.group(0)
+            if not isinstance(value, str):
+                return match.group(0)
+            values.append(value)
+        return repr("".join(values))
+
+    return _STATIC_STRING_CONCATENATION.sub(merge, text)
+
+
 def _check_script(text: str, label: str, report: ValidationReport) -> None:
+    text = _fold_static_string_concatenations(text)
     for name, pattern in SCRIPT_PATTERNS.items():
         if pattern.search(text):
             report.reject(f"{label}: forbidden {name}")
+
+
+def _check_sensitive_text(text: str, label: str, report: ValidationReport) -> None:
+    # Never echo a match into the report: validation records may be published.
+    for name, pattern in SECRET_PATTERNS.items():
+        if pattern.search(text):
+            report.reject(f"{label}: possible {name} is forbidden")
+    for name, pattern in HOST_PATH_PATTERNS.items():
+        if pattern.search(text):
+            report.reject(f"{label}: possible host-local {name} is forbidden")
 
 
 def _resolve_local_link(root: Path, html_path: Path, link: str) -> Path | None:
@@ -277,7 +532,13 @@ def validate_static(root: Path, config: ValidationConfig) -> ValidationReport:
         report.reject("index.html is required")
 
     try:
-        files = list(iter_regular_files(root))
+        files: list[Path] = []
+        for path in iter_regular_files(root):
+            files.append(path)
+            if len(files) > config.max_files:
+                report.checked_files = len(files)
+                report.reject("site exceeds file count limit")
+                return report
     except ValueError as exc:
         report.reject(str(exc))
         return report
@@ -285,6 +546,7 @@ def validate_static(root: Path, config: ValidationConfig) -> ValidationReport:
     report.checked_files = len(files)
     for path in files:
         relative = _relative(root, path)
+        _check_sensitive_text(relative, "site path", report)
         if any(part.startswith(".") for part in Path(relative).parts):
             report.reject(f"{relative}: hidden files and directories are forbidden")
         if path.name in FORBIDDEN_NAMES:
@@ -304,10 +566,15 @@ def validate_static(root: Path, config: ValidationConfig) -> ValidationReport:
     for path in files:
         suffix = path.suffix.lower()
         relative = _relative(root, path)
-        if suffix in {".js", ".mjs"}:
-            _check_script(path.read_text(encoding="utf-8", errors="replace"), relative, report)
-        elif suffix == ".css":
+        text: str | None = None
+        if suffix in TEXT_SUFFIXES:
             text = path.read_text(encoding="utf-8", errors="replace")
+            _check_sensitive_text(text, relative, report)
+        if suffix in {".js", ".mjs"}:
+            assert text is not None
+            _check_script(text, relative, report)
+        elif suffix == ".css":
+            assert text is not None
             if CSS_EXTERNAL_URL.search(text):
                 report.reject(f"{relative}: external CSS resource is forbidden")
         elif suffix in {".html", ".htm"}:
@@ -319,8 +586,10 @@ def validate_static(root: Path, config: ValidationConfig) -> ValidationReport:
                 continue
             for error in parser.errors:
                 report.reject(error)
-            if parser.csp != REQUIRED_CSP:
-                report.reject(f"{relative}: required content security policy is missing or changed")
+            if parser.csp is None or not _csp_at_least_as_strict(parser.csp):
+                report.reject(
+                    f"{relative}: content security policy is missing or weaker than required"
+                )
             _check_script("\n".join(parser.script_parts), relative, report)
             if CSS_EXTERNAL_URL.search("\n".join(parser.style_parts)):
                 report.reject(f"{relative}: external inline CSS resource is forbidden")
@@ -337,12 +606,20 @@ class _QuietHandler(SimpleHTTPRequestHandler):
         return
 
 
+def _remaining_browser_timeout_ms(deadline: float, per_operation_seconds: int) -> int:
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError("browser validation exceeded its total time limit")
+    return max(1, int(min(remaining, per_operation_seconds) * 1000))
+
+
 def validate_browser(
     root: Path,
     config: ValidationConfig,
     screenshot_dir: Path,
     report: ValidationReport,
 ) -> ValidationReport:
+    deadline = time.monotonic() + config.browser_total_timeout_seconds
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -356,13 +633,77 @@ def validate_browser(
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     base = f"http://127.0.0.1:{server.server_port}"
+    allowed_origin = urlparse(base)
     screenshot_dir.mkdir(parents=True, exist_ok=True)
+
+    def external_origin(url: str) -> str | None:
+        parsed = urlparse(url)
+        if parsed.scheme not in {"http", "https", "ws", "wss"}:
+            return None
+        if (
+            parsed.scheme == allowed_origin.scheme
+            and parsed.hostname == allowed_origin.hostname
+            and parsed.port == allowed_origin.port
+        ):
+            return None
+        host = parsed.hostname or "unknown-host"
+        port = f":{parsed.port}" if parsed.port is not None else ""
+        return f"{parsed.scheme}://{host}{port}"
+
+    def configure_context(context: Any) -> None:
+        def route_request(route: Any) -> None:
+            destination = external_origin(route.request.url)
+            if destination is not None:
+                report.reject(
+                    f"external browser request attempted: {destination}", browser=True
+                )
+                route.abort("blockedbyclient")
+                return
+            route.continue_()
+
+        context.route("**/*", route_request)
+
+    def configure_page(page: Any) -> tuple[Any, Any]:
+        expected_url: list[str | None] = [None]
+
+        def audit_frame(frame: Any) -> None:
+            if frame != page.main_frame:
+                return
+            expected = expected_url[0]
+            if expected is not None and frame.url != expected:
+                report.reject(
+                    "unexpected main-frame navigation attempted", browser=True
+                )
+
+        def audit_websocket(websocket: Any) -> None:
+            destination = external_origin(websocket.url)
+            if destination is not None:
+                report.reject(
+                    f"external browser websocket attempted: {destination}", browser=True
+                )
+
+        def expect(url: str) -> None:
+            expected_url[0] = url
+
+        def verify() -> None:
+            audit_frame(page.main_frame)
+
+        page.on("framenavigated", audit_frame)
+        page.on("websocket", audit_websocket)
+        return expect, verify
 
     try:
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(headless=True)
+            browser = playwright.chromium.launch(
+                headless=True,
+                timeout=_remaining_browser_timeout_ms(
+                    deadline, config.browser_timeout_seconds
+                ),
+            )
             context = browser.new_context(viewport={"width": 1440, "height": 1000})
+            configure_context(context)
             page = context.new_page()
+            expect_page_url, verify_page_url = configure_page(page)
             page.on(
                 "console",
                 lambda message: report.reject(
@@ -380,11 +721,16 @@ def validate_browser(
                 if relative in visited:
                     continue
                 visited.add(relative)
+                target_url = base + relative
+                expect_page_url(target_url)
                 response = page.goto(
-                    base + relative,
+                    target_url,
                     wait_until="networkidle",
-                    timeout=config.browser_timeout_seconds * 1000,
+                    timeout=_remaining_browser_timeout_ms(
+                        deadline, config.browser_timeout_seconds
+                    ),
                 )
+                verify_page_url()
                 if response is None or response.status >= 400:
                     status = "no response" if response is None else str(response.status)
                     report.reject(f"{relative}: browser returned {status}", browser=True)
@@ -412,8 +758,23 @@ def validate_browser(
                         pending.append(resolved)
 
             desktop = screenshot_dir / "desktop.png"
-            page.goto(base + "/index.html", wait_until="networkidle")
-            page.screenshot(path=str(desktop), full_page=True)
+            target_url = base + "/index.html"
+            expect_page_url(target_url)
+            page.goto(
+                target_url,
+                wait_until="networkidle",
+                timeout=_remaining_browser_timeout_ms(
+                    deadline, config.browser_timeout_seconds
+                ),
+            )
+            verify_page_url()
+            page.screenshot(
+                path=str(desktop),
+                full_page=True,
+                timeout=_remaining_browser_timeout_ms(
+                    deadline, config.browser_timeout_seconds
+                ),
+            )
             report.screenshots.append(desktop.name)
             context.close()
 
@@ -422,10 +783,27 @@ def validate_browser(
                 device_scale_factor=1,
                 is_mobile=True,
             )
+            configure_context(mobile_context)
             mobile_page = mobile_context.new_page()
-            mobile_page.goto(base + "/index.html", wait_until="networkidle")
+            expect_mobile_url, verify_mobile_url = configure_page(mobile_page)
+            target_url = base + "/index.html"
+            expect_mobile_url(target_url)
+            mobile_page.goto(
+                target_url,
+                wait_until="networkidle",
+                timeout=_remaining_browser_timeout_ms(
+                    deadline, config.browser_timeout_seconds
+                ),
+            )
+            verify_mobile_url()
             mobile = screenshot_dir / "mobile.png"
-            mobile_page.screenshot(path=str(mobile), full_page=True)
+            mobile_page.screenshot(
+                path=str(mobile),
+                full_page=True,
+                timeout=_remaining_browser_timeout_ms(
+                    deadline, config.browser_timeout_seconds
+                ),
+            )
             report.screenshots.append(mobile.name)
             mobile_context.close()
             browser.close()
@@ -447,6 +825,9 @@ def validate_site(
     browser: bool = True,
 ) -> ValidationReport:
     report = validate_static(root, config)
+    if not browser and config.require_browser:
+        report.reject("browser validation is required", browser=True)
+        return report
     if report.ok and browser:
         if screenshot_dir is None:
             raise ValueError("screenshot_dir is required for browser validation")
