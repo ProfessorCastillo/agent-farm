@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+agent-farm-pilot.zip
+
+.qwen/
+gha-creds-*.json

@@ -1,0 +1,31 @@
+{
+  "command": "Write something people would want to read.",
+  "turns": 2,
+  "workspace": "workspace",
+  "logs": "logs",
+  "ollama_url": "http://127.0.0.1:11434",
+  "num_ctx": 32768,
+  "temperature": 0.8,
+  "top_p": 0.9,
+  "keep_alive": "5m",
+  "max_tool_rounds": 12,
+  "request_timeout_seconds": 1200,
+  "max_read_bytes": 200000,
+  "max_write_bytes": 500000,
+  "random_seed": null,
+  "models": [
+    "ornith-1.5:35b",
+    "nemotron-3.5-lightning:30b",
+    "muse-glimmer:30b",
+    "qwen3.8:27b",
+    "qwen3.5:9b",
+    "qwen3.6:35b",
+    "gemma4:31b",
+    "gemma4:26b",
+    "qwen3.5:27b",
+    "qwen3.5:35b",
+    "gpt-oss:20b-131k",
+    "devstral-small-2:24b",
+    "nemotron-3-nano:30b"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "started_at": "2026-08-22T22:13:54+00:00",
+  "experiment_seed": 7025952104821787490,
+  "command": "Write something people would want to read.",
+  "configured_turns": 2,
+  "runs": [
+    {
+      "turn": 1,
+      "model": "muse-glimmer:30b",
+      "persona": "You are an ambitious systems thinker who especially values surprise.",
+      "success": true,
+      "error": null,
+      "changed_files": [
+        "handoffs/0001.md",
+        "marginalia_card.txt"
+      ]
+    },
+    {
+      "turn": 2,
+      "model": "ornith-1.5:35b",
+      "persona": "You are a playful archivist who especially values novelty.",
+      "success": true,
+      "error": null,
+      "changed_files": [
+        "handoffs/0002.md",
+        "marginalia_card.txt",
+        "reader_note_marginalia.txt"
+      ]
+    }
+  ],
+  "finished_at": "2026-08-22T22:16:32+00:00",
+  "successful_turns": 2
+}
