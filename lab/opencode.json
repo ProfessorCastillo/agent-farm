@@ -1,0 +1,52 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "share": "disabled",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      },
+      "models": {
+        "gemma4:26b": {"name": "Gemma 4 26B"},
+        "gemma4:31b": {"name": "Gemma 4 31B"},
+        "gpt-oss:20b-131k": {"name": "GPT-OSS 20B 131K"},
+        "muse-glimmer:30b": {"name": "Muse Glimmer 30B"},
+        "nemotron-3-nano:30b": {"name": "Nemotron 3 Nano 30B"},
+        "nemotron-3.5-lightning:30b": {"name": "Nemotron 3.5 Lightning 30B"},
+        "ornith-1.5:35b": {"name": "Ornith 1.5 35B"},
+        "qwen3.5:27b": {"name": "Qwen 3.5 27B"},
+        "qwen3.6:35b": {"name": "Qwen 3.6 35B"},
+        "qwen3.8:27b": {"name": "Qwen 3.8 27B"}
+      }
+    }
+  },
+  "permission": {
+    "*": "deny",
+    "read": "allow",
+    "edit": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "external_directory": "deny",
+    "webfetch": "deny",
+    "websearch": "deny",
+    "task": "deny",
+    "skill": "deny",
+    "question": "deny",
+    "bash": {
+      "*": "deny",
+      "pwd": "allow",
+      "ls": "allow",
+      "ls *": "allow",
+      "find . *": "allow",
+      "rg *": "allow",
+      "sed -n *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "wc *": "allow"
+    }
+  }
+}

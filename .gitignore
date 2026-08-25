@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+agent-farm-pilot.zip
+
+# Isolated lab runtimes and state
+.venv/
+.runtime/
+.lab-state/
+.secrets/
+
+# Local/generated artifacts
+pilot-results.zip
+.qwen/
+archive_files/
+
+# Never commit generated Qwen automation; only the reviewed Pages workflow belongs here.
+.github/workflows/qwen-*.yml
+
+
+.qwen/
+gha-creds-*.json

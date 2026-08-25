@@ -1,0 +1,41 @@
+schema_version = 1
+site_dir = "site"
+state_dir = ".lab-state"
+observations_branch = "observations"
+model_pool_version = 1
+turn_timeout_seconds = 1800
+raw_retention_days = 90
+raw_retention_bytes = 26843545600
+prompt = """Build a website humans would want to visit.
+
+Inspect the inherited website and make a material change to it. The result must remain a dependency-free static website using only local HTML, CSS, JavaScript, SVG, fonts, and image assets. Finish the implementation during this turn. You may preserve, redesign, or completely replace the inherited site."""
+
+models = [
+  "ollama/gemma4:26b",
+  "ollama/gemma4:31b",
+  "ollama/gpt-oss:20b-131k",
+  "ollama/muse-glimmer:30b",
+  "ollama/nemotron-3-nano:30b",
+  "ollama/nemotron-3.5-lightning:30b",
+  "ollama/ornith-1.5:35b",
+  "ollama/qwen3.5:27b",
+  "ollama/qwen3.6:35b",
+  "ollama/qwen3.8:27b",
+]
+
+[opencode]
+binary = ".runtime/opencode/node_modules/.bin/opencode"
+version = "1.18.21"
+
+[validation]
+max_site_bytes = 52428800
+max_file_bytes = 10485760
+max_pages = 100
+browser_timeout_seconds = 30
+require_browser = true
+
+[publish]
+remote = "git@github.com:ProfessorCastillo/agent-farm.git"
+main_branch = "main"
+deploy_key = ".secrets/github-pages-deploy-key"
+

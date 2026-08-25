@@ -1,0 +1,29 @@
+[Unit]
+Description=Agent Farm website evolution turn
+After=network.target
+OnSuccess=agent-farm-publish.service
+
+[Service]
+Type=oneshot
+User=adminvince
+Group=adminvince
+WorkingDirectory=/home/adminvince/projects/agent_farm
+ExecStart=/home/adminvince/projects/agent_farm/.venv/bin/python -m agent_lab.cli --config /home/adminvince/projects/agent_farm/lab/config.toml run-once
+Environment=PYTHONPATH=/home/adminvince/projects/agent_farm
+Environment=PLAYWRIGHT_BROWSERS_PATH=/home/adminvince/projects/agent_farm/.runtime/playwright
+Environment=PATH=/home/adminvince/projects/agent_farm/.runtime/node/bin:/usr/local/bin:/usr/bin:/bin
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/adminvince/projects/agent_farm/.lab-state
+InaccessiblePaths=/home/adminvince/projects/agent_farm/.secrets
+IPAddressDeny=any
+IPAddressAllow=localhost
+MemoryMax=12G
+CPUQuota=300%
+Nice=10
+IOSchedulingClass=idle
+TasksMax=256
+TimeoutStartSec=35min

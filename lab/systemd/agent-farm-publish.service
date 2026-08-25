@@ -1,0 +1,29 @@
+[Unit]
+Description=Agent Farm validated website publisher
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=adminvince
+Group=adminvince
+WorkingDirectory=/home/adminvince/projects/agent_farm
+ExecStart=/home/adminvince/projects/agent_farm/.venv/bin/python -m agent_lab.cli --config /home/adminvince/projects/agent_farm/lab/config.toml publish
+Environment=PYTHONPATH=/home/adminvince/projects/agent_farm
+Environment=PLAYWRIGHT_BROWSERS_PATH=/home/adminvince/projects/agent_farm/.runtime/playwright
+Environment=PATH=/home/adminvince/projects/agent_farm/.runtime/node/bin:/usr/local/bin:/usr/bin:/bin
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/adminvince/projects/agent_farm/.lab-state
+ReadOnlyPaths=/home/adminvince/projects/agent_farm/.secrets
+MemoryMax=4G
+CPUQuota=200%
+Nice=10
+IOSchedulingClass=idle
+TasksMax=256
+TimeoutStartSec=10min
+Restart=on-failure
+RestartSec=5min
