@@ -1,0 +1,39 @@
+{
+  "accepted": true,
+  "after": {
+    "file_count": 15,
+    "total_bytes": 110383,
+    "tree_sha256": "f2f341483a38abc63a9bf4183a159af62fe6571847aac4674c0721e1ace7662a"
+  },
+  "before": {
+    "file_count": 15,
+    "total_bytes": 110357,
+    "tree_sha256": "e0aacd3a34eedd5a02e33f8a19a59af5403858dafee522bb52a90594c33f2a54"
+  },
+  "changed_file_count": 4,
+  "duration_seconds": 228.896,
+  "epoch": 3,
+  "epoch_position": 4,
+  "epoch_seed": 509736381017507852,
+  "finished_at": "2026-08-27T17:52:26+00:00",
+  "main_commit": "94113208e16838d98d43e4b8e5734ff3d20ae731",
+  "model": "ollama/nemotron-3.5-lightning:30b",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-27T17:52:26+00:00",
+  "returncode": 0,
+  "run_id": "20260827T174831Z-9e1a8b64",
+  "schema_version": 2,
+  "started_at": "2026-08-27T17:48:31+00:00",
+  "status": "accepted",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 15,
+    "checked_pages": 5,
+    "ok": true,
+    "screenshot_count": 2,
+    "static_error_count": 0,
+    "total_bytes": 110383
+  }
+}
