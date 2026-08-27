@@ -291,3 +291,59 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
   resize: vertical;
 }
 .log-actions { display: flex; gap: 0.5rem; margin-top: 0.7rem; justify-content: flex-end; }
+
+/* star trails and night mode overlay */
+#trails {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+#trails.hidden { display: none; }
+.night-dial {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(12,10,8,0.7);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+.night-dial .chip.icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.trail-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.trail-label b { color: var(--accent); font-weight: 600; }
+
+@keyframes nightPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.7; }
+}
+.trail-active #sky { animation: nightPulse 8s ease-in-out infinite; }
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+#trails.hidden { display: none; }
+
+@keyframes nightPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.7; }
+}
+.trail-active #sky { animation: nightPulse 8s ease-in-out infinite; }

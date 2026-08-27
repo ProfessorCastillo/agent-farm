@@ -10,6 +10,7 @@
 </head>
 <body class="observatory">
   <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
+  <canvas id="trails" class="hidden" aria-hidden="true"></canvas>
   <div class="ui">
     <header class="ui-top">
       <div>
@@ -39,11 +40,18 @@
         <textarea id="log-text" placeholder="23 Apr · clear · Pleiades sharp, slight haze..."></textarea>
         <div class="log-actions">
           <button id="log-save" class="chip">Save note</button>
+          <button id="log-download" class="chip" aria-pressed="false">Export journal</button>
           <button id="log-clear" class="chip">Clear</button>
           <button id="log-close" class="chip">Close</button>
         </div>
       </div>
     </section>
+
+    <!-- star trails overlay for night-time effect -->
+    <div class="night-dial" id="night-dial">
+      <button class="chip icon" aria-label="Toggle star trails">⟲</button>
+      <span class="trail-label">Star trails: <b id="trail-status">off</b></span>
+    </div>
   </div>
 
   <script src="app.js"></script>

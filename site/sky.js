@@ -213,6 +213,7 @@
     var link = document.getElementById('log-link');
     var btnClose = document.getElementById('log-close');
     var btnSave = document.getElementById('log-save');
+    var btnDownload = document.getElementById('log-download');
     var btnClear = document.getElementById('log-clear');
     var textarea = document.getElementById('log-text');
     if (!overlay) return;
@@ -224,9 +225,92 @@
     if (btnSave) btnSave.addEventListener('click', function () {
       // copy text to clipboard using exec by rendering as selectable
       textarea.select();
-      try { document.execCommand('copy'); btnSave.textContent = 'Saved!'; setTimeout(function(){btnSave.textContent='Save note';}, 1200);} catch (e) {}
+      try { document.execCommand('copy'); btnSave.textContent = 'Copied!'; setTimeout(function(){btnSave.textContent='Save note';}, 1200);} catch (e) {}
+    });
+    if (btnDownload) btnDownload.addEventListener('click', function () {
+      // export journal as JSON file
+      var text = textarea.value.trim();
+      if (!text) { alert('Write a note first.'); return; }
+      var now = new Date();
+      var entry = {
+        timestamp: now.toISOString(),
+        dateStr: now.toLocaleDateString() + ' ' + now.toLocaleTimeString(),
+        content: text
+      };
+      var blob = new Blob([JSON.stringify(entry, null, 2)], {type: 'application/json'});
+      var url = URL.createObjectURL(blob);
+      // create temp link for download (no external)
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'starlog_' + Math.floor(now.getTime()/1000) + '.json';
+      overlay.ownerDocument.body.appendChild(a);
+      a.click();
+      overlay.ownerDocument.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
     // close on backdrop click
     overlay.addEventListener('click', function (e){ if (e.target === overlay) closeLog(); });
+  })();
+
+  // star trails animation layer (visual enhancement for long-exposure effect)
+  (function () {
+    var trails = document.getElementById('trails');
+    var trailsCtx = trails ? trails.getContext('2d') : null;
+    if (!trails || !trailsCtx) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function trailSize() {
+      trails.width = window.innerWidth * dpr;
+      trails.height = window.innerHeight * dpr;
+      trails.style.width = window.innerWidth + 'px';
+      trails.style.height = window.innerHeight + 'px';
+      trailsCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    trailSize();
+    window.addEventListener('resize', trailSize);
+    var toggleBtn = document.getElementById('night-dial') ? document.getElementById('night-dial').querySelector('.chip.icon') : null;
+    var status = document.getElementById('trail-status');
+    var active = false, trailAnimId = 0, trailLastT = 0;
+    function trailFrame(t) {
+      if (!active) return;
+      trailAnimId = requestAnimationFrame(trailFrame);
+      var dt = Math.max(16, Math.min(32, t - trailLastT)) || 16;
+      trailLastT = t;
+      // fade trails gradually
+      trailsCtx.fillStyle = 'rgba(5,4,3,' + (dt/512).toFixed(3) + ')';
+      trailsCtx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      // draw new star glows from same positions as main sky stars
+      var N = stars.length;
+      for (var i = 0; i < N; i++) {
+        var s = stars[i];
+        var hue = cur.hsl[0] + (s.tint - 1) * cur.hsl[1] * 0.6;
+        var tr = trailsCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, 8);
+        tr.addColorStop(0, 'hsla(' + hue + ',' + cur.hsl[1] + '%,90%,' + (active?0.35:0.08) + ')');
+        tr.addColorStop(0.5, 'hsla(' + hue + ',' + cur.hsl[1] + '%,70%,' + (active?0.12:0.03) + ')');
+        tr.addColorStop(1, 'hsla(0,0%,50%,0)');
+        trailsCtx.fillStyle = tr;
+        trailsCtx.beginPath();
+        trailsCtx.arc(s.x, s.y, 8, 0, Math.PI * 2);
+        trailsCtx.fill();
+      }
+    }
+    if (toggleBtn && status) {
+      toggleBtn.addEventListener('click', function() {
+        active = !active;
+        if (active) {
+          trails.classList.remove('hidden');
+          trailsCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          trailLastT = performance.now();
+          trailAnimId = requestAnimationFrame(trailFrame);
+          status.textContent = 'on';
+          document.body.classList.add('trail-active');
+        } else {
+          cancelAnimationFrame(trailAnimId);
+          trailsCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          trails.classList.add('hidden');
+          status.textContent = 'off';
+          document.body.classList.remove('trail-active');
+        }
+      });
+    }
   })();
 })();
