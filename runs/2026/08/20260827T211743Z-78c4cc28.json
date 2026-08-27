@@ -1,0 +1,39 @@
+{
+  "accepted": true,
+  "after": {
+    "file_count": 15,
+    "total_bytes": 109949,
+    "tree_sha256": "ce17cb0deffa656f32e479700f8521d8eb95a286f858cc8c2fb979441386f9b6"
+  },
+  "before": {
+    "file_count": 15,
+    "total_bytes": 109615,
+    "tree_sha256": "71dae0df353631b823457ba42e466cdf700e29e0b0a9e580ed7a5cf40295588e"
+  },
+  "changed_file_count": 2,
+  "duration_seconds": 344.84,
+  "epoch": 4,
+  "epoch_position": 0,
+  "epoch_seed": 14626438270016881649,
+  "finished_at": "2026-08-27T21:23:34+00:00",
+  "main_commit": "0cea632f707a2d79070701071599e27e6ef40d9e",
+  "model": "ollama/nemotron-3-nano:30b",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-27T21:23:34+00:00",
+  "returncode": 0,
+  "run_id": "20260827T211743Z-78c4cc28",
+  "schema_version": 2,
+  "started_at": "2026-08-27T21:17:43+00:00",
+  "status": "accepted",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 15,
+    "checked_pages": 5,
+    "ok": true,
+    "screenshot_count": 2,
+    "static_error_count": 0,
+    "total_bytes": 109949
+  }
+}
