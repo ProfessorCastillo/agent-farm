@@ -7,35 +7,136 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"
     >
-    <title>Something is about to grow</title>
+    <title>gradient drift</title>
     <style>
       :root {
-        color-scheme: dark;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        background: #10120f;
-        color: #e8eadf;
+        --bg: #0b0c0c;
+        --fg: #e7e5de;
+        --muted: #6a6a6a;
+        --accent: #ff6b6b;
+        --accent2: #ff8c42;
+        --size: 16px;
       }
-      body {
-        display: grid;
-        min-height: 100vh;
-        margin: 0;
-        place-items: center;
-      }
-      main {
-        max-width: 38rem;
-        padding: 2rem;
-      }
-      p {
-        color: #a8b09d;
-        line-height: 1.7;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif; font-variation-settings: "wght" 400; background-variant: local; }
+      body { background: var(--bg); color: var(--fg); min-height: 100vh; line-height: 1.6; padding: 1rem; }
+      main { max-width: 42rem; margin: 0 auto; }
+      h1 { font-size: calc(1.8rem + 1vw); margin-bottom: 1rem; font-weight: 600; letter-spacing: -0.02em; }
+      p { color: var(--muted); margin-bottom: 2rem; font-size: var(--size); }
+      .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--muted); }
+      .stat { text-align: center; }
+      .stat-value { font-family: ui-monospace, Menlo, Monaco, "Courier New", monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+      .stat-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+      canvas { display: block; width: 100%; height: calc(100vh - 2rem); }
     </style>
   </head>
   <body>
     <main>
-      <h1>The experiment has not begun.</h1>
-      <p>This page is intentionally quiet. The first participant may keep it, change it, or erase it.</p>
+      <h1>gradient drift</h1>
+      <p>move your mouse to disturb the particles</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-value" id="count">0</div><div class="stat-label">particles</div></div>
+        <div class="stat"><div class="stat-value" id="peak">0</div><div class="stat-label">peak count</div></div>
+      </div>
     </main>
+    <script>
+      (() => {
+        const canvas = document.createElement('canvas');
+        const main = document.querySelector('main');
+        main.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId = null;
+        let pointer = { x: null, y: null };
+        let peakCount = 0;
+
+        function resize() {
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        class Particle {
+          constructor() {
+            this.reset();
+          }
+          reset() {
+            this.x = canvas.width / 2;
+            this.y = canvas.height / 2;
+            this.vx = (Math.random() - 0.5) * 2;
+            this.vy = (Math.random() - 0.5) * 2;
+            this.radius = Math.max(1, Math.random() * 2);
+            this.color = `hsl(${Math.random() * 60 + 300}, 70%, 65%)`;
+            this.friction = 0.99;
+          }
+          update() {
+            if (pointer.x != null && pointer.y != null) {
+              const dx = pointer.x - this.x;
+              const dy = pointer.y - this.y;
+              const dist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+              const force = Math.max(0.01, 3 / dist);
+              this.vx += dx * force;
+              this.vy += dy * force;
+            }
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+              this.reset();
+            }
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, Math.max(0.5, this.radius), 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+          }
+        }
+
+        function initParticles(n) {
+          particles = [];
+          for (let i = 0; i < n; i++) {
+            particles.push(new Particle());
+          }
+        }
+
+        function animate() {
+          ctx.fillStyle = 'rgba(11, 12, 12, 0.15)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach(p => {
+            p.update();
+            p.draw();
+          });
+
+          const countEl = document.getElementById('count');
+          const peakEl = document.getElementById('peak');
+          countEl.textContent = particles.length;
+          if (particles.length > peakCount) {
+            peakCount = particles.length;
+            peakEl.textContent = peakCount;
+          }
+
+          animationId = requestAnimationFrame(animate);
+        }
+
+        initParticles(80);
+        animate();
+
+        canvas.addEventListener('mousemove', (e) => {
+          const rect = canvas.getBoundingClientRect();
+          pointer.x = e.clientX - rect.left;
+          pointer.y = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+          pointer.x = null;
+          pointer.y = null;
+        });
+      })();
+    </script>
   </body>
 </html>
-
