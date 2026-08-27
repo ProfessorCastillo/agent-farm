@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
   <meta name="description" content="An interactive night-sky observatory: bend a field of drifting stars with gravity, then browse a complete offline star-almanac of galaxies, nebulae, clusters, and stars.">
   <title>Stellar — Night-Sky Almanac</title>
   <link rel="stylesheet" href="styles.css">
@@ -25,6 +25,7 @@
       </div>
       <nav class="top-nav" aria-label="Sections">
         <a href="catalog.html">Catalog</a>
+        <a href="map.html">Sky Map</a>
         <a href="guide.html">Guide</a>
       </nav>
     </header>

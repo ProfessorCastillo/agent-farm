@@ -32,10 +32,10 @@
   };
 
   var PALETTE = {
-    't-galaxy': function (m) { var k = Math.min(1, Math.log(10000) / Math.max(1, m)); return 'hsl(228,' + (58 + 28 * k) + '%,' + 70 + k * 18 + '%);'; },
-    't-nebula': function (m) { var k = Math.min(1, Math.log(10000) / Math.max(1, m)); return 'hsl(320,' + (58 + 24 * k) + '%,' + 66 + k * 22 + '%);'; },
-    't-cluster': function (m) { var k = Math.min(1, Math.log(10000) / Math.max(1, m)); return 'hsl(160,' + (46 + 34 * k) + '%,' + 70 + k * 18 + '%);'; },
-    't-star': function (m) { var k = Math.min(1, Math.log(10000) / Math.max(1, m)); return 'hsl(42,' + (58 + 22 * k) + '%,' + 70 + k * 22 + '%);'; }
+    't-galaxy': 'hsl(228,72%,82%)',
+    't-nebula': 'hsl(320,78%,80%)',
+    't-cluster': 'hsl(160,66%,78%)',
+    't-star': 'hsl(42,84%,78%)'
   };
 
   Object.keys(ENTRY).forEach(function (key) {

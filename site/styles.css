@@ -209,3 +209,42 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
   .glab { display: none; }
   .page { padding: 2rem 1.1rem 2.8rem; }
 }
+
+/* sky map */
+.map-wrap {
+  position: relative;
+  width: min(680px, 100%);
+  margin: 0.4rem auto 0;
+}
+#map { display: block; width: 100%; margin-inline: auto; touch-action: none; }
+.compass {
+  position: absolute;
+  inset: 16px;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  opacity: 0.65;
+}
+.compass span { position: absolute; }
+.c-n { top: 2px; left: 50%; transform: translateX(-50%); }
+.c-s { bottom: 2px; left: 50%; transform: translateX(-50%); }
+.c-e { right: 2px; top: 50%; transform: translateY(-50%); }
+.c-w { left: 2px; top: 50%; transform: translateY(-50%); }
+.hovercard {
+  position: absolute;
+  z-index: 2;
+  min-width: 15rem;
+  max-width: 19rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(10, 13, 22, 0.88);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+.hovercard.hidden { display: none; }
+.hover-name { font-weight: 600; font-size: 0.9rem; }
+.hover-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-top: 0.25rem; }
