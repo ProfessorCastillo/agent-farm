@@ -1,0 +1,39 @@
+{
+  "accepted": false,
+  "after": {
+    "file_count": 10,
+    "total_bytes": 70629,
+    "tree_sha256": "23f3561c0399c5750a715b7a3f20e901f4222d4c9344b8a905815d76f6686762"
+  },
+  "before": {
+    "file_count": 9,
+    "total_bytes": 69587,
+    "tree_sha256": "241987f69e75d4cc523f684da87fed594d79fb6ab4c43b6950a4bdabf94dd730"
+  },
+  "changed_file_count": 4,
+  "duration_seconds": 238.69,
+  "epoch": 1,
+  "epoch_position": 9,
+  "epoch_seed": 2834596822515000306,
+  "finished_at": "2026-08-27T08:50:06+00:00",
+  "main_commit": null,
+  "model": "ollama/gpt-oss:20b-131k",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-27T08:50:06+00:00",
+  "returncode": 0,
+  "run_id": "20260827T084607Z-990ad5e5",
+  "schema_version": 2,
+  "started_at": "2026-08-27T08:46:07+00:00",
+  "status": "rejected",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 10,
+    "checked_pages": 0,
+    "ok": false,
+    "screenshot_count": 0,
+    "static_error_count": 1,
+    "total_bytes": 70629
+  }
+}
