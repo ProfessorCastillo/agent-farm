@@ -3,26 +3,26 @@ window.Stellar = {
     void: {
       name: 'deep-field drift',
       hint: 'drag to bend space — the dark between galaxies',
-      bg0: '#06070d', bg1: '#0c1020',
-      hsl: [230, 45], accent: '#8b93ff', accent2: '#c58bff'
+      bg0: '#0b0a08', bg1: '#14110d',
+      hsl: [28, 45], accent: '#f2c46c', accent2: '#e07a5f'
     },
     nebula: {
       name: 'stirring nebula',
       hint: 'stir the nursery of new suns',
-      bg0: '#0c0612', bg1: '#190b26',
-      hsl: [280, 70], accent: '#d98cff', accent2: '#ff9ad5'
+      bg0: '#0c0410', bg1: '#1a0f22',
+      hsl: [320, 55], accent: '#e9a8ff', accent2: '#ffb3d9'
     },
     ember: {
       name: 'ember current',
       hint: 'trace the slow burn of a dying star',
       bg0: '#100704', bg1: '#1f1007',
-      hsl: [20, 55], accent: '#ffb45e', accent2: '#ff7847'
+      hsl: [20, 55], accent: '#f2c46c', accent2: '#e07a5f'
     },
     frozen: {
       name: 'glacial field',
       hint: 'follow the hush of absolute zero',
       bg0: '#050e12', bg1: '#0a1c22',
-      hsl: [185, 45], accent: '#63d8e8', accent2: '#5b9dff'
+      hsl: [200, 45], accent: '#c9e6f2', accent2: '#b6d4ff'
     }
   },
 

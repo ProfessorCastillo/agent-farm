@@ -206,4 +206,27 @@
   applyTheme('void');
   setDensity(density);
   requestAnimationFrame(frame);
+
+  // logbook UI wiring (dependency-free, no storage APIs)
+  (function () {
+    var overlay = document.getElementById('logbook');
+    var link = document.getElementById('log-link');
+    var btnClose = document.getElementById('log-close');
+    var btnSave = document.getElementById('log-save');
+    var btnClear = document.getElementById('log-clear');
+    var textarea = document.getElementById('log-text');
+    if (!overlay) return;
+    function openLog() { overlay.classList.add('show'); textarea.focus(); }
+    function closeLog() { overlay.classList.remove('show'); }
+    if (link) link.addEventListener('click', function (e) { e.preventDefault(); openLog(); });
+    if (btnClose) btnClose.addEventListener('click', closeLog);
+    if (btnClear) btnClear.addEventListener('click', function () { textarea.value = ''; });
+    if (btnSave) btnSave.addEventListener('click', function () {
+      // copy text to clipboard using exec by rendering as selectable
+      textarea.select();
+      try { document.execCommand('copy'); btnSave.textContent = 'Saved!'; setTimeout(function(){btnSave.textContent='Save note';}, 1200);} catch (e) {}
+    });
+    // close on backdrop click
+    overlay.addEventListener('click', function (e){ if (e.target === overlay) closeLog(); });
+  })();
 })();

@@ -1,13 +1,13 @@
 /* Stellar — an offline night-sky almanac */
 :root {
-  --bg: #06070d;
-  --bg2: #0c0e1a;
-  --fg: #edeff9;
-  --muted: #9298b0;
-  --line: rgba(255, 255, 255, 0.08);
-  --panel: rgba(255, 255, 255, 0.035);
-  --accent: #8b93ff;
-  --accent2: #c58bff;
+  --bg: #0b0a08;
+  --bg2: #14110d;
+  --fg: #f4ecd8;
+  --muted: #c9b89a;
+  --line: rgba(255, 255, 255, 0.10);
+  --panel: rgba(255, 255, 255, 0.04);
+  --accent: #f2c46c;
+  --accent2: #e07a5f;
   --radius: 14px;
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -43,6 +43,8 @@ button { font: inherit; cursor: pointer; color: inherit; background: none; borde
 .site-nav { display: flex; gap: 1.1rem; font-size: 0.82rem; }
 .site-nav a { color: var(--muted); padding: 0.15rem 0; border-bottom: 1px solid transparent; transition: color 0.15s; }
 .site-nav a:hover { color: var(--fg); }
+.top-nav a { color: var(--muted); border-color: rgba(255,255,255,0.1); }
+.top-nav a:hover { color: var(--fg); border-color: var(--accent); }
 .site-nav a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent); }
 .chrome-foot {
   margin-top: auto;
@@ -82,8 +84,9 @@ h2:first-of-type { margin-top: 2rem; }
   font-size: 0.8rem;
   color: var(--muted);
   background: var(--panel);
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.08s;
 }
+.chip:active { transform: translateY(1px); }
 .chip:hover { color: var(--fg); border-color: rgba(255, 255, 255, 0.22); }
 .chip[aria-pressed="true"] {
   color: #fff;
@@ -168,7 +171,7 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
   transition: color 0.15s, border-color 0.15s;
 }
 .top-nav a:hover { color: var(--fg); border-color: rgba(255, 255, 255, 0.22); }
-.ui h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0.3rem 0 0; }
+.ui h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin: 0.3rem 0 0; font-weight: 500; letter-spacing: -0.02em; }
 .hint { color: var(--muted); font-size: 0.88rem; margin-top: 0.35rem; }
 .stats { display: flex; gap: 1.2rem; margin-top: 1rem; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
 .stats b { color: var(--accent); font-weight: 600; }
@@ -183,7 +186,7 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
   width: max-content;
   max-width: 100%;
   margin-inline: auto;
-  background: rgba(8, 10, 18, 0.55);
+  background: rgba(12,10,8,0.55);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border: 1px solid var(--line);
@@ -208,6 +211,7 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
   .toolbar { gap: 0.45rem; padding: 0.5rem; }
   .glab { display: none; }
   .page { padding: 2rem 1.1rem 2.8rem; }
+  .logbook-card { padding: 1rem; }
 }
 
 /* sky map */
@@ -248,3 +252,42 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
 .hovercard.hidden { display: none; }
 .hover-name { font-weight: 600; font-size: 0.9rem; }
 .hover-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-top: 0.25rem; }
+
+/* logbook overlay */
+.logbook-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  padding: 1rem;
+  pointer-events: none;
+}
+.logbook-overlay.show {
+  display: flex;
+  pointer-events: auto;
+}
+.logbook-card {
+  pointer-events: auto;
+  background: rgba(12,10,8,0.88);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.2rem;
+  width: min(560px, 92vw);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+.logbook-overlay h2 { margin-bottom: 0.4rem; }
+.logbook-overlay .lede { color: var(--muted); margin-bottom: 1rem; }
+#log-text {
+  width: 100%;
+  min-height: 180px;
+  background: var(--panel);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem;
+  font: inherit;
+  resize: vertical;
+}
+.log-actions { display: flex; gap: 0.5rem; margin-top: 0.7rem; justify-content: flex-end; }

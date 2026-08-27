@@ -4,17 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
-  <meta name="description" content="An interactive night-sky observatory: bend a field of drifting stars with gravity, then browse a complete offline star-almanac of galaxies, nebulae, clusters, and stars.">
-  <title>Stellar — Night-Sky Almanac</title>
+  <meta name="description" content="A quiet corner for night-skies: drifting stars you can bend with gravity, warm brass UI, and a complete offline almanac for the eyes and the heart.">
+  <title>Observatio — Night-Sky Almanac</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="observatory">
   <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
-
   <div class="ui">
     <header class="ui-top">
       <div>
-        <span class="eyebrow">Stellar · offline almanac</span>
+        <span class="eyebrow">Observatio · offline almanac</span>
         <h1 id="title">Deep-field drift</h1>
         <p class="hint" id="hint">drag to bend space — the dark between galaxies</p>
         <div class="stats" aria-live="polite">
@@ -27,10 +26,24 @@
         <a href="catalog.html">Catalog</a>
         <a href="map.html">Sky Map</a>
         <a href="guide.html">Guide</a>
+        <a href="#logbook" id="log-link">Logbook</a>
       </nav>
     </header>
 
     <nav class="toolbar" id="controls" aria-label="Observatory controls"></nav>
+
+    <section id="logbook" class="logbook-overlay" aria-label="Night log">
+      <div class="logbook-card">
+        <h2>Night Log</h2>
+        <p class="lede">Write a line for the sky. Keep it, close it, come back later.</p>
+        <textarea id="log-text" placeholder="23 Apr · clear · Pleiades sharp, slight haze..."></textarea>
+        <div class="log-actions">
+          <button id="log-save" class="chip">Save note</button>
+          <button id="log-clear" class="chip">Clear</button>
+          <button id="log-close" class="chip">Close</button>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="app.js"></script>
