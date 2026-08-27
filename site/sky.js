@@ -12,6 +12,8 @@
   var density = 140;
   var cur = THEMES.void;
   var paused = false;
+  var constellationMode = false;
+  var userStars = [];
   var mouse = { x: null, y: null, r: 150, active: false };
   var fieldMax = 0;
 
@@ -42,6 +44,24 @@
   function seed(n) {
     stars = [];
     for (var i = 0; i < n; i++) stars.push(makeStar());
+    
+    // Inject discoverable objects
+    if (window.STAR_DATA) {
+      var allObjs = [];
+      var cats = ['galaxies', 'nebulae', 'clusters', 'stars'];
+      for (var j = 0; j < cats.length; j++) {
+        allObjs = allObjs.concat(window.STAR_DATA[cats[j]]);
+      }
+      
+      for (var k = 0; k < allObjs.length; k++) {
+        var obj = allObjs[k];
+        var s = makeStar();
+        s.isDiscoverable = true;
+        s.obj = obj;
+        s.discovered = false;
+        stars.push(s);
+      }
+    }
   }
 
   function applyTheme(key) {
@@ -73,6 +93,17 @@
     document.getElementById('denval').textContent = density;
     seed(density);
     document.getElementById('stat-count').textContent = density;
+  }
+
+  function updateDiscovery() {
+    var found = 0, total = 0;
+    for (var i = 0; i < stars.length; i++) {
+      if (stars[i].isDiscoverable) {
+        total++;
+        if (stars[i].discovered) found++;
+      }
+    }
+    document.getElementById('stat-found').textContent = found + '/' + total;
   }
 
   function togglePause() {
@@ -145,6 +176,14 @@
       if (mouse.active && mouse.x !== null) {
         var f = fx.fx(s.x, s.y, mouse);
         if (f) { s.vx += f[0]; s.vy += f[1]; }
+        
+        if (s.isDiscoverable && !s.discovered) {
+          var d_mouse = Math.hypot(mouse.x - s.x, mouse.y - s.y);
+          if (d_mouse < 15) {
+            s.discovered = true;
+            updateDiscovery();
+          }
+        }
       }
       s.vx *= 0.985; s.vy *= 0.985;
       sp = Math.hypot(s.vx, s.vy);
