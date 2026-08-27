@@ -1,4 +1,5 @@
 import json
+import subprocess
 from pathlib import Path
 from unittest import TestCase
 
@@ -14,6 +15,14 @@ class SecurityConfigurationTests(TestCase):
         self.assertEqual(permissions["external_directory"], "deny")
         for name in ("webfetch", "websearch", "task", "skill", "question"):
             self.assertEqual(permissions[name], "deny")
+
+    def test_isolation_probe_has_valid_shell_syntax(self) -> None:
+        subprocess.run(
+            ["bash", "-n", str(ROOT / "scripts" / "probe-system-isolation.sh")],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
 
     def test_runner_hides_home_and_blocks_external_network(self) -> None:
         unit = (ROOT / "lab" / "systemd" / "agent-farm-run.service").read_text(
@@ -33,7 +42,7 @@ class SecurityConfigurationTests(TestCase):
                 f"BindReadOnlyPaths=/home/adminvince/projects/agent_farm/{relative}",
                 binds,
             )
-        self.assertIn("InaccessiblePaths=/home/adminvince/projects/agent_farm/.secrets", unit)
+        self.assertIn("InaccessiblePaths=-/home/adminvince/projects/agent_farm/.secrets", unit)
         self.assertIn("IPAddressDeny=any", unit)
         self.assertIn("IPAddressAllow=localhost", unit)
         self.assertIn(

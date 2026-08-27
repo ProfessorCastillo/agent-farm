@@ -27,7 +27,7 @@ run=(sudo systemd-run --quiet --wait --pipe --collect
   -p "BindReadOnlyPaths=${repo}/site"
   -p "BindPaths=${repo}/.lab-state"
   -p "ReadWritePaths=${repo}/.lab-state"
-  -p "InaccessiblePaths=${repo}/.secrets"
+  -p "InaccessiblePaths=-${repo}/.secrets"
   -p ProtectProc=invisible
   -p ProtectKernelTunables=yes
   -p ProtectKernelModules=yes
@@ -55,9 +55,6 @@ publisher_run=(sudo systemd-run --quiet --wait --pipe --collect
   -p "BindPaths=${repo}/.lab-state"
   -p "ReadWritePaths=${repo}/.lab-state"
   -p "ReadOnlyPaths=${repo}/.secrets"
-  -p ProtectProc=invisible
-  -p ProcSubset=pid)
-
   -p ProtectKernelTunables=yes
   -p ProtectKernelModules=yes
   -p ProtectKernelLogs=yes
@@ -65,9 +62,16 @@ publisher_run=(sudo systemd-run --quiet --wait --pipe --collect
   -p RestrictSUIDSGID=yes
   -p LockPersonality=yes
   -p CapabilityBoundingSet=
+  -p ProtectProc=invisible
+  -p ProcSubset=pid)
+
 printf 'Checking the host-network control request...\n'
-/usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
+if ! /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
   https://github.com
+then
+  printf 'ERROR: host control request could not reach GitHub.\n' >&2
+  exit 1
+fi
 
 cleanup() {
   /usr/bin/rm -rf -- "${probe_root}"
@@ -88,9 +92,21 @@ opencode_config="$(<"${repo}/lab/opencode.json")"
 probe_prompt="Use only OpenCode's native read tool. Read ${probe_stage}/inside.txt, then attempt to read ${probe_outside}. Make both read calls even if the second is denied. Reply PROBE_DONE."
 
 printf 'Checking that the staged project remains visible...\n'
-"${run[@]}" /usr/bin/test -r "${repo}/site/index.html"
-"${run[@]}" /usr/bin/test ! -e "${repo}/.git"
-"${run[@]}" /usr/bin/test ! -e "${repo}/README.md"
+if ! "${run[@]}" /usr/bin/test -r "${repo}/site/index.html"
+then
+  printf 'ERROR: runner sandbox could not read site/index.html.\n' >&2
+  exit 1
+fi
+if ! "${run[@]}" /usr/bin/test ! -e "${repo}/.git"
+then
+  printf 'ERROR: runner sandbox exposed the Git repository metadata.\n' >&2
+  exit 1
+fi
+if ! "${run[@]}" /usr/bin/test ! -e "${repo}/README.md"
+then
+  printf 'ERROR: runner sandbox exposed an unbound repository file.\n' >&2
+  exit 1
+fi
 
 printf 'Checking that the project is read-only and state remains writable...\n'
 if "${run[@]}" /usr/bin/touch "${repo}/isolation-probe-write"
@@ -99,21 +115,45 @@ then
   printf 'ERROR: runner isolation allowed a project write.\n' >&2
   exit 1
 fi
-"${run[@]}" /usr/bin/touch "${probe_marker}"
+if ! "${run[@]}" /usr/bin/touch "${probe_marker}"
+then
+  printf 'ERROR: runner sandbox could not write its private state directory.\n' >&2
+  exit 1
+fi
 /usr/bin/rm -f "${probe_marker}"
 
 printf 'Checking that private home and publisher credentials are hidden...\n'
-"${run[@]}" /usr/bin/test ! -e /home/adminvince/.ssh
-"${run[@]}" /usr/bin/test ! -e "${repo}/.secrets/github-pages-deploy-key"
+if ! "${run[@]}" /usr/bin/test ! -e /home/adminvince/.ssh
+then
+  printf 'ERROR: runner sandbox exposed the private SSH directory.\n' >&2
+  exit 1
+fi
+if ! "${run[@]}" /usr/bin/test ! -e "${repo}/.secrets/github-pages-deploy-key"
+then
+  printf 'ERROR: runner sandbox exposed the publisher deploy key.\n' >&2
+  exit 1
+fi
 
 printf 'Checking that only the publisher sandbox can see its deploy key...\n'
-"${publisher_run[@]}" /usr/bin/test ! -e /home/adminvince/.ssh
-"${publisher_run[@]}" /usr/bin/test -r \
+if ! "${publisher_run[@]}" /usr/bin/test ! -e /home/adminvince/.ssh
+then
+  printf 'ERROR: publisher sandbox exposed the private SSH directory.\n' >&2
+  exit 1
+fi
+if ! "${publisher_run[@]}" /usr/bin/test -r \
   "${repo}/.secrets/github-pages-deploy-key"
+then
+  printf 'ERROR: publisher sandbox could not read its repository deploy key.\n' >&2
+  exit 1
+fi
 
 printf 'Checking that host Ollama remains reachable...\n'
-"${run[@]}" /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
+if ! "${run[@]}" /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
   http://127.0.0.1:11434/api/tags
+then
+  printf 'ERROR: runner sandbox could not reach host Ollama.\n' >&2
+  exit 1
+fi
 
 
 printf 'Checking OpenCode native read confinement end to end...\n'
@@ -151,6 +191,10 @@ fi
 if ! /usr/bin/grep -Fq "${probe_outside}" "${probe_events}" ||
   /usr/bin/grep -Fq "${outside_marker}" "${probe_events}"
 then
+  printf 'ERROR: OpenCode outside-read denial was not proven or leaked content.\n' >&2
+  exit 1
+fi
+
 printf 'Checking that the public internet is blocked...\n'
 if "${run[@]}" /usr/bin/curl --fail --silent --show-error --output /dev/null --max-time 5 \
   https://github.com

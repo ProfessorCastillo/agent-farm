@@ -9,7 +9,7 @@ That means repository Actions are disabled. Do not select either suggested
 `.github/workflows/pages.yml` needed to deploy only `site/`.
 
 The audit fixes are still local and uncommitted. Local verification currently
-passes 65 tests, and no systemd units or timers have been activated.
+passes 66 tests, and no systemd units or timers have been activated.
 
 ## 1. Enable GitHub Actions now
 
