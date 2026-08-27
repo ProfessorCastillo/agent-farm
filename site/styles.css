@@ -10,18 +10,22 @@
   --accent2: #c46a3c;
   --radius: 16px;
   --sidebar-radius: 20px;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-   --mono: "SF Mono", "Fira Code", "Consolas", "Liberation Mono", monospace;
-   /* Hero styling */
-   .hero { text-align: center; padding: 4rem 1rem; color: var(--fg); }
-   .lede { max-width: 30rem; margin: 0 auto; font-size: 1.1rem; color: var(--muted); }
+  --font-mono: "SF Mono", "Fira Code", "Consolas", "Liberation Mono", monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Hero styling */
+  .hero { text-align: center; padding: 4rem 1rem; color: var(--fg); }
+  .lede { max-width: 30rem; margin: 0 auto; font-size: 1.1rem; color: var(--muted); }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
+  background-image: linear-gradient(135deg, var(--line) 0%, transparent 50%, var(--line) 100%),
+                    linear-gradient(45deg, var(--line) 0%, transparent 50%, var(--line) 100%);
+  background-size: 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px;
   color: var(--fg);
-  font-family: var(--sans);
+  font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
