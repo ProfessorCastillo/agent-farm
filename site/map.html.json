@@ -1,0 +1,152 @@
+{
+  "title": "Stellar — offline almanac prototype",
+  "layout": {
+    "chrome_head": false,
+    "top_pad_px": 40
+  },
+  "body": [
+    {
+      "tag": "div",
+      "class": "chrome-head",
+      "children": [
+        {
+          "tag": "span",
+          "class": "brand",
+          "children": [
+            { "tag": "b", "text": "Stellar" },
+            { "text": " · sky map" }
+          ]
+        },
+        {
+          "tag": "nav",
+          "class": "site-nav",
+          "aria-label": "Sections",
+          "children": [
+            { "tag": "a", "href": "index.html", "text": "Observatory" },
+            { "tag": "a", "href": "catalog.html", "text": "Catalog" },
+            { "tag": "a", "href": "map.html", "aria-current": "page", "text": "Sky Map" },
+            { "tag": "a", "href": "guide.html", "text": "Guide" }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "main",
+      "class": "page",
+      "children": [
+        {
+          "tag": "p",
+          "class": "eyebrow",
+          "text": "Deep-field projection · 28 objects"
+        },
+        {
+          "tag": "h1",
+          "text": "One sky, plotted in full"
+        },
+        {
+          "tag": "p",
+          "class": "lede",
+          "text": "Every object in the almanac — galaxies, nebulae, clusters, and stars — placed on a single circular sky map by its position in the heavens. Hover any glow to read its name, constellation, and brightness; toggle labels to trace the pattern yourself."
+        },
+        {
+          "tag": "h2",
+          "text": "Browse the chart"
+        },
+        {
+          "tag": "div",
+          "class": "map-wrap",
+          "children": [
+            {
+              "tag": "canvas",
+              "id": "map",
+              "aria-label": "An interactive circular map of the night sky with all catalog objects plotted by position"
+            },
+            {
+              "tag": "div",
+              "class": "compass",
+              "aria-hidden": "true",
+              "children": [
+                { "tag": "span", "class": "c-n", "text": "N" },
+                { "tag": "span", "class": "c-e", "text": "E" },
+                { "tag": "span", "class": "c-s", "text": "S" },
+                { "tag": "span", "class": "c-w", "text": "W" }
+              ]
+            },
+            {
+              "tag": "div",
+              "class": "hovercard hidden",
+              "role": "status",
+              "children": [
+                { "tag": "div", "class": "hover-name", "id": "hover-name", "text": "—" },
+                { "tag": "div", "class": "hover-sub", "id": "hover-sub", "text": "" }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "div",
+          "class": "chips",
+          "role": "group",
+          "aria-label": "Filter and display options",
+          "children": [
+            { "tag": "button", "class": "chip", "data-filter": "all", "aria-pressed": "true", "text": "All types" },
+            { "tag": "button", "class": "chip", "data-filter": "Galaxy", "aria-pressed": "false", "text": "Galaxies" },
+            { "tag": "button", "class": "chip", "data-filter": "Nebula", "aria-pressed": "false", "text": "Nebulae" },
+            { "tag": "button", "class": "chip", "data-filter": "Cluster", "aria-pressed": "false", "text": "Clusters" },
+            { "tag": "button", "class": "chip", "data-filter": "Star", "aria-pressed": "false", "text": "Stars" },
+            { "tag": "button", "class": "chip", "id": "labels", "aria-pressed": "true", "text": "Labels" }
+          ]
+        },
+        {
+          "tag": "p",
+          "class": "countline",
+          "id": "countline",
+          "aria-live`: "polite"
+        },
+        {
+          "tag": "h2",
+          "text": "Reading the map"
+        },
+        {
+          "tag": "div",
+          "class": "prose",
+          "children": [
+            {
+              "tag": "p",
+              "children": [
+                { "text": "The disk is a stereographic projection of the whole sky, north ",
+                  "strong": "up"
+                },
+                { "text": " and the celestial equator running roughly across the middle. Brighter objects sit as larger, more luminous glows; each colour codes a category — " },
+                { "em": "galaxies" },
+                { "text": " in cool blue, " },
+                { "em": "nebulae" },
+                { "text": " in magenta, " },
+                { "em": "clusters" },
+                { "text": " in teal, and " },
+                { "em": "stars" },
+                { "text": " in warm gold." }
+              ]
+            },
+            {
+              "tag": "p",
+              "children": [
+                { "text": "Objects are placed by their real sky coordinates, so a given night's sky is a rotating slice of this map. Switch " },
+                { "em": "Labels" },
+                { "text": " off and sweep the pointer across the disk to find each glow by position — the same warm-up astronomers do before they ever need to look one up in the catalog." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "footer",
+      "class": "chrome-foot",
+      "children": [
+        { "tag": "span", "text": "Compiled for quiet nights · values rounded to catalog precision" },
+        { "tag": "span", "text": "Stellar · fully offline" }
+      ]
+    }
+  ]
+}

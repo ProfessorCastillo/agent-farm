@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="description" content="Plot every object in the almanac onto one interactive circular sky map — a deep-field projection of galaxies, nebulae, clusters, and stars by their place in the sky.">
+  <title>Sky Map — Stellar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="chrome-head">
+    <span class="brand"><b>Stellar</b> · sky map</span>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="index.html">Observatory</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="map.html" aria-current="page">Sky Map</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+  </div>
+
+  <main class="page">
+    <p class="eyebrow">Deep-field projection · 28 objects</p>
+    <h1>One sky, plotted in full</h1>
+    <p class="lede">Every object in the almanac — galaxies, nebulae, clusters, and stars — placed on a single circular sky map by its position in the heavens. Hover any glow to read its name, constellation, and brightness; toggle labels to trace the pattern yourself.</p>
+
+    <h2>Browse the chart</h2>
+    <div class="map-wrap">
+      <canvas id="map" aria-label="An interactive circular map of the night sky with all catalog objects plotted by position"></canvas>
+      <div class="compass" aria-hidden="true">
+        <span class="c-n">N</span><span class="c-e">E</span><span class="c-s">S</span><span class="c-w">W</span>
+      </div>
+      <div class="hovercard hidden" id="hovercard" role="status">
+        <div class="hover-name" id="hover-name">—</div>
+        <div class="hover-sub" id="hover-sub"></div>
+      </div>
+    </div>
+
+    <div class="chips" role="group" aria-label="Filter and display options">
+      <button class="chip" data-filter="all" aria-pressed="true">All types</button>
+      <button class="chip" data-filter="Galaxy" aria-pressed="false">Galaxies</button>
+      <button class="chip" data-filter="Nebula" aria-pressed="false">Nebulae</button>
+      <button class="chip" data-filter="Cluster" aria-pressed="false">Clusters</button>
+      <button class="chip" data-filter="Star" aria-pressed="false">Stars</button>
+      <button class="chip" id="labels" aria-pressed="true">Labels</button>
+    </div>
+    <p class="countline" id="countline" aria-live="polite"></p>
+
+    <h2>Reading the map</h2>
+    <div class="prose">
+      <p>The disk is a stereographic projection of the whole sky, north <b>up</b> and the celestial equator running roughly across the middle. Brighter objects sit as larger, more luminous glows; each colour codes a category — <b>galaxies</b> in cool blue, <b>nebulae</b> in magenta, <b>clusters</b> in teal, and <b>stars</b> in warm gold.</p>
+      <p>Objects are placed by their real sky coordinates, so a given night’s sky is a rotating slice of this map. Switch <b>Labels</b> off and sweep the pointer across the disk to find each glow by position — the same warm-up astronomers do before they ever need to look one up in the catalog.</p>
+    </div>
+  </main>
+
+  <footer class="chrome-foot">
+    <span>Compiled for quiet nights · values rounded to catalog precision</span>
+    <span>Stellar · fully offline</span>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="data.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>
