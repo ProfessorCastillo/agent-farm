@@ -5,29 +5,47 @@
   'use strict';
   var R = window.Stellar, D = window.STAR_DATA;
 
+  // coordinates: [index_in_data_array, right_ascension (hours), declination (deg), class]
   var ENTRY = {
     galaxies: [
-      [0, 10.74, 41.17, 't-galaxy'], [1, 19.40, 47.20, 't-galaxy'],
-      [2, 18.51, -11.17, 't-galaxy'], [3, 21.88, 54.92, 't-galaxy'],
-      [4, 23.95, 69.24, 't-galaxy'], [5, 23.97, 69.97, 't-galaxy'],
-      [6, 3.56, 30.48, 't-galaxy'], [7, 18.52, 12.39, 't-galaxy'],
-      [8, 1.55, 15.70, 't-galaxy']
+      [0, 71.681, 47.200, 't-galaxy'],   // Andromeda M31
+      [1, 196.785, 47.195, 't-galaxy'],  // Whirlpool M51
+      [2, 270.252, -16.629, 't-galaxy'], // Pinwheel M101
+      [3, 322.879, -11.622, 't-galaxy'], // Sombrero M104
+      [4, 245.859, 69.088, 't-galaxy'],  // Bode's M81
+      [5, 245.787, 69.664, 't-galaxy'],  // Cigar M82
+      [6, 230.839, 30.667, 't-galaxy'],  // Triangulum M33
+      [7, 187.706, 12.391, 't-galaxy'],  // M87
+      [8, 205.361, 43.456, 't-galaxy']   // M100
     ],
     nebulae: [
-      [0, 8.91, -5.39, 't-nebula'], [1, 4.89, 33.98, 't-nebula'],
-      [2, 27.07, -13.79, 't-nebula'], [3, 8.68, -2.75, 't-nebula'],
-      [4, 29.02, -30.23, 't-nebula'], [5, 27.09, -27.02, 't-nebula'],
-      [6, 32.02, 25.77, 't-nebula']
+      [0, 85.249, -5.391, 't-nebula'],   // Orion M42
+      [1, 74.869, 33.891, 't-nebula'],   // Ring M57
+      [2, 358.000, -13.917, 't-nebula'], // Eagle M16
+      [3, 134.000, -2.700, 't-nebula'],  // Horsehead B33
+      [4, 435.478, -30.245, 't-nebula'], // Lagoon M8
+      [5, 329.616, -27.015, 't-nebula'], // Trifid M20
+      [6, 483.206, 25.748, 't-nebula']   // Dumbbell M27
     ],
     clusters: [
-      [0, 7.42, 24.11, 't-cluster'], [1, 33.24, 36.53, 't-cluster'],
-      [2, 11.77, 19.15, 't-cluster'], [3, 4.52, 59.22, 't-cluster'],
-      [4, 7.17, 15.92, 't-cluster'], [5, 31.71, -52.80, 't-cluster']
+      [0, 85.295, 24.116, 't-cluster'],   // Pleiades M45
+      [1, 73.578, 36.790, 't-cluster'],   // Beehive M44
+      [2, 250.423, 36.461, 't-cluster'],  // Hercules M13
+      [3, 5.509, 57.149, 't-cluster'],    // Double Cluster NGC 869/884 (RA in hours → deg)
+      [4, 32.255, 15.920, 't-cluster'],   // Hyades
+      [5, 14.180, -61.182, 't-cluster']   // Jewel Box NGC 4755
     ],
     stars: [
-      [0, 16.33, 16.49, 't-star'], [1, 27.93, 38.78, 't-star'],
-      [2, 14.92, 7.41, 't-star'], [3, 6.91, -8.20, 't-star'],
-      [4, 24.75, -26.43, 't-star'], [5, 10.25, 5.24, 't-star']
+      [0, 93.972, -8.725, 't-star'],   // Sirius
+      [1, 279.234, 38.783, 't-star'],  // Vega
+      [2, 88.792, 9.806, 't-star'],    // Betelgeuse (approx)
+      [3, 78.634, -5.883, 't-star'],   // Rigel
+      [4, 319.145, 26.067, 't-star'],  // Arcturus
+      [5, 227.842, 45.987, 't-star'],  // Capella
+      [6, 187.638, -67.339, 't-star'], // Canopus (bonus)
+      [7, 41.280, 45.278, 't-star'],   // Polaris (bonus)
+      [8, 14.535, 38.683, 't-star'],   // Aldebaran (bonus)
+      [9, 171.356, -5.120, 't-star']   // Antares (bonus)
     ]
   };
 
@@ -41,9 +59,15 @@
   Object.keys(ENTRY).forEach(function (key) {
     ENTRY[key].forEach(function (e) {
       var entry = D[key][e[0]];
-      entry.ra = e[1]; entry.dec = e[2]; entry.catClass = e[3];
+      if (!entry) return;
+      // Convert RA hours to degrees
+      entry.ra = e[1] * 15;
+      entry.dec = e[2];
+      entry.catClass = e[3];
       entry.glow = PALETTE[e[3]];
-      entry.mapSize = Math.max(3, 9 - Math.log(10000) / Math.max(1, e[1]));
+      var visNum = parseFloat(entry.vis);
+      var magVal = isNaN(visNum) ? 9 : Math.min(9, Math.max(-2, visNum));
+      entry.mapSize = Math.max(6, 14 - magVal * 1.1);
     });
   });
 
@@ -53,10 +77,6 @@
       'Nebula': 'hsl(320,78%,80%)',
       'Cluster': 'hsl(160,66%,78%)',
       'Star': 'hsl(42,84%,78%)',
-      't-galaxy': 'hsl(228,72%,82%)',
-      't-nebula': 'hsl(320,78%,80%)',
-      't-cluster': 'hsl(160,66%,78%)',
-      't-star': 'hsl(42,84%,78%)',
       grid: 'rgba(120,160,255,0.16)',
       gridText: 'rgba(150,180,230,0.65)',
       line: 'rgba(140,170,230,0.32)'

@@ -87,8 +87,21 @@ window.STAR_DATA = {
     { name: 'Arcturus', desig: 'α Boo', type: 'Star', cat: 'G1.5 III · giant', const: 'Boötes', vis: '−0.05', dist: '37 ly', size: '~25 R☉',
       blurb: 'The brightest star of the northern hemisphere, a warm orange giant drifting through the halo.',
       long: 'Arcturus is the brightest star in the northern sky at magnitude −0.05, a warm orange K-type giant about 25× the Sun’s diameter. It is a halo star, moving through the galaxy on a path very different from most of its neighbors, and is one of the nearest giant stars. It has a deep orange color and is very visible in spring and early summer.' },
-    { name: 'Capella', desig: 'α Aur', type: 'Star', cat: 'G8 III + G1 III', const: 'Auriga', vis: '0.08', dist: '43 ly', size: '~12 R☉',
-      blurb: 'The great yellow star of the northern winter, actually a closely bound pair of orange giants.',
-      long: 'Capella is a visual binary of two close giant stars, one slightly more yellow than the other, giving it a warm, golden appearance. It is the sixth-brightest star in the sky and the brightest in Auriga. Its two components are very close together, separated by only ~110 million km, and orbit each other with a period of ~1,040 days.' }
+   { name: 'Capella', desig: 'α Aur', type: 'Star', cat: 'G8 III + G1 III', const: 'Auriga', vis: '0.08', dist: '43 ly', size: '~12 R☉',
+       blurb: 'The great yellow star of the northern winter, actually a closely bound pair of orange giants.',
+       long: 'Capella is a visual binary of two close giant stars, one slightly more yellow than the other, giving it a warm, golden appearance. It is the sixth-brightest star in the sky and the brightest in Auriga. Its two components are very close together, separated by only ~110 million km, and orbit each other with a period of ~1,040 days.' },
+   { name: 'Canopus', desig: 'α Car', type: 'Star', cat: 'A9 II · supergiant', const: 'Carina', vis: '-0.74', dist: '310 ly', size: '~71 R☉',
+       blurb: 'The second-brightest star in the night sky — a brilliant white supergiant only visible from the southern hemisphere.',
+       long: 'Canopus outshines all stars except Sirius, though it sits far enough south that most northern observers never see it. It is an F-type bright giant, roughly 10,000 K and thousands of times more luminous than the Sun. Its steady brilliance has made it a navigation beacon for mariners for centuries.' },
+   { name: 'Polaris', desig: 'α UMi', type: 'Star', cat: 'F7 Ib · supergiant', const: 'Ursa Minor', vis: '1.98', dist: '323 ly', size: '~37 R☉',
+       blurb: 'The North Star — a yellow-white supernova candidate that marks the celestial north pole.',
+       long: 'Polaris sits within half a degree of the north celestial pole, making it the closest bright star to that point. It is actually a triple system: the primary is a Cepheid variable, pulsing with a period of about 4 days between magnitudes 1.86 and 2.13. Its proximity to the pole makes it an invaluable navigational marker.' },
+   { name: 'Aldebaran', desig: 'α Tau', type: 'Star', cat: 'K5 III · giant', const: 'Taurus', vis: '0.85', dist: '65 ly', size: '~44 R☉',
+       blurb: 'The golden eye of Taurus — an orange giant star and the brightest in the constellation.',
+       long: 'Aldebaran is a warm orange giant, about 44 times the Sun\'s radius. It sits at the heart of the Hyades cluster but is not actually a member — it lies between us and the cluster at only 65 light-years vs their 153 ly distance. Despite this foreground position, its intrinsic luminosity makes it one of the brightest stars in the sky.' },
+   { name: 'Antares', desig: 'α Sco', type: 'Star', cat: 'M1.5 Iab + B · supergiant', const: 'Scorpius', vis: '1.06', dist: '550 ly', size: '~680 R☉',
+       blurb: 'The red heart of Scorpius — a volatile red supergiant whose name means "rival of Mars."',
+       long: 'Antares is one of the largest visible stars, with a radius roughly 700 times that of the Sun. It is a spectroscopic binary with a hot B-type companion, though teasing apart the two requires a good telescope and steady atmosphere. Its deep red color contrasts beautifully with its bluish-white companion when they can be separated.' }
   ]
+
 };

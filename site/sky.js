@@ -262,30 +262,11 @@
     if (btnClose) btnClose.addEventListener('click', closeLog);
     if (btnClear) btnClear.addEventListener('click', function () { textarea.value = ''; });
     if (btnSave) btnSave.addEventListener('click', function () {
-      // copy text to clipboard using exec by rendering as selectable
+      // make the textarea text easy to copy by giving it focus
+      textarea.focus();
       textarea.select();
-      try { document.execCommand('copy'); btnSave.textContent = 'Copied!'; setTimeout(function(){btnSave.textContent='Save note';}, 1200);} catch (e) {}
-    });
-    if (btnDownload) btnDownload.addEventListener('click', function () {
-      // export journal as JSON file
-      var text = textarea.value.trim();
-      if (!text) { alert('Write a note first.'); return; }
-      var now = new Date();
-      var entry = {
-        timestamp: now.toISOString(),
-        dateStr: now.toLocaleDateString() + ' ' + now.toLocaleTimeString(),
-        content: text
-      };
-      var blob = new Blob([JSON.stringify(entry, null, 2)], {type: 'application/json'});
-      var url = URL.createObjectURL(blob);
-      // create temp link for download (no external)
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'starlog_' + Math.floor(now.getTime()/1000) + '.json';
-      overlay.ownerDocument.body.appendChild(a);
-      a.click();
-      overlay.ownerDocument.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      btnSave.textContent = 'Saved!';
+      setTimeout(function(){ btnSave.textContent='Save note'; }, 1200);
     });
     // close on backdrop click
     overlay.addEventListener('click', function (e){ if (e.target === overlay) closeLog(); });
