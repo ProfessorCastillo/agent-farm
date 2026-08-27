@@ -1,0 +1,39 @@
+{
+  "accepted": false,
+  "after": {
+    "file_count": 13,
+    "total_bytes": 99734,
+    "tree_sha256": "f9c1f71511dfb85b02762ceba9db69e8f88cd8c316939baebea1ab2c1cf680a6"
+  },
+  "before": {
+    "file_count": 13,
+    "total_bytes": 99656,
+    "tree_sha256": "b643ee783ba4f04ebe5334fda12e28f3d487213fe98f60e7c93ad61be1b2f478"
+  },
+  "changed_file_count": 4,
+  "duration_seconds": 198.618,
+  "epoch": 2,
+  "epoch_position": 6,
+  "epoch_seed": 8277020293884200813,
+  "finished_at": "2026-08-27T13:11:03+00:00",
+  "main_commit": null,
+  "model": "ollama/gemma4:26b",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-27T13:11:03+00:00",
+  "returncode": 0,
+  "run_id": "20260827T130744Z-548fc78b",
+  "schema_version": 2,
+  "started_at": "2026-08-27T13:07:44+00:00",
+  "status": "rejected",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 13,
+    "checked_pages": 0,
+    "ok": false,
+    "screenshot_count": 0,
+    "static_error_count": 1,
+    "total_bytes": 99734
+  }
+}
