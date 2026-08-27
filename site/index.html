@@ -11,44 +11,231 @@
     <style>
       :root {
         --bg: #0b0c0c;
+        --bg2: #14101c;
         --fg: #e7e5de;
-        --muted: #6a6a6a;
+        --muted: #8b8a83;
         --accent: #ff6b6b;
         --accent2: #ff8c42;
         --size: 16px;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif; font-variation-settings: "wght" 400; background-variant: local; }
-      body { background: var(--bg); color: var(--fg); min-height: 100vh; line-height: 1.6; padding: 1rem; }
-      main { max-width: 42rem; margin: 0 auto; }
-      h1 { font-size: calc(1.8rem + 1vw); margin-bottom: 1rem; font-weight: 600; letter-spacing: -0.02em; }
-      p { color: var(--muted); margin-bottom: 2rem; font-size: var(--size); }
-      .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--muted); }
+      html, body { height: 100%; }
+      body {
+        font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+        font-variation-settings: "wght" 400;
+        background: var(--bg);
+        color: var(--fg);
+        min-height: 100vh;
+        line-height: 1.6;
+        overflow: hidden;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        touch-action: none;
+      }
+      .stage {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 1rem 8rem;
+        text-align: center;
+      }
+      main { max-width: 42rem; }
+      h1 {
+        font-size: calc(1.8rem + 1vw);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .tagline { color: var(--muted); font-size: var(--size); margin-bottom: 2rem; }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(2px);
+      }
       .stat { text-align: center; }
-      .stat-value { font-family: ui-monospace, Menlo, Monaco, "Courier New", monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-      .stat-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
-      canvas { display: block; width: 100%; height: calc(100vh - 2rem); }
+      .stat-value {
+        font-family: ui-monospace, Menlo, Monaco, "Courier New", monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .stat-label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; }
+
+      .toolbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 0.85rem 1rem 1rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+        pointer-events: none;
+      }
+      .group {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        pointer-events: auto;
+        background: rgba(0,0,0,0.35);
+        padding: 0.35rem 0.4rem;
+        border-radius: 12px;
+      }
+      .group-legend {
+        font-family: ui-monospace, Menlo, Monaco, "Courier New", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding-right: 0.25rem;
+      }
+      button {
+        font-family: inherit;
+        font-size: 0.8rem;
+        color: var(--fg);
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0.4rem 0.7rem;
+        cursor: pointer;
+        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      }
+      button:hover { background: rgba(255,255,255,0.07); }
+      button[aria-pressed="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(255,255,255,0.08);
+      }
+      button.hint { padding: 0.4rem 0.55rem; font-size: 1rem; line-height: 1; }
+      button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+      @media (max-width: 620px) {
+        .group-legend { display: none; }
+        button { padding: 0.5rem 0.6rem; }
+      }
     </style>
   </head>
   <body>
-    <main>
-      <h1>gradient drift</h1>
-      <p>move your mouse to disturb the particles</p>
-      <div class="stats">
-        <div class="stat"><div class="stat-value" id="count">0</div><div class="stat-label">particles</div></div>
-        <div class="stat"><div class="stat-value" id="peak">0</div><div class="stat-label">peak count</div></div>
+    <canvas id="stage"></canvas>
+    <div class="stage">
+      <main>
+        <h1 id="headline">gradient drift</h1>
+        <p class="tagline" id="hint">move your pointer to nudge the particles</p>
+        <div class="stats">
+          <div class="stat"><div class="stat-value" id="count">0</div><div class="stat-label">particles</div></div>
+          <div class="stat"><div class="stat-value" id="peak">0</div><div class="stat-label">peak count</div></div>
+          <div class="stat"><div class="stat-value" id="fps">0</div><div class="stat-label">frames/sec</div></div>
+        </div>
+      </main>
+    </div>
+    <nav class="toolbar" aria-label="Controls">
+      <div class="group">
+        <span class="group-legend">Theme</span>
+        <button class="theme-btn" data-theme="drift" aria-pressed="true">Drift</button>
+        <button class="theme-btn" data-theme="aurora" aria-pressed="false">Aurora</button>
+        <button class="theme-btn" data-theme="bloom" aria-pressed="false">Bloom</button>
+        <button class="theme-btn" data-theme="embers" aria-pressed="false">Embers</button>
+        <button class="theme-btn" data-theme="ocean" aria-pressed="false">Ocean</button>
       </div>
-    </main>
+      <div class="group">
+        <span class="group-legend">Gravity</span>
+        <button class="grav-btn" data-mode="attract" aria-pressed="true">Attract</button>
+        <button class="grav-btn" data-mode="repel" aria-pressed="false">Repel</button>
+      </div>
+      <div class="group">
+        <span class="group-legend">Density</span>
+        <button class="density-btn hint" id="densityMinus" aria-label="Reduce particle count">−</button>
+        <button class="density-btn" id="densityValue" aria-label="Particle count" disabled>80</button>
+        <button class="density-btn hint" id="densityPlus" aria-label="Increase particle count">+</button>
+      </div>
+    </nav>
     <script>
       (() => {
-        const canvas = document.createElement('canvas');
-        const main = document.querySelector('main');
-        main.appendChild(canvas);
+        const THEMES = {
+          drift: {
+            name: 'gradient drift',
+            hint: 'move your pointer to nudge the particles',
+            bg0: '#0b0c0c', bg1: '#14101c',
+            hsl: [300, 60], trailRgba: 'rgba(11, 12, 12, 0.14)',
+            accent: '#ff6b6b', accent2: '#ff8c42'
+          },
+          aurora: {
+            name: 'aurora',
+            hint: 'wave your pointer to stir the northern lights',
+            bg0: '#05100e', bg1: '#071c1a',
+            hsl: [150, 140], trailRgba: 'rgba(5, 18, 15, 0.15)',
+            accent: '#4ade80', accent2: '#22d3ee'
+          },
+          bloom: {
+            name: 'bloom',
+            hint: 'reach for your pointer among the petals',
+            bg0: '#130a14', bg1: '#1f0f1c',
+            hsl: [320, 60], trailRgba: 'rgba(19, 10, 20, 0.15)',
+            accent: '#f472b6', accent2: '#c084fc'
+          },
+          embers: {
+            name: 'embers',
+            hint: 'brush the sparks like a warm coal',
+            bg0: '#120806', bg1: '#1c0f06',
+            hsl: [0, 40], trailRgba: 'rgba(18, 8, 6, 0.15)',
+            accent: '#ff6b6b', accent2: '#ffb703'
+          },
+          ocean: {
+            name: 'ocean deep',
+            hint: 'drift through tides beneath the surface',
+            bg0: '#04111c', bg1: '#061b2a',
+            hsl: [190, 60], trailRgba: 'rgba(3, 12, 20, 0.16)',
+            accent: '#38bdf8', accent2: '#818cf8'
+          }
+        };
+
+        const MIN_particles = 10;
+        const MAX_particles = 400;
+        const STEP = 20;
+
+        const canvas = document.getElementById('stage');
         const ctx = canvas.getContext('2d');
+        const root = document.documentElement;
+
         let particles = [];
         let animationId = null;
         let pointer = { x: null, y: null };
         let peakCount = 0;
+        let gravity = 'attract';
+        let density = 80;
+        let theme = THEMES.drift;
+
+        function setTheme(key) {
+          theme = THEMES[key];
+          root.style.setProperty('--bg', theme.bg0);
+          root.style.setProperty('--bg2', theme.bg1);
+          root.style.setProperty('--accent', theme.accent);
+          root.style.setProperty('--accent2', theme.accent2);
+          document.getElementById('headline').textContent = theme.name;
+          document.getElementById('hint').textContent = theme.hint;
+          document.body.style.background = theme.bg0;
+          document.querySelectorAll('.theme-btn').forEach(b =>
+            b.setAttribute('aria-pressed', String(b.dataset.theme === key)));
+        }
 
         function resize() {
           canvas.width = canvas.offsetWidth;
@@ -57,85 +244,144 @@
         resize();
         window.addEventListener('resize', resize);
 
-        class Particle {
-          constructor() {
-            this.reset();
-          }
-          reset() {
-            this.x = canvas.width / 2;
-            this.y = canvas.height / 2;
-            this.vx = (Math.random() - 0.5) * 2;
-            this.vy = (Math.random() - 0.5) * 2;
-            this.radius = Math.max(1, Math.random() * 2);
-            this.color = `hsl(${Math.random() * 60 + 300}, 70%, 65%)`;
-            this.friction = 0.99;
-          }
-          update() {
-            if (pointer.x != null && pointer.y != null) {
-              const dx = pointer.x - this.x;
-              const dy = pointer.y - this.y;
-              const dist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
-              const force = Math.max(0.01, 3 / dist);
-              this.vx += dx * force;
-              this.vy += dy * force;
-            }
-            this.vx *= this.friction;
-            this.vy *= this.friction;
-            this.x += this.vx;
-            this.y += this.vy;
-
-            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-              this.reset();
-            }
-          }
-          draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, Math.max(0.5, this.radius), 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-          }
+        function createParticle() {
+          const h = Math.random();
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 0.6;
+          return {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: Math.max(1, Math.random() * 2.4),
+            color: `hsl(${theme.hsl[0] + h * theme.hsl[1]}, 70%, ${58 + h * 12}%)`,
+            friction: 0.975
+          };
         }
 
         function initParticles(n) {
           particles = [];
-          for (let i = 0; i < n; i++) {
-            particles.push(new Particle());
-          }
+          for (let i = 0; i < n; i++) particles.push(createParticle());
+          if (particles.length > peakCount) peakCount = particles.length;
         }
 
-        function animate() {
-          ctx.fillStyle = 'rgba(11, 12, 12, 0.15)';
+        function update() {
+          const trail = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          trail.addColorStop(0, theme.bg0);
+          trail.addColorStop(1, theme.bg1);
+          ctx.fillStyle = trail;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          particles.forEach(p => {
-            p.update();
-            p.draw();
-          });
+          const gx = pointer.x, gy = pointer.y;
+          for (const p of particles) {
+            if (gx != null && gy != null) {
+              const dx = gx - p.x;
+              const dy = gy - p.y;
+              const dist = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+              const sign = gravity === 'attract' ? 1 : -1;
+              const force = sign * Math.max(0.01, 3.2 / dist);
+              p.vx += dx * force;
+              p.vy += dy * force;
+            }
+            p.vx *= p.friction;
+            p.vy *= p.friction;
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < -20 || p.x > canvas.width + 20 || p.y < -20 || p.y > canvas.height + 20) {
+              const c = createParticle();
+              p.x = c.x; p.y = c.y;
+              p.vx = c.vx; p.vy = c.vy;
+              p.color = c.color;
+            }
+          }
+
+          ctx.globalCompositeOperation = 'lighter';
+          for (const p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, Math.max(0.5, p.radius), 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+          }
+          ctx.globalCompositeOperation = 'source-over';
+        }
+
+        let fpsAccum = 0;
+        let fpsFrames = 0;
+        let fpsLast = performance.now();
+
+        function animate() {
+          update();
 
           const countEl = document.getElementById('count');
           const peakEl = document.getElementById('peak');
+          const fpsEl = document.getElementById('fps');
           countEl.textContent = particles.length;
           if (particles.length > peakCount) {
             peakCount = particles.length;
             peakEl.textContent = peakCount;
           }
 
+          fpsFrames++;
+          const now = performance.now();
+          if (now - fpsLast >= 500) {
+            fpsAccum = Math.round((fpsFrames * 1000) / (now - fpsLast));
+            fpsFrames = 0;
+            fpsLast = now;
+            fpsEl.textContent = fpsAccum;
+          }
+
           animationId = requestAnimationFrame(animate);
         }
 
-        initParticles(80);
-        animate();
-
-        canvas.addEventListener('mousemove', (e) => {
+        function positionFromEvent(e) {
           const rect = canvas.getBoundingClientRect();
           pointer.x = e.clientX - rect.left;
           pointer.y = e.clientY - rect.top;
+        }
+
+        canvas.addEventListener('pointermove', positionFromEvent);
+        canvas.addEventListener('pointerleave', () => { pointer.x = null; pointer.y = null; });
+        canvas.addEventListener('pointercancel', () => { pointer.x = null; pointer.y = null; });
+        canvas.addEventListener('touchstart', (e) => {
+          if (e.touches && e.touches[0]) positionFromEvent(e.touches[0]);
+        }, { passive: true });
+
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+          btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+        });
+        document.querySelectorAll('.grav-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            gravity = btn.dataset.mode;
+            document.querySelectorAll('.grav-btn').forEach(b =>
+              b.setAttribute('aria-pressed', String(b.dataset.mode === gravity)));
+          });
         });
 
-        canvas.addEventListener('mouseleave', () => {
-          pointer.x = null;
-          pointer.y = null;
+        const densityValueBtn = document.getElementById('densityValue');
+        document.getElementById('densityMinus').addEventListener('click', () => {
+          const next = Math.max(MIN_particles, density - STEP);
+          density = next;
+          densityValueBtn.textContent = density;
+          initParticles(density);
         });
+        document.getElementById('densityPlus').addEventListener('click', () => {
+          const next = Math.min(MAX_particles, density + STEP);
+          density = next;
+          densityValueBtn.textContent = density;
+          initParticles(density);
+        });
+
+        if (window.matchMedia) {
+          window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+            for (const p of particles) { p.friction = e.matches ? 0.9 : 0.975; }
+          });
+        }
+
+        setTheme('drift');
+        densityValueBtn.textContent = density;
+        initParticles(density);
+        animate();
       })();
     </script>
   </body>
