@@ -1,5 +1,5 @@
 // Constellation drawings for Observatio.
-// Each constellation is drawn as inline SVG showing its traditional star pattern.
+// Each constellation is drawn on a canvas showing its traditional star pattern.
 // Stars are sized by brightness; lines connect recognized shapes.
 
 (function () {
@@ -149,35 +149,46 @@
     }
   ];
 
-  function svgOf(c) {
-    var parts = [];
-    var viewBox = c.viewBox || '0 0 120 120';
-    parts.push('<svg class="constellation-svg" viewBox="' + viewBox + '" xmlns="http://www.w3.org/2000/svg">');
+  function drawConstellation(canvasId, c) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var scale = 2;
+    canvas.width = 120 * scale;
+    canvas.height = 120 * scale;
+    ctx.scale(scale, scale);
 
     if (c.lines) {
+      ctx.beginPath();
+      ctx.strokeStyle = c.color;
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = 0.8;
       for (var i = 0; i < c.lines.length; i++) {
         var first = c.stars[c.lines[i][0]];
         var second = c.stars[c.lines[i][1]];
-        parts.push('<line x1="' + first.x + '" y1="' + first.y + '" x2="' + second.x + '" y2="' + second.y + '" stroke="' + c.color + '" stroke-width="0.8" opacity="0.35"/>');
+        ctx.moveTo(first.x, first.y);
+        ctx.lineTo(second.x, second.y);
       }
+      ctx.stroke();
     }
 
+    ctx.globalAlpha = 0.9;
+    ctx.fillStyle = c.color;
     for (var j = 0; j < c.stars.length; j++) {
       var star = c.stars[j];
-      parts.push('<circle cx="' + star.x + '" cy="' + star.y + '" r="2.5" fill="' + c.color + '" opacity="0.9"/>');
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
     }
-
-    parts.push('</svg>');
-    return parts.join('');
   }
 
-  function cardHTML(c) {
+  function cardHTML(c, i) {
     var objects = [];
     for (var k = 0; k < c.objects.length; k++) {
       objects.push('<li>' + c.objects[k] + '</li>');
     }
     return '<div class="constellation-card">' +
-      svgOf(c) +
+      '<canvas id="const-canvas-' + i + '" style="width:100%; max-width:18rem; height:auto; display:block; margin:0 auto;"></canvas>' +
       '<h3 style="color:' + c.color + '">' + c.name + '</h3>' +
       '<p class="lede" style="margin-top:0.25rem">' + c.subtitle + '</p>' +
       '<p class="cat-text">Notable objects:</p>' +
@@ -187,8 +198,12 @@
 
   var out = [];
   for (var m = 0; m < CONSTELLATIONS.length; m++) {
-    out.push(cardHTML(CONSTELLATIONS[m]));
+    out.push(cardHTML(CONSTELLATIONS[m], m));
   }
   grid.innerHTML = out.join('');
+
+  for (var n = 0; n < CONSTELLATIONS.length; n++) {
+    drawConstellation('const-canvas-' + n, CONSTELLATIONS[n]);
+  }
 
 })();
