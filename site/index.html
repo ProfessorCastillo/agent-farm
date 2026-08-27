@@ -8,10 +8,7 @@
   <title>Observatio — Night-Sky Almanac</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="observatory"><style>
-.hero {position: relative; z-index: 1; padding:2rem 1.4rem; text-align:center; color:var(--fg); background:rgba(12,10,8,0.6); border-radius:12px; margin:2rem 0; }
-.hero h1{font-size:clamp(2.2rem,5vw,4rem); font-weight:700; margin:0 0 .5rem; color:var(--accent);}
-.hero .lede{font-size:1rem; max-width:48rem; margin-inline:auto; line-height:1.6;}</style><section class="hero"><h1>Explore the Cosmos</h1><p class="lede">An offline almanac of night-sky wonders. Drag the stars, discover constellations, keep a personal log.</p></section>
+<body class="observatory">
   <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
   <canvas id="trails" class="hidden" aria-hidden="true"></canvas>
   <div class="ui">

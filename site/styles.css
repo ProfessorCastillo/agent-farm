@@ -329,8 +329,8 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: fle
 .trail-label b { color: var(--accent); font-weight: 600; }
 
 /* constellation cards */
-.constellation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap 1.5rem; margin-top: 0.8rem; }
-.constellation-card { border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap 1rem; transition: border-color 0.2s, transform 0.2s; }
+.constellation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 1.5rem; margin-top: 0.8rem; }
+.constellation-card { border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; transition: border-color 0.2s, transform 0.2s; }
 .constellation-card:hover { border-color: rgba(255, 255, 255, 0.18); transform: translateY(-3px); }
 .constellation-svg { width: 100%; max-width: 18rem; height: auto; display: block; margin: 0 auto; }
 .cat-text { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-top: 0.5rem; }
