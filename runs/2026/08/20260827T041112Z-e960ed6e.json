@@ -1,0 +1,39 @@
+{
+  "accepted": false,
+  "after": {
+    "file_count": 5,
+    "total_bytes": 8082,
+    "tree_sha256": "b45e2e0a89aed7eb44f4f31ee7b0188f1f14538a4ae6a43c90cfd2311f79c437"
+  },
+  "before": {
+    "file_count": 1,
+    "total_bytes": 1166,
+    "tree_sha256": "63ad6f9bdedf66e1975209f5608f6fd23de13a36e28e252e63607de8cb322cd2"
+  },
+  "changed_file_count": 5,
+  "duration_seconds": 276.988,
+  "epoch": 1,
+  "epoch_position": 1,
+  "epoch_seed": 2834596822515000306,
+  "finished_at": "2026-08-27T04:15:49+00:00",
+  "main_commit": null,
+  "model": "ollama/muse-glimmer:30b",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-27T04:15:49+00:00",
+  "returncode": 0,
+  "run_id": "20260827T041112Z-e960ed6e",
+  "schema_version": 2,
+  "started_at": "2026-08-27T04:11:12+00:00",
+  "status": "rejected",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 5,
+    "checked_pages": 0,
+    "ok": false,
+    "screenshot_count": 0,
+    "static_error_count": 1,
+    "total_bytes": 8082
+  }
+}
