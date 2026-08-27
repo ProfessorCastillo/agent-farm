@@ -1,0 +1,362 @@
+{
+  "galaxies": [
+    {
+      "name": "Andromeda",
+      "desig": "Messier 31 / NGC 224",
+      "type": "Galaxy",
+      "cat": "SA(a)b",
+      "const": "Andromeda",
+      "vis": "3.4 mag",
+      "dist": "2.5 million ly",
+      "size": "220,000 ly",
+      "blurb": "The largest of our Local Group; on any clear night its light already left before the Earth was cool.",
+      "long": "Andromeda spans roughly 220,000 light-years and will merge with the Milky Way in some four billion years. Its faint halo of globular clusters is resolvable in 8-inch and larger telescopes, and the dust lanes that cross its disk are visible even in small instruments. It remains the farthest object the unaided eye can reach."
+    },
+    {
+      "name": "Whirlpool",
+      "desig": "Messier 51 / NGC 5194",
+      "type": "Galaxy",
+      "cat": "SAB(rs)b",
+      "const": "Canes Venatici",
+      "vis": "8.4 mag",
+      "dist": "23 million ly",
+      "size": "49,000 ly",
+      "blurb": "Two galaxies locked in a slow, tidal spiral — the cleanest grand-design face in the sky.",
+      "long": "The Whirlpool is caught mid-embrace with its companion NGC 5195, whose gravity is lifting the famous dust lanes out of the disk. The spiral structure is so regular that it inspired early ideas of barred structure, and the system is a textbook example of how tidal bridges feed the central bars of spirals."
+    },
+    {
+      "name": "Sombrero",
+      "desig": "Messier 104 / NGC 4594",
+      "type": "Galaxy",
+      "cat": "SA(s)a",
+      "const": "Virgo",
+      "vis": "8.0 mag",
+      "dist": "29.3 million ly",
+      "size": "150,000 ly",
+      "blurb": "A bright bulge rimmed by a razor's edge of dust — a brimmed hat in deep space.",
+      "long": "Seen nearly edge-on, the Sombrero's enormous central bulge is surrounded by a dark dust lane that gives it its name. Its halo of red supergiant stars has been used to measure the local dark-matter distribution, and the dense core hosts one of the most active galactic nuclei in the nearby universe."
+    },
+    {
+      "name": "Pinwheel",
+      "desig": "Messier 101 / NGC 5457",
+      "type": "Galaxy",
+      "cat": "S(cd)bc",
+      "const": "Ursa Major",
+      "vis": "7.9 mag",
+      "dist": "21 million ly",
+      "size": "170,000 ly",
+      "blurb": "A face-on pinwheel of bright young stars, wide open and rotating in the slow direction.",
+      "long": "Face-on like a coin held up to the light, the Pinwheel shows its full spiral structure and a rich treasury of H II regions — over 2,000 have been catalogued in its arms. It is the brightest member of its own galaxy group, and its rotation curve was among the early pieces of evidence for extended dark halos."
+    },
+    {
+      "name": "Bode's Galaxy",
+      "desig": "Messier 81 / NGC 3031",
+      "type": "Galaxy",
+      "cat": "SA(s)c",
+      "const": "Ursa Major",
+      "vis": "6.9 mag",
+      "dist": "12 million ly",
+      "size": "147,000 ly",
+      "blurb": "A showpiece grand-design spiral, easy to find beside the greater galaxy of the north.",
+      "long": "The second-brightest spiral in the sky, Bode's Galaxy hosts dozens of star-forming regions and the supernova of 1885, its last known stellar explosion. It and the nearby companion M82 together form a small pair studied for how the two galaxies exchange gas through the space between them."
+    },
+    {
+      "name": "Cigar Galaxy",
+      "desig": "Messier 82 / NGC 3034",
+      "type": "Galaxy",
+      "cat": "S0",
+      "const": "Ursa Major",
+      "vis": "8.4 mag",
+      "dist": "12 million ly",
+      "size": "92,000 ly",
+      "blurb": "A starburst giant shooting jets of gas straight out of its disk like twin fountains.",
+      "long": "The Cigar forms a gravitational pair with Bode's Galaxy and shows intense star formation that has expelled huge outflows of gas far above and below its disk. It is one of the most infrared-bright nearby galaxies, and its central region is packed with massive, short-lived stars."
+    },
+    {
+      "name": "Triangulum",
+      "desig": "Messier 33 / NGC 598",
+      "type": "Galaxy",
+      "cat": "SA(s)cd",
+      "const": "Andromeda",
+      "vis": "5.7 mag",
+      "dist": "2.73 million ly",
+      "size": "57,000 ly",
+      "blurb": "The third great galaxy of our Local Group, spread thin across a wide patch of winter sky.",
+      "long": "Though it is the closest major spiral to us, its low surface brightness makes it one of the trickiest to see. Its disk is laced with thousands of H II regions and it hosts about fifty globular clusters. The star-forming region NGC 604 is among the most powerful in the Local Group."
+    },
+    {
+      "name": "Lady's Hairpin",
+      "desig": "Messier 100",
+      "type": "Galaxy",
+      "cat": "SABcd",
+      "const": "Coma Berenices",
+      "vis": "9.3 mag",
+      "dist": "55 million ly",
+      "size": "110,000 ly",
+      "blurb": "A barred spiral with long, sweeping arms in the rich Virgo–Coma boundary region.",
+      "long": "The Hairpin shows an inner barred spiral and looser outer arms, with a core that hosts a low-luminosity active nucleus. It is a member of the Virgo Cluster fringe and has been used as a standard case for studying how bars drive gas toward galactic centers."
+    },
+    {
+      "name": "Island Universe",
+      "desig": "Messier 87 / Virgo A",
+      "type": "Galaxy",
+      "cat": "E0",
+      "const": "Virgo",
+      "vis": "8.6 mag",
+      "dist": "53.5 million ly",
+      "size": "280,000 ly",
+      "blurb": "An enormous elliptical holding the heaviest known black hole in the Virgo Cluster.",
+      "long": "M87 anchors the Virgo Cluster and hosts a supermassive black hole of about 6.5 billion solar masses — the first black hole ever directly imaged by an event horizon-scale interferometer. Its famous relativistic jet and a diffuse halo of stars make it a benchmark for galaxy formation models."
+    }
+  ],
+  "nebulae": [
+    {
+      "name": "Orion Nebula",
+      "desig": "Messier 42",
+      "type": "Nebula",
+      "cat": "H II region",
+      "const": "Orion",
+      "vis": "4.0 mag",
+      "dist": "1,344 ly",
+      "size": "24 ly",
+      "blurb": "The closest massive stellar nursery — a vast glowing cloud of hydrogen around the Trapezium stars.",
+      "long": "M42 is the brightest diffuse nebula in the sky and a natural first deep-sky target. Its four Trapezium members ionize the surrounding gas, and the whole region is a cradle of a few hundred young stars embedded in dust streams. Even small telescopes resolve its butterfly wings; larger apertures reveal the dark Fish's Mouth dust lane."
+    },
+    {
+      "name": "Ring Nebula",
+      "desig": "Messier 57",
+      "type": "Nebula",
+      "cat": "Planetary nebula",
+      "const": "Lyra",
+      "vis": "8.8 mag",
+      "dist": "2,283 ly",
+      "size": "1.3 ly",
+      "blurb": "A glowing smoke ring: the puffed-off outer layers of a sun-like star, drifting apart at 20 km/s.",
+      "long": "The Ring of Lyra is a textbook planetary nebula — the ejected envelope of a dying star whose hot white-dwarf core still ionizes the gas. Its roughly elliptical tube shape only looks circular because we sight down its axis, and its central star is among the brightest known planetary-nebula cores."
+    },
+    {
+      "name": "Eagle Nebula",
+      "desig": "Messier 16",
+      "type": "Nebula",
+      "cat": "H II region",
+      "const": "Serpens",
+      "vis": "6.0 mag",
+      "dist": "7,000 ly",
+      "size": "70 ly",
+      "blurb": "Home of the Pillars of Creation — towering walls of gas and dust sculpted by young stars.",
+      "long": "The Eagle hosts a young star cluster embedded in a 70-light-year region of glowing hydrogen. The famous pillars are dense clumps of molecular gas, a few light-years tall, in which new stars are forming right now at their tips. The surrounding field shows a rich contrast between glowing emission gas and dark, opaque dust."
+    },
+    {
+      "name": "Horsehead Nebula",
+      "desig": "Barnard 33",
+      "type": "Nebula",
+      "cat": "Dark nebula",
+      "const": "Orion",
+      "vis": "n/a",
+      "dist": "1,375 ly",
+      "size": "35 ly",
+      "blurb": "A self-portrait of interstellar dust: the shape is a silhouette, not light.",
+      "long": "The Horsehead is a dark nebula — a cold pillar of dust that merely blocks the glow of the glowing Orion Nebula behind it. It sits just south of the Flame Nebula in Orion's sword. Because it is a silhouette, its brightness is only a few magnitudes below the background, so it demands a steady target and a dark, transparent night."
+    },
+    {
+      "name": "Lagoon Nebula",
+      "desig": "Messier 8",
+      "type": "Nebula",
+      "cat": "H II region",
+      "const": "Sagittarius",
+      "vis": "6.0 mag",
+      "dist": "4,100 ly",
+      "size": "110 ly",
+      "blurb": "A massive nebula split by a dark bay — one of the largest star-forming regions in the sky.",
+      "long": "The Lagoon is a large, bright emission nebula bisected by a dark dust lane that gives it its name. It contains a rich young cluster and one of the densest star-forming cores in the nearby sky. It is one of the classic Milky Way targets of the summer, visible low in the southern sky from mid-latitudes."
+    },
+    {
+      "name": "Trifid Nebula",
+      "desig": "Messier 20",
+      "type": "Nebula",
+      "cat": "Emission + reflection",
+      "const": "Sagittarius",
+      "vis": "6.3 mag",
+      "dist": "5,200 ly",
+      "size": "25 ly",
+      "blurb": "Three wedges of red, blue, and dark gas cut by lanes of dust — a tricolour in one field.",
+      "long": "The Trifid shows all three main forms of nebula in a single small region: a blue reflection nebula reflecting starlight in dust, a red emission nebula of excited hydrogen, and a dark nebula slicing both. It is one of the most photogenic small objects in the sky and a benchmark for colour-rich narrowband imaging."
+    },
+    {
+      "name": "Dumbbell Nebula",
+      "desig": "Messier 27",
+      "type": "Nebula",
+      "cat": "Planetary nebula",
+      "const": "Vulpecula",
+      "vis": "7.5 mag",
+      "dist": "1,360 ly",
+      "size": "3.8 ly",
+      "blurb": "A luminous double ring — one of the brightest and widest planetary nebulae overhead.",
+      "long": "M27 is the face-on twin of the Ring Nebula: a large, bright elliptical shell of gas with a dense equatorial band. Because it spreads over roughly a quarter of a degree, it shows strong colour even in modest telescopes, and its central star is a runaway hot white dwarf that powers the whole display."
+    }
+  ],
+  "clusters": [
+    {
+      "name": "Pleiades",
+      "desig": "Messier 45 / The Seven Sisters",
+      "type": "Cluster",
+      "cat": "Open cluster",
+      "const": "Taurus",
+      "vis": "1.6 mag",
+      "dist": "444 ly",
+      "size": "17 ly",
+      "blurb": "A young, hot blue family wrapped in wisps of its own birth cloud.",
+      "long": "The Pleiades are about 100 million years old — babies in astronomical terms — dominated by blue A-type stars wrapped in the scattered remnants of the nebula they formed from. They are one of the closest open clusters and easily resolved by the eye on a clear night, with faint blue nebulosity visible to dark adapters."
+    },
+    {
+      "name": "Hercules Cluster",
+      "desig": "Messier 13",
+      "type": "Cluster",
+      "cat": "Globular cluster",
+      "const": "Hercules",
+      "vis": "5.8 mag",
+      "dist": "22,200 ly",
+      "size": "145 ly",
+      "blurb": "A ball of several hundred thousand ancient stars — one of the brightest in our halo of light.",
+      "long": "M13 is a classic globular cluster of 300,000+ stars, most of them ancient, bound in a sphere 145 light-years across. Its core is so dense that stars pass within a light-day of one another. It is a natural first globular to resolve, and its smooth halo is a reminder of the Milky Way's own ancient stars."
+    },
+    {
+      "name": "Beehive",
+      "desig": "Messier 44 / Praesepe",
+      "type": "Cluster",
+      "cat": "Open cluster",
+      "const": "Cancer",
+      "vis": "3.7 mag",
+      "dist": "580 ly",
+      "size": "130 ly",
+      "blurb": "A small, nearby cluster bright enough to be seen with the naked eye as a single smudge.",
+      "long": "The Beehive is one of the nearest open clusters and one of the brightest, easily resolved into dozens of sun-like stars in small telescopes. It lies in the middle of the Cancer–Leo field and was catalogued long before the modern observatory, being one of the first targets of naked-eye astronomy."
+    },
+    {
+      "name": "Double Cluster",
+      "desig": "NGC 869 / 884",
+      "type": "Cluster",
+      "cat": "Open cluster",
+      "const": "Perseus",
+      "vis": "3.8 mag",
+      "dist": "7,500 ly",
+      "size": "~100 ly",
+      "blurb": "Two young, bright open clusters side by side — a double shot of starlight in northern sky.",
+      "long": "The Double Cluster of Perseus is a paired set of young open clusters rich in bright blue supergiants. Together they spread across a field larger than a full moon, and in binoculars they fill most of the view. Their combined light makes them among the most eye-catching small telescopic objects of the northern hemisphere."
+    },
+    {
+      "name": "Hyades",
+      "desig": "Argo cluster of Taurus",
+      "type": "Cluster",
+      "cat": "Open cluster",
+      "const": "Taurus",
+      "vis": "n/a",
+      "dist": "150 ly",
+      "size": "~15 ly",
+      "blurb": "The closest star cluster to the Sun — the V of Taurus that the eye resolves into a handful of stars.",
+      "long": "The Hyades are the nearest star-forming cluster, a few magnitudes of the brightest stars of which are the visible 'face' of Taurus. Many of its stars are on the main sequence like the Sun, making the cluster a laboratory for measuring distances to nearby stars. The cluster also hosts the bright star Aldebaran as a line-of-sight background star."
+    },
+    {
+      "name": "Jewel Box",
+      "desig": "NGC 4755 / Messier 75",
+      "type": "Cluster",
+      "cat": "Open cluster",
+      "const": "Crux",
+      "vis": "4.3 mag",
+      "dist": "6,440 ly",
+      "size": "25 ly",
+      "blurb": "A compact jewel of red, white, blue, and orange stars in the Milky Way's heart.",
+      "long": "The Jewel Box is a small, dense open cluster whose brightest members span the full range of stellar colours — red supergiants, blue hot stars, and yellow giants among a tight field. It lies in the band of the Milky Way and is a favourite target of southern sky observers."
+    }
+  ],
+  "stars": [
+    {
+      "name": "Polaris",
+      "desig": "α UMi / the Pole Star",
+      "type": "Star",
+      "cat": "F-type supergiant",
+      "const": "Ursa Minor",
+      "vis": "1.98 mag",
+      "dist": "433 ly",
+      "size": "~5,000 R☉",
+      "blurb": "The pole star of our age — it holds the north of the sky near-stationary as the Earth turns.",
+      "long": "Polaris marks the direction of the celestial north pole. It is also one of the most studied Cepheid variable stars in the sky, and its variability has been used for thousands of years to check clocks. It lies about 4.5° above the true north pole, so its apparent circle is small but never zero."
+    },
+    {
+      "name": "Sirius",
+      "desig": "α CMa / the Dog Star",
+      "type": "Star",
+      "cat": "A1V + white-dwarf binary",
+      "const": "Canis Major",
+      "vis": "−1.46 mag",
+      "dist": "8.6 ly",
+      "size": "1.7 R☉",
+      "blurb": "The brightest light in the sky — a blue-white sun and a tiny dead white dwarf locked in a short orbit.",
+      "long": "Sirius is a close binary: a bright A-type main-sequence star with a faint white-dwarf companion 10× the density of a teaspoon, 20× the Sun's mass. The pair completes an orbit in about 50 years. Sirius is so bright that even in light-polluted cities it dominates the southern sky."
+    },
+    {
+      "name": "Betelgeuse",
+      "desig": "α Ori / the red shoulder of Orion",
+      "type": "Star",
+      "cat": "M-type red supergiant",
+      "const": "Orion",
+      "vis": "0.5 mag",
+      "dist": "548 ly",
+      "size": "~764 R☉",
+      "blurb": "One of the largest stars known — a red supergiant whose dim, swollen surface still fills half the solar system.",
+      "long": "Betelgeuse is a red supergiant that has already exhausted the hydrogen in its core. It is a pulsating variable whose brightness swings by about 0.4 magnitudes and whose radius is close to the orbit of Jupiter. It is a candidate for a Type II supernova — a stellar explosion a few million years away from now, but light-years of time from the present."
+    },
+    {
+      "name": "Vega",
+      "desig": "α Lyr / the lyre's brightest",
+      "type": "Star",
+      "cat": "A0V / rotationally oblate",
+      "const": "Lyra",
+      "vis": "0.03 mag",
+      "dist": "25.04 ly",
+      "size": "2.36 R☉",
+      "blurb": "The brightest star of the northern summer — a fast spin that visibly flattens its equator and bulges it out.",
+      "long": "Vega is one of the nearest bright stars and a standard for colour and brightness. It spins so fast — once in about 12.5 hours — that it is visibly flattened, with a cool, dim bulge at its equator. It will become the North Star again in about 13,700 years as the Earth's axis precesses."
+    },
+    {
+      "name": "Antares",
+      "desig": "α Sco / the rival of Mars",
+      "type": "Star",
+      "cat": "M-type red supergiant",
+      "const": "Scorpius",
+      "vis": "1.06 mag",
+      "dist": "550 ly",
+      "size": "~700 R☉",
+      "blurb": "The red heart of Scorpius — a swollen red supergiant whose dim glow sets off its neighbours.",
+      "long": "Antares marks the heart of the Scorpius cluster and one of the brightest red supergiants in the sky. It is a close binary with a blue companion star, and its red surface is so swollen that, if set in place of the Sun, it would reach well past the orbit of Mars. Its name, 'rival of Mars', comes from the colour of the two."
+    },
+    {
+      "name": "Rigel",
+      "desig": "β Ori / the blue foot of Orion",
+      "type": "Star",
+      "cat": "B-type blue supergiant",
+      "const": "Orion",
+      "vis": "0.13 mag",
+      "dist": "860 ly",
+      "size": "~78.7 R☉",
+      "blurb": "A brilliant blue-white supergiant, one of the most luminous stars we can see with the naked eye.",
+      "long": "Rigel is a blue supergiant that radiates more than 120,000 times the power of the Sun. It sits at the shoulder of Orion, the 'foot' of the hunter, and one of the first naked-eye stars a beginner identifies. Its colour and brightness make it an excellent target for testing the resolving power of small telescopes."
+    }
+  ],
+  "guide": {
+    "howTo": [
+      "Find a site with a low, unobstructed horizon on the side you want to face; even two or three degrees of sky open out helps.",
+      "Let your eyes darken for 20–30 minutes. A red headlamp is gentle on your night vision — avoid white light until you are done.",
+      "Start with the Moon, bright stars, and easy open clusters like the Pleiades or Beehive; build up to fainter nebulae only once you can identify the background stars you see.",
+      "For each target in the chart, note the constellation, then count in a few star-hops. The chart lists the type, distance, and brightest magnitude for every entry.",
+      "Record what you observe — sketch the pattern and note how many stars you can see, whether they form a cluster or appear alone, and any faint glow around them.",
+      "Log the date, start/end times, seeing and transparency, and the magnification of your eyepiece. Over a season, this log becomes your own star catalogue."
+    ],
+    "equipment": [
+      { "item": "Red-spectrum headlamp", "use": "Illuminates the sky without killing dark adaptation; use only red light while observing." },
+      { "item": "Star chart or planisphere", "use": "Printable star maps of the full sky that let you find a region by hand, not by guessing." },
+      { "item": "Binoculars 10×50 or 15×70", "use": "Cheap, wide-field glass, great for open clusters, the Moon, and double stars." },
+      { "item": "A comfortable chair or reclining deck chair", "use": "Observing is mostly stillness; a steady, comfortable base makes the session last longer." }
+    ]
+  }
+}
