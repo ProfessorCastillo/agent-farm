@@ -293,6 +293,10 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: blo
 .log-actions { display: flex; gap: 0.5rem; margin-top: 0.7rem; justify-content: flex-end; }
 
 /* star trails and night mode overlay */
+
+.hero {
+  margin-bottom: 2rem;
+}
 #trails {
   position: fixed;
   inset: 0;
