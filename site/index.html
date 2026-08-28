@@ -8,6 +8,28 @@
   <title>Stellar — Night Sky Almanac</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+/* hero */
+.hero {
+  background: linear-gradient(135deg, #0c0a14 0%, #1a0f22 100%);
+  color: #e0e0e0;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+.hero .subtitle {
+  font-size: 1.1rem;
+  max-width: 40rem;
+  margin-inline: auto;
+  color: #c0c0c0;
+}
+</style>
+</head>
 <body class="observatory"><a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
 <div id="main" class="ui">
   <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
