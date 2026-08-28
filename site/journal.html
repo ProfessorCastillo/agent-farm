@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="description" content="A printable night journal template for recording observations, conditions, and reflections without any data collection.">
+  <title>Night Journal — Stellar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
+  <div class="chrome-head">
+    <span class="brand"><b>Stellar</b> · journal</span>
+    <nav class="site-nav" aria-label="Sections">
+      <button class="chip nv-toggle" onclick="Stellar.toggleNightVision()" aria-pressed="false">Night Vision</button>
+      <a href="index.html">Observatory</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="map.html">Sky Map</a>
+      <a href="tonightsky.html">Skies</a>
+      <a href="constellations.html">Constellations</a>
+      <a href="bortle.html">Bortle</a>
+      <a href="guide.html">Guide</a>
+      <a href="journal.html" aria-current="page">Journal</a>
+    </nav>
+  </div>
+
+  <main id="main" class="page">
+    <p class="eyebrow">Night journal · offline log</p>
+    <h1>A quiet page for quiet nights</h1>
+    <p class="lede">This is a printable log for your own observations. No app, no cloud, no tracking — just a place to write down what you saw, how the sky felt, and what you want to find next time. Copy this template into a notebook, print it, or keep it open beside you while you observe.</p>
+
+    <h2>Session header</h2>
+    <div class="prose">
+      <p><b>Date</b> ________________  &nbsp; <b>Start time</b> _________  &nbsp; <b>End time</b> _________</p>
+      <p><b>Location</b> ________________________________  &nbsp; <b>Bortle class estimate</b> ___</p>
+      <p><b>Moon phase</b> ________________  &nbsp; <b>Transparency / Seeing</b> ________________</p>
+      <p><b>Equipment</b> ________________________________</p>
+    </div>
+
+    <h2>First impressions</h2>
+    <div class="prose">
+      <p>What drew your eye first? Dark adaptation time, temperature, wind, the hum of the night:</p>
+      <p>________________________________________________________________________<br>
+      ________________________________________________________________________</p>
+    </div>
+
+    <h2>Objects observed</h2>
+    <div class="prose">
+      <p>For each object, note the time you found it, the view, and a quick sketch description.</p>
+      <ul>
+        <li><b>Object</b> ________________  &nbsp; <b>Constellation</b> ________  &nbsp; <b>Time</b> _______</li>
+        <li>View: _______________________________________________________________</li>
+        <li>Notes / sketch: ____________________________________________________</li>
+        <li>____________________________________________________________________</li>
+      </ul>
+      <ul>
+        <li><b>Object</b> ________________  &nbsp; <b>Constellation</b> ________  &nbsp; <b>Time</b> _______</li>
+        <li>View: _______________________________________________________________</li>
+        <li>Notes / sketch: ____________________________________________________</li>
+        <li>____________________________________________________________________</li>
+      </ul>
+      <ul>
+        <li><b>Object</b> ________________  &nbsp; <b>Constellation</b> ________  &nbsp; <b>Time</b> _______</li>
+        <li>View: _______________________________________________________________</li>
+        <li>Notes / sketch: ____________________________________________________</li>
+        <li>____________________________________________________________________</li>
+      </ul>
+    </div>
+
+    <h2>What to try next</h2>
+    <div class="prose">
+      <p>Objects that were too faint, too low, or lost in light. A simple plan for next time:</p>
+      <p>1. _______________________________________________________________</p>
+      <p>2. _______________________________________________________________</p>
+      <p>3. _______________________________________________________________</p>
+    </div>
+
+    <h2>Reflection</h2>
+    <div class="prose">
+      <p>A few lines about the night itself — the stillness, the weather, the moment something appeared:</p>
+      <p>________________________________________________________________________<br>
+      ________________________________________________________________________<br>
+      ________________________________________________________________________</p>
+    </div>
+
+    <p class="lede" style="margin-top:2rem">Print this page, fold it into your coat pocket, and fill it by hand under red light. The memory of the sky stays longer when you write it down.</p>
+  </main>
+
+  <footer class="chrome-foot">
+    <span>Compiled for quiet nights · no data collected</span>
+    <span>Stellar · fully offline</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
