@@ -68,6 +68,26 @@ window.Stellar = {
         const pull = Math.min(0.4, 42 / d) * (1 - d / R);
         return [dx / d * pull - dy / d * tang, dy / d * pull + dx / d * tang];
       }
+    },
+    pulsar: {
+      label: 'Pulsar',
+      fx: function (px, py, m) {
+        const dx = m.x - px, dy = m.y - py, d = Math.hypot(dx, dy);
+        const R = m.r * 3.0;
+        if (d > R || d < 1) return null;
+        const s = Math.sin(Date.now() * 0.01) * 0.5 * (1 - d / R);
+        return [0, s];
+      }
+    },
+    supernova: {
+      label: 'Supernova',
+      fx: function (px, py, m) {
+        const dx = m.x - px, dy = m.y - py, d = Math.hypot(dx, dy);
+        const R = m.r * 5.0;
+        if (d > R || d < 1) return null;
+        const s = Math.sin(Date.now() * 0.05) * 2.0 * (1 - d / R);
+        return [dx / d * s, dy / d * s];
+      }
     }
   },
 
