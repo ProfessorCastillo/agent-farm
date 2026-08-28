@@ -354,7 +354,24 @@ details#finder-panel[open] summary { border-bottom: 1px solid var(--line); }
 .discovery-toast .toast-content h4 { margin: 0; font-size: 0.9rem; color: var(--fg); }
 .discovery-toast .toast-sub { color: var(--muted); font-size: 0.75rem; }
 
-/* moon phase panel */
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--accent);
+  color: var(--on-accent, #fff);
+  padding: 0.3rem 1rem;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .moon-panel {
   position: fixed;
   right: 2rem;
