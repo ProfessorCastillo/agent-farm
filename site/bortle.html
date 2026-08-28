@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="description" content="An interactive Bortle scale: slide across nine classes of sky darkness and see exactly which of the 32 catalog objects wash out as the sky glows — and which only ever shine in truly dark places.">
+  <title>Bortle Scale — Stellar</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .bortle-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 1rem 0 1.4rem; }
+    .bortle-scale-input { flex: 1; min-width: 180px; max-width: 440px; }
+    .bortle-scale-input label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.2rem; }
+    input[type="range"].bortle-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #0c1322 0%, #1b2a45 50%, #6b5a35 100%);
+      border: 1px solid var(--line);
+      outline: none;
+    }
+    input[type="range"].bortle-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    input[type="range"].bortle-range::-moz-range-thumb {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .bortle-readout { font-family: var(--font-mono); font-size: 0.86rem; color: var(--accent); min-width: 13rem; line-height: 1.5; }
+    #dome { display: block; width: 100%; }
+    .obj-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+    .b-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.28rem 0.7rem;
+      border: 1px solid var(--line); border-radius: 999px;
+      background: var(--panel); color: var(--fg);
+      font-size: 0.76rem;
+      transition: opacity 0.25s, border-color 0.25s;
+    }
+    .b-pill i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .b-pill em { font-style: normal; font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+    .b-pill.lost { opacity: 0.3; }
+    .b-pill.lost em { text-decoration: line-through; }
+    .tline { display: grid; gap: 0.55rem; margin-top: 1rem; }
+    .b-row {
+      display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap;
+      padding: 0.6rem 0.95rem;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel); font-size: 0.88rem;
+    }
+    .b-row .bn { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); min-width: 4.6rem; }
+    .b-row .bname { font-weight: 600; }
+    .b-row .bmag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); margin-left: auto; }
+    .b-row .bnote { color: var(--muted); font-size: 0.8rem; flex-basis: 100%; }
+    @media (prefers-reduced-motion: no-preference) {
+      .b-pill { transition: opacity 0.25s ease, border-color 0.25s ease, transform 0.15s ease; }
+      .b-pill.lost { transform: scale(0.97); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
+
+  <div class="chrome-head">
+    <span class="brand"><b>Stellar</b> · bortle scale</span>
+    <nav class="site-nav" aria-label="Sections">
+      <button class="chip nv-toggle" onclick="Stellar.toggleNightVision()" aria-pressed="false">Night Vision</button>
+      <a href="index.html">Observatory</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="map.html">Sky Map</a>
+      <a href="tonightsky.html">Skies</a>
+      <a href="constellations.html">Constellations</a>
+      <a href="bortle.html" aria-current="page">Bortle</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+  </div>
+
+  <main id="main" class="page">
+    <p class="eyebrow">Sky quality · the Bortle scale</p>
+    <h1>How much sky can you spare?</h1>
+    <p class="lede">Every night is graded by one simple dial: how much light the sky holds. Slide across the nine Bortle classes and watch the 32 objects in our catalog fade one by one as the glow takes over — then slide back to class 1 and see the sky as dark places do.</p>
+
+    <h2>Test your sky</h2>
+    <div class="bortle-controls">
+      <div class="bortle-scale-input">
+        <label for="bortle-range">Bortle class — 1 is pristine darkness, 9 is the inner city</label>
+        <input type="range" class="bortle-range" id="bortle-range" min="1" max="9" step="1" value="3" aria-describedby="bortle-readout">
+      </div>
+      <div class="bortle-readout" id="bortle-readout" aria-live="polite"></div>
+    </div>
+
+    <div class="map-wrap">
+      <canvas id="dome" aria-label="A star dome showing which catalog objects remain visible at the chosen Bortle class"></canvas>
+      <div class="hovercard hidden" id="hovercard" role="status">
+        <div class="hover-name" id="hover-name">—</div>
+        <div class="hover-sub" id="hover-sub"></div>
+      </div>
+    </div>
+    <p class="countline" id="countline" aria-live="polite"></p>
+
+    <div class="obj-pills" id="obj-pills" aria-label="Catalog objects and whether they survive at the chosen class"></div>
+
+    <h2>Reading the scale</h2>
+    <div class="prose">
+      <p>The Bortle scale runs from <b>1 — a pristine dark sky</b> to <b>9 — the inner city</b>. It is felt, not measured: you judge it by what the naked eye can do. Is the Milky Way casting shadows, or is it invisible? Can you count the Pleiades, or is it a smudge? Does Andromeda glow at all? Each step below drops the naked-eye limiting magnitude by half a star — and stars, galaxies, and nebulae pay that cost directly.</p>
+      <div class="tline" id="scale-table"></div>
+      <p>Two benchmarks make the scale concrete. If the glow from your nearest town sits on the horizon as a colored haze, you are at <b>class 5 or worse</b>. If <b>M33</b> — the faintest galaxy in our Local Group, at 5.7 magnitudes — is visible, you are at <b>class 4 or darker</b>. And under a class 1 or 2 sky, even M100, the faintest entry in our catalog at 9.3, answers clearly in 10×50 binoculars — something that is simply impossible past class 6.</p>
+    </div>
+  </main>
+
+  <footer class="chrome-foot">
+    <span>Compiled for quiet nights · values rounded to catalog precision</span>
+    <span>Stellar · fully offline</span>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="data.js"></script>
+  <script src="maps.js"></script>
+  <script src="bortle.js"></script>
+</body>
+</html>

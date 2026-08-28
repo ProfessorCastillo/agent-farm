@@ -270,56 +270,7 @@
         { x: 88, y: 30 }
       ],
 
-      lines: [[0,1],[1,2]]
-    },
-    {
-      name: 'Gemini',
-      subtitle: 'The Twins — Winter, northern sky',
-      objects: ['Castor (\u03b1 Gem)', 'Pollux (\u03b2 Gem)', 'M35'],
-      color: '#9db4ff',
-
-      stars: [
-        { x: 38, y: 28 },
-        { x: 62, y: 25 },
-        { x: 35, y: 55 },
-        { x: 58, y: 58 },
-        { x: 30, y: 85 }
-      ],
-
-      lines: [[0,2],[1,3],[2,4]]
-    },
-    {
-      name: 'Bo\u03f6tes',
-      subtitle: 'The Herdsman — Spring, eastern sky',
-      objects: ['Arcturus (\u03b1 Boo)', 'Epsilon Lyrae (double-double)'],
-      color: '#ffd98a',
-
-      stars: [
-        { x: 53, y: 18 },
-        { x: 22, y: 58 },
-        { x: 10, y: 92 },
-        { x: 55, y: 100 },
-        { x: 88, y: 78 },
-        { x: 102, y: 48 }
-      ],
-
-      lines: [[0,1],[1,2],[2,3],[3,5],[5,4]]
-    },
-    {
-      name: 'Gemini',
-      subtitle: 'The Twins — Winter, northern sky',
-      objects: ['Castor (\u03b1 Gem)', 'Pollux (\u03b2 Gem)', 'M35'],
-      color: '#9db4ff',
-
-      stars: [
-        { x: 38, y: 28 },
-        { x: 62, y: 25 },
-        { x: 35, y: 55 },
-        { x: 58, y: 58 },
-        { x: 30, y: 85 }
-      ],
-
-      lines: [[0,2],[1,3],[2,4]]
+       lines: [[0,1],[1,2]]
     }
   ];
 
