@@ -369,3 +369,101 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
   .card:hover { transform: none; }
   .constellation-card:hover { transform: none; }
 }
+
+/* finder widget */
+.finder-widget {
+  position: fixed;
+  right: 1.6rem;
+  bottom: calc(1.6rem + 56px);
+  z-index: 20;
+  width: min(380px, 92vw);
+}
+details#finder-panel {
+  background: rgba(14, 14, 14, 0.88);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0;
+  max-width: 36rem;
+}
+details#finder-panel summary {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-size: 0.84rem;
+  color: var(--muted);
+  list-style: none;
+}
+details#finder-panel summary::-webkit-details-marker { display: none; }
+details#finder-panel summary::before {
+  content: "→";
+  float: right;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  transition: transform 0.2s;
+}
+details#finder-panel[open] summary::before { transform: rotate(90deg); }
+details#finder-panel[open] summary { border-bottom: 1px solid var(--line); }
+.finder-content {
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.finder-info {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.finder-content label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.finder-content input[type="month"] {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--fg);
+}
+.finder-content input[type="month"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.finder-results {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.finder-results > div { margin-bottom: 0.5rem; }
+.finder-results .result-header {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+.finder-results .result-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.finder-results .result-item:last-child { border-bottom: none; }
+.finder-results .result-name { color: var(--fg); font-weight: 500; font-size: 0.86rem; }
+.finder-results .result-detail {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.35;
+}

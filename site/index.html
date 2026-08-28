@@ -40,6 +40,18 @@
     <div class="status" role="status" aria-live="polite">
       <span class="status-label">Tonight:</span> <b id="seasonal-what">—</b>
     </div>
+    <div class="finder-widget" id="finder" style="display:none;">
+      <details id="finder-panel">
+        <summary class="finder-summary">Find tonight's best targets →</summary>
+        <div class="finder-content">
+          <div class="finder-info">Enter a date to see what objects are favorably placed that night.</div>
+          <label for="finder-date"><b>Date:</b></label>
+          <input type="month" id="finder-date">
+          <button class="chip" id="finder-search">Find targets</button>
+          <div class="finder-results" id="finder-results" aria-live="polite"></div>
+        </div>
+      </details>
+    </div>
     <div class="night-dial" id="night-dial">
       <button class="chip icon" aria-label="Toggle star trails">⟲</button>
       <span class="trail-label">Star trails: <b id="trail-status">off</b></span>
@@ -49,5 +61,6 @@
   <script src="app.js"></script>
   <script src="data.js"></script>
   <script src="sky.js"></script>
+  <script src="finder.js"></script>
 </body>
 </html>
