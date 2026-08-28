@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
-  <meta name="description" content="Drift stars with your pointer — an offline night-sky almanac of galaxies, nebulae, clusters, and stars.">
-  <title>Stellar — Night Sky Almanac</title>
+  <meta name="description" content="Nocturne: a quiet, readable almanac and star atlas for hands-on night sky learning. No network, no noise.">
+  <title>Nocturne — Night Sky Almanac</title>
   <link rel="stylesheet" href="styles.css">
 <style>
 /* hero */
@@ -29,100 +29,113 @@
 }
 </style>
 </head>
-<body class="observatory"><a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
-<div id="main" class="ui">
-  <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
-  <canvas id="trails" class="hidden" aria-hidden="true"></canvas>
+<body><a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
+  <!-- reading room -->
   
-  <details class="moon-panel">
-    <summary>Moon phase</summary>
+  <aside class="moon-panel" role="complementary">
+    <h2>Moon tonight</h2>
     <div class="moon-content">
-      <div class="moon-phase-display">
-        <canvas class="moon-canvas" id="moon-canvas" width="64" height="64"></canvas>
-      </div>
-      <p class="moon-text" id="moon-text">Calculating...</p>
+      <p class="moon-text" id="moon-text">Calculating…</p>
+      <p id="moon-note" class="hint">Light pollution and moon phase dominate what you can see.</p>
     </div>
-  </details>
+  </aside>
 
-  <div class="discovery-toast" id="discovery-toast" aria-live="polite">
-    <span class="toast-icon">✦</span>
-    <div class="toast-content">
-      <h4></h4>
-      <p class="toast-sub"></p>
-    </div>
-  </div>
-
-  <div id="telescope-view" class="hidden">
-    <div class="telescope-overlay"></div>
-    <div class="telescope-container">
-      <div class="telescope-eyepiece">
-        <canvas id="telescope-canvas" width="400" height="400"></canvas>
-      </div>
-      <div class="telescope-info">
-        <button class="chip" id="close-telescope">Close View</button>
-        <h2 id="tel-name"></h2>
-        <p id="tel-desig" class="eyebrow"></p>
-        <div id="tel-desc" class="prose"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ui">
-    <header class="ui-top">
-      <div>
-        <span class="eyebrow">Stellar · Offline</span>
-        <h1 id="title">Stellar — Your Personal Night Sky Guide</h1>
-<p class="subtitle">Explore the wonders of the night sky with an immersive, offline interactive guide.</p>
-        <p class="hint" id="hint">Use your cursor to shape constellations — uncover hidden treasures in the void.</p>
-        <p class="hint">A small local catalog of galaxies, nebulae, clusters, and stars you can explore without leaving the dark.</p>
-        <p class="hint"><a href="journal.html" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px">Start a printable night journal</a> to record your own observations.</p>
-        <a href="catalog.html" class="chip">Explore Catalog</a>
-<div class="stats" aria-live="polite">
-          <span>Stars <b id="stat-count">140</b></span>
-          <span>Mode <b id="stat-mode">Drift</b></span>
-          <span>Found <b id="stat-found">0/9</b></span>
-          <span>fps <b id="stat-fps">—</b></span>
-        </div>
-      </div>
-        <nav class="top-nav" aria-label="Sections">
-           <button class="chip nv-toggle" onclick="Stellar.toggleNightVision()" aria-pressed="false">Night Vision</button>
-           <a href="catalog.html">Catalog</a>
-           <a href="map.html">Sky Map</a>
-           <a href="tonightsky.html">Skies</a>
-           <a href="constellations.html">Constellations</a>
-           <a href="bortle.html">Bortle</a>
-           <a href="guide.html">Guide</a>
-           <a href="about.html">About</a>
-           <a href="journal.html">Journal</a>
-        </nav>
+  <div class="page" id="main">
+    <header class="chrome-head">
+      <span class="brand"><b>Nocturne</b> · observatory</span>
+      <nav class="site-nav" aria-label="Sections">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="map.html">Sky Map</a>
+        <a href="tonightsky.html">Skies</a>
+        <a href="constellations.html">Constellations</a>
+        <a href="bortle.html">Bortle</a>
+        <a href="guide.html">Guide</a>
+        <a href="about.html">About</a>
+        <a href="journal.html">Journal</a>
+      </nav>
     </header>
 
-    <nav class="toolbar" id="controls" aria-label="Observatory controls"></nav>
+    <p class="eyebrow">Nocturne · Offline</p>
+    <h1>Nocturne — A Quiet Night Almanac</h1>
+    <p class="lede">Read, plan, and log your own observations in a distraction-free space. A calm, printable atlas for learning the sky without a screen. Use it for planning or at the eyepiece.</p>
+    <p class="hint">Browse the small local catalog of galaxies, nebulae, clusters, and stars and keep a handwritten log in the journal.</p>
+    <p class="hint"><a href="journal.html" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px">Open the printable night journal</a> to record your own observations.</p>
+    <a href="catalog.html" class="chip">Explore Catalog</a>
 
     <div class="status" role="status" aria-live="polite">
       <span class="status-label">Tonight:</span> <b id="seasonal-what">—</b>
     </div>
-  </div>
 
-  <div class="night-dial" id="night-dial">
-      <button class="chip icon" aria-label="Toggle star trails">⟲</button>
-      <span class="trail-label">Star trails: <b id="trail-status">off</b></span>
-    </div>
-
-  <div class="finder-widget" id="finder">
-    <details id="finder-panel">
-      <summary>Find tonight</summary>
+    <h2>Seasonal finder</h2>
+    <details class="finder-panel">
+      <summary>Pick a season to see well-placed targets</summary>
       <div class="finder-content">
         <p class="finder-info">Pick a season below and see what in the almanac is well placed to observe — peak season targets, plus a tip for the season.</p>
         <div class="chips" id="season-chips" role="group" aria-label="Select a season"></div>
         <div class="finder-results" id="finder-results" aria-live="polite"></div>
       </div>
     </details>
-  </div>
+
+    <h2>What to read next</h2>
+    <div class="chips">
+      <a class="chip" href="guide.html">Field Guide</a>
+      <a class="chip" href="constellations.html">Constellations</a>
+      <a class="chip" href="bortle.html">Bortle Scale</a>
+      <a class="chip" href="tonightsky.html">Tonight</a>
+    </div>
+
+    <footer class="chrome-foot">
+      <span>Nocturne · compiled for quiet nights</span>
+      <span>Fully offline · no tracking</span>
+    </footer>
 
   <script src="app.js"></script>
   <script src="data.js"></script>
-  <script src="sky.js"></script>
+  <script>
+    (function(){
+      var el = document.getElementById('seasonal-what');
+      if (!el) return;
+      var now = new Date();
+      var m = now.getMonth();
+      var month = now.getDate() + ' ' + ['January','February','March','April','May','June','July','August','September','October','November','December'][m];
+      var recs = [
+        { mo: [11,0,1], what: 'Drain your night vision, then walk out under the clearest sky you can reach.' },
+        { mo: [1,2], what: 'Orion is overhead — scan his belt and let your eyes drop.' },
+        { mo: [3,4], what: 'Follow the arc from Arcturus to Spica across the spring dark.' },
+        { mo: [5,6,7], what: 'Chase the Summer Triangle and trace the Milky Way toward Sagittarius.' },
+        { mo: [8,9,10], what: 'Let the autumn sky settle into black, then hunt the Andromeda Galaxy.' }
+      ];
+      for (var i=0;i<recs.length;i++){
+        var r = recs[i];
+        if (r.mo.indexOf(m) !== -1) {
+          el.textContent = ' ' + r.what + ' (' + month + ')';
+          return;
+        }
+      }
+    })();
+    (function(){
+      var el = document.getElementById('moon-text');
+      if (!el) return;
+      var now = new Date();
+      var CYCLE_DAYS = 29.53;
+      var KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime();
+      var age = ((now.getTime() - KNOWN_NEW_MOON) / 864e5 % CYCLE_DAYS + CYCLE_DAYS) % CYCLE_DAYS;
+      var phase = age / CYCLE_DAYS;
+      var names = ['New Moon','Waxing Crescent','First Quarter','Waxing Gibbous','Full Moon','Waning Gibbous','Third Quarter','Waning Crescent'];
+      var idx = 0;
+      if (phase < 0.06 || phase > 0.94) idx = 0;
+      else if (phase < 0.21) idx = 1;
+      else if (phase < 0.26) idx = 2;
+      else if (phase < 0.41) idx = 3;
+      else if (phase < 0.46) idx = 4;
+      else if (phase < 0.61) idx = 5;
+      else if (phase < 0.66) idx = 6;
+      else idx = 7;
+      var pct = ((Math.cos(phase*Math.PI*2)+1)/2*100).toFixed(0);
+      el.textContent = names[idx] + ' · ' + pct + '% illuminated';
+    })();
+  </script>
   <script src="finder.js"></script>
   </body>
   </html>

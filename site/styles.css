@@ -1,13 +1,13 @@
-/* Stellar — an offline night-sky almanac */
+/* Nocturne — a quiet reading room under the stars */
 :root {
-  --bg: #050510;
-  --bg2: #0d0a15;
-  --fg: #e8e4dc;
-  --muted: #7a7a8a;
-  --line: rgba(255, 255, 255, 0.06);
-  --panel: rgba(255, 255, 255, 0.02);
-  --accent: #00d4aa;
-  --accent2: #0077b6;
+  --bg: #0a0806;
+  --bg2: #141007;
+  --fg: #f2e9d9;
+  --muted: #a99a84;
+  --line: rgba(242, 233, 217, 0.08);
+  --panel: rgba(242, 233, 217, 0.03);
+  --accent: #d4a465;
+  --accent2: #c07a3a;
   --radius: 12px;
   --sidebar-radius: 16px;
   --font-mono: "SF Mono", "Fira Code", "Consolas", "Liberation Mono", monospace;
@@ -17,10 +17,8 @@
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
-  background-image: linear-gradient(135deg, var(--line) 0%, transparent 50%, var(--line) 100%),
-                    linear-gradient(45deg, var(--line) 0%, transparent 50%, var(--line) 100%);
-  background-size: 20px 20px, 20px 20px;
-  background-position: -1px -1px, -1px -1px;
+  background-image: url();
+}
   color: var(--fg);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -161,19 +159,7 @@ details.more p { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
 }
 
 /* observatory (index) */
-body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
-#sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; touch-action: none; }
-.ui {
-  position: relative;
-  z-index: 1;
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1.6rem;
-  pointer-events: none;
-}
+body { overflow: auto; }
 .ui-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
 .ui-top > div:first-child { max-width: 38rem; }
 .top-nav { display: flex; gap: 0.5rem; pointer-events: auto; }
@@ -305,13 +291,9 @@ body.night-vision canvas {
 }
 
 /* finder widget */
-.finder-widget { position: fixed; right: 1.6rem; bottom: calc(1.6rem + 56px); z-index: 20; width: min(380px, 92vw); }
-details#finder-panel { background: rgba(14, 14, 14, 0.88); border: 1px solid var(--line); border-radius: var(--radius); padding: 0; max-width: 36rem; }
-details#finder-panel summary { cursor: pointer; padding: 0.75rem 1rem; font-size: 0.84rem; color: var(--muted); list-style: none; }
-details#finder-panel summary::-webkit-details-marker { display: none; }
-details#finder-panel summary::before { content: "→"; float: right; font-family: var(--font-mono); font-size: 0.95rem; transition: transform 0.2s; }
-details#finder-panel[open] summary::before { transform: rotate(90deg); }
-details#finder-panel[open] summary { border-bottom: 1px solid var(--line); }
+details.finder-panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0; max-width: 36rem; margin: 1rem auto; }
+details.finder-panel summary { cursor: pointer; padding: 0.75rem 1rem; font-size: 0.9rem; color: var(--fg); list-style: none; }
+details.finder-panel summary::-webkit-details-marker { display: none; }
 .finder-content { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.75rem; }
 .finder-info { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 .finder-content label { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--muted); }
@@ -436,29 +418,13 @@ details#finder-panel[open] summary { border-bottom: 1px solid var(--line); }
 }
 
 .moon-panel {
-  position: fixed;
-  right: 2rem;
-  top: 140px;
-  background: rgba(14, 14, 14, 0.92);
+  background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: var(--sidebar-radius);
-  padding: 0;
-  z-index: 15;
-  width: min(280px, 90vw);
+  border-radius: var(--radius);
+  padding: 1rem;
+  width: min(360px, 90vw);
+  margin: 1rem auto;
 }
-.moon-panel summary {
-  cursor: pointer;
-  padding: 0.7rem 1rem;
-  font-size: 0.84rem;
-  color: var(--muted);
-  list-style: none;
-  font-family: var(--font-mono);
-  letter-spacing: 0.08em;
-}
-.moon-panel summary::-webkit-details-marker { display: none; }
-.moon-panel summary::before { content: "🌙"; margin-right: 0.5rem; }
-.moon-panel[open] summary { border-bottom: 1px solid var(--line); }
-.moon-content { padding: 1rem; }
-.moon-phase-display { display: flex; justify-content: center; margin-bottom: 0.8rem; }
-.moon-canvas { width: 64px; height: 64px; }
+.moon-content { padding: 0; }
+
 .moon-text { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 0.4rem; }
