@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="description" content="Seasonal calendar showing which celestial objects are best to observe each month, arranged across a year wheel.">
+  <title>Tonight Skies — Observatio</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .moon-inline {
+      padding: 0.9rem 1.3rem; border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(248,224,181,0.06), rgba(196,178,140,0.06));
+      border: 1px solid rgba(248,224,181,0.25); display: flex; gap: 1rem; align-items: center; max-width: 38rem; margin-top: 0.5rem;
+    }
+    .sky-desc {
+      padding: 1rem 1.3rem; border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(255,110,199,0.08), rgba(196,106,60,0.08));
+      border: 1px solid rgba(255,110,199,0.2); max-width: 38rem; margin-top: 4px;
+    }
+    .sky-desc h3 { font-size: 0.95rem; color: var(--accent); margin-bottom: 0.3rem; }
+    .sky-desc p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .visible-list { display: grid; gap: 0.6rem; }
+    .vis-item {
+      display: flex; align-items: center; gap: 0.8rem; padding: 0.65rem 1rem;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
+      transition: border-color 0.15s, transform 0.1s;
+    }
+    .vis-item:hover { border-color: rgba(255,255,255,0.15); transform: translateX(3px); }
+    .vis-icon { font-size: 1.1rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .vis-info { flex: 1; min-width: 0; }
+    .vis-name { font-size: 0.9rem; font-weight: 600; color: var(--fg); }
+    .vis-detail { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+    .vis-status {
+      font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; border-radius: 999px; flex-shrink: 0;
+    }
+    .st-rising { color: #f2c46c; background: rgba(242,196,108,0.1); border: 1px solid rgba(242,196,108,0.3); }
+    .st-visible { color: #7fe3c0; background: rgba(127,227,192,0.1); border: 1px solid rgba(127,227,192,0.3); }
+    .month-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr)); gap: 0.8rem; }
+    .m-card { border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); padding: 1rem 1.1rem; }
+    .m-name { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .m-sky { font-size: 0.84rem; color: var(--fg); margin-bottom: 0.6rem; }
+    .m-objs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .m-pill {
+      font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); color: var(--muted);
+    }
+    .s-banner {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.9rem;
+      border-radius: var(--radius); background: rgba(255,255,255,0.04); border: 1px solid var(--line);
+      font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); margin-bottom: 1.2rem;
+    }
+    .s-banner b { color: var(--accent); margin-right: 0.3rem; }
+    .year-wheel { max-width: 32rem; margin: 0 auto 2rem; }
+    @media (max-width: 640px) {
+      .month-grid { grid-template-columns: 1fr; }
+      .moon-inline { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chrome-head">
+    <span class="brand"><b>Observatio</b> · tonight skies</span>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="index.html">Observatory</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="map.html">Sky Map</a>
+      <a href="constellations.html">Constellations</a>
+      <a href="guide.html">Guide</a>
+    </nav>
+  </div>
+
+  <main class="page">
+    <p class="eyebrow" id="date-line"></p>
+    <h1>What the sky holds tonight</h1>
+    <p class="lede">This page calculates from your system clock, no network needed, what in our almanac is well shaped for observation right now and across every month of the year.</p>
+
+    <div id="sky-now-content"></div>
+
+    <div class="section-label" style="margin-top:3rem">A year in the sky</div>
+    <div class="s-banner"><b id="season-emoji"></b><span id="season-text">--</span></div>
+    <div class="year-wheel">
+      <canvas id="wheel-canvas" width="600" height="600" aria-label="Circular calendar showing visible objects each month of the year"></canvas>
+    </div>
+
+    <div class="section-label">Each months best targets</div>
+    <div class="month-grid" id="month-grid"></div>
+  </main>
+
+  <footer class="chrome-foot">
+    <span>Compiled for quiet nights values rounded to catalog precision</span>
+    <span>Observatio fully offline</span>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="data.js"></script>
+  <script>
+(function() {
+  var D = window.STAR_DATA;
+  if (!D) return;
+
+  // --- Data setup ---
+  var MON = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var ICONS = {Galaxy:'\u2604',Nebula:'\u25CB',Cluster:'\u2727',Star:'\u2736'};
+  var SI = ['\uD83C\uDF44','\uD83C\uDF38L','\u2600\uFE0F','\uD83C\uDF41']; // winter,spring,summer,autumn icons
+
+  var allObjs = [];
+  var ckeys = ['galaxies','nebulae','clusters','stars'];
+  for (var k = 0; k < ckeys.length; k++) {
+    for (var i = 0; i < D[ckeys[k]].length; i++) {
+      allObjs.push({n:D[ckeys[k]][i].name, t:D[ckeys[k]][i].type, c: D[ckeys[k]][i].const, d:D[ckeys[k]][i].desig, v:D[ckeys[k]][i].vis, di:D[ckeys[k]][i].dist});
+    }
+  }
+
+  // Season month arrays
+  var SM = [[11,0,1],[2,3,4],[5,6,7],[8,9,10]]; // winter,spring,summer,autumn
+  var SN = ['winter','spring','summer','autumn'];
+
+  function smn(m) { return (m===11||m<=1)?0:(m<=4?1:(m<=7?2:3)); }
+
+  // Build const -> season map from CSV string
+  var csvPair = 'Andromeda:autumn,winter|Orion:winter|Taurus:winter|Canis Major:winter|Lyra:summer|Sagittarius:summer|Scorpius:summer|Vulpecula:summer|Ursa Major:spring,winter|Virgo:spring,summer|Coma Berenices:spring,summer|Hercules:summer|Perseus:autumn,winter|Cancer:winter,spring|Crux:autumn|Bootes:spring|Auriga:winter|Cygnus:summer|Ursa Minor:autumn,winter,spring|Canes Venatici:spring,summer|Serpens:summer';
+  var CSMap = {};
+  var pairs = csvPair.split('|');
+  for (var p = 0; p < pairs.length; p++) {
+    var kv = pairs[p].split(':');
+    CSMap[kv[0]] = kv[1].split(',');
+  }
+
+  // Get season name from month number
+  function seasonName(m) { return SN[smn(m)]; }
+
+  // Build visible months for each object
+  var objVis = {};
+  for (var oi = 0; oi < allObjs.length; oi++) {
+    var o = allObjs[oi];
+    var seas = CSMap[o.c] || SN.slice();
+    var vis = {};
+    for (var s2 = 0; s2 < seas.length; s2++) {
+      for (var si = 0; si < SM.length; si++) {
+        if (SN[si] === seas[s2]) {
+          for (var mj = 0; mj < SM[si].length; mj++) vis[SM[si][mj]] = true;
+        }
+      }
+    }
+    objVis[o.n] = vis;
+  }
+
+  // --- Date display ---
+  var now = new Date();
+  var mi = now.getMonth();
+  var my = smn(mi);
+  document.getElementById('date-line').textContent = MON[mi]+' '+now.getDate()+', '+now.getFullYear()+' Night almanac';
+  document.getElementById('season-emoji').textContent = SI[my];
+  document.getElementById('season-text').textContent = seasonName(mi).charAt(0).toUpperCase() + seasonName(mi).slice(1) + ' sky';
+
+  // --- Score objects for current month ---
+  var scores = [];
+  for (var oi2 = 0; oi2 < allObjs.length; oi2++) {
+    if (!objVis[allObjs[oi2].n] || !objVis[allObjs[oi2].n][mi]) continue;
+    var sc = allObjs[oi2].t === 'Star' ? 10 : allObjs[oi2].t === 'Cluster' ? 7 : allObjs[oi2].t === 'Nebula' ? 5 : 4;
+    var oceans = CSMap[allObjs[oi2].c] || [];
+    if (oceans.indexOf(seasonName(mi)) !== -1) sc += 4;
+    var mag = parseFloat(allObjs[oi2].v);
+    if (!isNaN(mag)) sc += (9 - Math.min(9, Math.max(-2, mag))) * 0.8;
+    scores.push({o:allObjs[oi2], s:sc});
+  }
+  scores.sort(function(a,b) { return b.s - a.s; });
+
+  // --- Moon phase ---
+  var moonC = 29.53;
+  var newM = new Date('2000-01-06T18:14:00Z').getTime();
+  var age = ((now.getTime() - newM) / 864e5 % moonC + moonC) % moonC;
+  var ipct = ((Math.cos((age/moonC)*Math.PI*2)+1)/2*100).toFixed(0);
+  var pmn = age<1.85 ? 'New Moon' : age<5.53 ? 'Waxing Crescent' : age<7.38 ? 'First Quarter' : age<11.06 ? 'Waxing Gibbous' : age<14.77 ? 'Full Moon' : age<18.45 ? 'Waning Gibbous' : age<20.3 ? 'Third Quarter' : 'Waning Crescent';
+
+  // --- Seasonal notes ---
+  var notes = [
+    'Clear, crisp air gives steady seeing this season.',
+    'Warm days lengthen; the sky cools with each passing week.',
+    'Humidity and heat haze are the adversaries; hunt from dusk onward.',
+    'The nights grow long and the Milky Way fades toward evening.'
+  ];
+
+  // --- Build HTML content ---
+  var html = '';
+
+  // Seasonal note box
+  html += '<div class="sky-desc"><h3>Sky notes for tonight</h3><p>' + notes[my] + '</p></div>';
+
+  // List of best targets
+  html += '<div class="section-label" style="margin-top:1rem">Best targets at your latitude</div><div class="visible-list">';
+  var maxList = Math.min(10, scores.length);
+  for (var li = 0; li < maxList; li++) {
+    var it = scores[li];
+    var o3 = it.o;
+    var ic = ICONS[o3.t] || '\u2604';
+    var stCls = 'st-visible';
+    var stTxt = 'Visible this month';
+    // Determine peak status based on season matching object constellation
+    var seasForObj = CSMap[o3.c] || [];
+    if (seasForObj.indexOf(seasonName(mi)) !== -1) { stCls = 'st-rising'; stTxt = 'Peak season now'; }
+    html += '<div class="vis-item"><span class="vis-icon">' + ic + '</span><div class="vis-info"><span class="vis-name">' + o3.n + '</span><br><span class="vis-detail">' + (o3.d||'') + ' · ' + o3.c + ' · ' + o3.di + '</span></div><span class="vis-status ' + stCls + '">' + stTxt + '</span></div>';
+  }
+  html += '</div>';
+
+  // Moon inline panel
+  html += '<div class="moon-inline"><canvas id="moon-mini" width="64" height="64" style="border-radius:8px"></canvas><div><span class="section-label">Moon tonight</span><br><b id="moon-info" style="color:var(--accent);font-family:var(--font-mono);font-size:0.95rem;"></b></div></div>';
+
+  document.getElementById('sky-now-content').innerHTML = html;
+
+  // --- Draw moon on canvas ---
+  var mm2 = document.getElementById('moon-mini');
+  if (mm2) {
+    var mxc = mm2.getContext('2d');
+    var phase = age / moonC;
+    mxc.beginPath();
+    mxc.arc(32, 32, 28, 0, Math.PI * 2);
+    mxc.fillStyle = '#c4b599';
+    mxc.fill();
+    var off = Math.cos(phase * Math.PI * 2) * 28;
+    mxc.fillStyle = '#1a1612';
+    mxc.beginPath();
+    if (phase <= 0.5) {
+      mxc.arc(32, 32, 28, -0.044, Math.PI * 7 + 0.044);
+      mxc.arc(32 + off / 2, 32, Math.abs(off), Math.PI * 7 - 0.044, -0.044);
+    } else {
+      mxc.arc(32, 32, 28, Math.PI - 0.044, Math.PI + 0.044);
+      mxc.arc(32 + off / 2, 32, Math.abs(off), Math.PI + 0.044, Math.PI - 0.044);
+    }
+    mxc.fill();
+    // Craters
+    mxc.fillStyle = '#8a7f6b';
+    mxc.beginPath(); mxc.arc(22, 24, 5, 0, Math.PI * 2); mxc.fill();
+    mxc.beginPath(); mxc.arc(38, 36, 4, 0, Math.PI * 2); mxc.fill();
+  }
+  document.getElementById('moon-info').textContent = pmn + ' ' + ipct + '% illuminated';
+
+  // --- Year wheel canvas ---
+  var wc = document.getElementById('wheel-canvas');
+  if (wc) {
+    var ctx = wc.getContext('2d');
+    var W = 600, H = 600;
+    var cx = W / 2, cy = H / 2, rad = 250;
+    var mAbb = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+    var sNames = ['Winter','Spring','Summer','Autumn'];
+
+    function drawWheel() {
+      ctx.clearRect(0, 0, W, H);
+
+      // BG gradient
+      var bg = ctx.createRadialGradient(cx, cy, rad * 0.3, cx, cy, rad + 15);
+      bg.addColorStop(0, '#1a2040');
+      bg.addColorStop(0.9, '#0d1025');
+      bg.addColorStop(1, 'rgba(13,16,37,0)');
+      ctx.fillStyle = bg;
+      ctx.beginPath();
+      ctx.arc(cx, cy, rad + 15, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Season sectors
+      var sCols = ['rgba(157,180,255,0.07)','rgba(127,227,192,0.07)','rgba(242,196,108,0.07)','rgba(240,166,255,0.07)'];
+      for (var s = 0; s < 4; s++) {
+        var sa = -Math.PI / 2 + s * Math.PI / 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad, sa, sa + Math.PI * 0.5);
+        ctx.arc(cx, cy, 60, sa + Math.PI * 0.5, sa, true);
+        ctx.closePath();
+        ctx.fillStyle = sCols[s];
+        ctx.fill();
+      }
+
+      // Radial dividers
+      for (var r = 0; r < 12; r++) {
+        var ra = -Math.PI / 2 + r * Math.PI / 6;
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(ra) * 62, cy + Math.sin(ra) * 62);
+        ctx.lineTo(cx + Math.cos(ra) * (rad - 2), cy + Math.sin(ra) * (rad - 2));
+        ctx.stroke();
+      }
+
+      // Rings
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, 60, 0, Math.PI * 2); ctx.stroke();
+
+      // Highlight current month arc and sector
+      var curA = -Math.PI / 2 + mi * Math.PI / 6;
+      ctx.strokeStyle = 'rgba(255,110,199,0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, curA, curA + Math.PI / 6); ctx.stroke();
+
+      ctx.fillStyle = 'rgba(255,110,199,0.08)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, rad, curA, curA + Math.PI / 6);
+      ctx.arc(cx, cy, 60, curA + Math.PI / 6, curA, true);
+      ctx.closePath();
+      ctx.fill();
+
+      // Month dots and labels
+      for (var m = 0; m < 12; m++) {
+        var ang = -Math.PI / 2 + m * Math.PI / 6;
+        var rMid = rad - 25;
+        var px = cx + Math.cos(ang) * rMid;
+        var py = cy + Math.sin(ang) * rMid;
+
+        // Glow on current
+        if (m === mi) {
+          ctx.fillStyle = 'rgba(255,110,199,0.2)';
+          ctx.beginPath(); ctx.arc(px, py, 18, 0, Math.PI * 2); ctx.fill();
+        }
+
+        ctx.fillStyle = m === mi ? '#ff6ec7' : '#a59ca4';
+        ctx.font = (m === mi ? 'bold ' : '') + (m === mi ? '14' : '12') + 'px system-ui,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(mAbb[m], px, py);
+
+        // Small dot
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Center text
+      ctx.fillStyle = '#e8e4dc';
+      ctx.font = 'bold 16px system-ui,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(MON[mi].slice(0, 3), cx, cy - 7);
+
+      // Season labels outside wheel
+      for (var s2 = 0; s2 < 4; s2++) {
+        var sa3 = -Math.PI / 2 + s2 * Math.PI / 2 + Math.PI * 0.25;
+        ctx.fillStyle = '#a59ca4';
+        ctx.font = '11px system-ui,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(SI[s2] + ' ' + sNames[s2], cx + Math.cos(sa3) * (rad + 50), cy + Math.sin(sa3) * (rad + 50));
+      }
+
+      // Object lines: top visible objects for current month radiate inward
+      ctx.strokeStyle = 'rgba(255,110,199,0.12)';
+      ctx.lineWidth = 1;
+      for (var ln = 0; ln < Math.min(6, scores.length); ln++) {
+        var lAng = curA + (ln - 2.5) * 0.08;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(lAng) * 62, cy + Math.sin(lAng) * 62);
+        ctx.lineTo(cx + Math.cos(lAng) * (rad - 3), cy + Math.sin(lAng) * (rad - 3));
+        ctx.stroke();
+      }
+
+      // Legend boxes at top
+      var legX = cx - rad + 14;
+      var legY = cy - rad - 28;
+      ctx.fillStyle = 'rgba(165,156,164,0.6)';
+      ctx.font = '9px system-ui,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('Month', legX, legY);
+
+      // Month dot legend
+      ctx.fillStyle = '#a59ca4';
+      ctx.fillRect(legX + 30, legY - 1, 6, 6);
+      // Current highlight
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(legX + 48, legY + 2, 6, curA, curA + Math.PI / 2);
+      ctx.strokeStyle = 'rgba(255,110,199,0.4)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    drawWheel();
+  }
+
+  // --- Monthly targets grid ---
+  var mgEl = document.getElementById('month-grid');
+  if (mgEl) {
+    var allCards = [];
+    for (var mon = 0; mon < 12; mon++) {
+      var bests = [];
+      for (var aj = 0; aj < allObjs.length; aj++) {
+        if (!objVis[allObjs[aj].n] || !objVis[allObjs[aj].n][mon]) continue;
+        var sco = allObjs[aj].t === 'Star' ? 10 : allObjs[aj].t === 'Cluster' ? 7 : allObjs[aj].t === 'Nebula' ? 5 : 4;
+        var seasForObj2 = CSMap[allObjs[aj].c] || [];
+        if (seasForObj2.indexOf(seasonName(mon)) !== -1) sco += 3;
+        var mag3 = parseFloat(allObjs[aj].v);
+        if (!isNaN(mag3)) sco += (9 - Math.min(9, Math.max(-2, mag3))) * 0.8;
+        bests.push({ n: allObjs[aj].n, i: ICONS[allObjs[aj].t] || '\u2604', s: sco });
+      }
+      bests.sort(function(a, b) { return b.s - a.s; });
+
+      var sName = ['Winter','Spring','Summer','Autumn'][smn(mon)];
+      var card = '<div class="m-card"><div class="m-name">' + MON[mon] + '</div>';
+      card += '<div class="m-sky">' + SI[smn(mon)] + ' ' + sName + ' sky</div>';
+      card += '<div class="m-objs">';
+      for (var pj = 0; pj < bests.length && pj < 8; pj++) {
+        card += '<span class="m-pill">' + bests[pj].i + ' ' + bests[pj].n + '</span>';
+      }
+      if (bests.length === 0) card += '<span class="m-pill" style="opacity:0.4">no peak targets</span>';
+      card += '</div></div>';
+
+      allCards.push(card);
+    }
+    mgEl.innerHTML = allCards.join('');
+  }
+
+})();
+  </script>
+</body>
+</html>
