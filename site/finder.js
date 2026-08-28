@@ -1,5 +1,5 @@
-// Seasonal finder widget for Observatio
-// Determines what objects are favorably placed on any given date
+// Seasonal finder widget for Stellar
+// Uses season selection chips instead of date inputs (no forms, no data collection)
 (function () {
   'use strict';
 
@@ -8,14 +8,10 @@
 
   // Visibility seasons based on typical northern hemisphere viewing windows
   var VISIBILITY = {
-    // Winter: December-February (primarily)
-    winter: { months: [11, 0, 1], objects: ['Orion', 'Betelgeuse', 'Rigel', 'Sirius', 'Pleiades'] },
-    // Spring: March-May
-    spring: { months: [2, 3, 4], objects: ['Arcturus', 'M81', 'M82', 'Hercules', 'Ursa Major'] },
-    // Summer: June-August
-    summer: { months: [5, 6, 7], objects: ['Vega', 'Deneb', 'Ring', 'Lagoon', 'Trifid', 'Antares', 'Scorpius'] },
-    // Autumn: September-November
-    autumn: { months: [8, 9, 10], objects: ['Andromeda', 'Double Cluster', 'Cassiopeia', 'M31'] }
+    winter:    { months: [11, 0, 1], objects: ['Orion', 'Betelgeuse', 'Rigel', 'Sirius', 'Pleiades'] },
+    spring:    { months: [2, 3, 4],   objects: ['Arcturus', 'M81', 'M82', 'Hercules', 'Ursa Major'] },
+    summer:    { months: [5, 6, 7],   objects: ['Vega', 'Deneb', 'Ring', 'Lagoon', 'Trifid', 'Antares', 'Scorpius'] },
+    autumn:    { months: [8, 9, 10],  objects: ['Andromeda', 'Double Cluster', 'Cassiopeia', 'M31'] }
   };
 
   var OBJECT_INFO = {};
@@ -57,33 +53,28 @@
     return String(num.toFixed(1));
   }
 
-  function renderResults(dateStr, seasonKey) {
+  function renderResults(seasonKey) {
     var resultsDiv = document.getElementById('finder-results');
     if (!resultsDiv) return;
 
-    var dateObj;
-    if (/^\d{4}-\d{2}$/.test(dateStr)) {
-      var parts = dateStr.split('-');
-      dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
-    } else {
-      resultsDiv.innerHTML = '<p>Selected date is invalid. Please pick a valid month.</p>';
+    var season = getSeason(new Date().getMonth());
+    if (!season && !seasonKey) {
+      resultsDiv.innerHTML = '<p>No seasonal data available for this period.</p>';
       return;
     }
 
-    var month = dateObj.getMonth();
-    var year = dateObj.getFullYear();
-    var season = getSeason(month);
-    
-    if (!season) {
+    var key = seasonKey || season.name;
+    var seasonData = VISIBILITY[key];
+    if (!seasonData) {
       resultsDiv.innerHTML = '<p>No seasonal data available for this period.</p>';
       return;
     }
 
     var html = '';
-    html += '<div class="result-header">' + capitalize(seasonKey.toUpperCase()) + ' viewing season</div>';
-    
+    html += '<div class="result-header">' + capitalize(key.toUpperCase()) + ' viewing season</div>';
+
     var foundObjects = [];
-    var requested = season.objects || [];
+    var requested = seasonData.objects || [];
     for (var i = 0; i < requested.length; i++) {
       var objName = requested[i];
       if (OBJECT_INFO[objName]) {
@@ -92,7 +83,7 @@
     }
 
     if (foundObjects.length === 0) {
-      html += '<p>No notable targets available this month.</p>';
+      html += '<p>No notable targets available this season.</p>';
     } else {
       var byType = {};
       foundObjects.forEach(function(item) {
@@ -104,7 +95,7 @@
       var types = Object.keys(byType).sort();
       for (var j = 0; j < types.length; j++) {
         var type = types[j];
-        html += '<div class="result-item"><span class="result-name">' + type + 's</span><span class="result-detail">visible ' + monthName(month) + ' ' + year + '</span></div>';
+        html += '<div class="result-item"><span class="result-name">' + type + 's</span><span class="result-detail">visible this season</span></div>';
         var items = byType[type];
         for (var k = 0; k < items.length; k++) {
           var item = items[k];
@@ -124,7 +115,7 @@
       summer: 'The Milky Way arcs overhead from dusk through midnight—use averted vision to reveal Lagoon and Trifid.',
       autumn: 'Andromeda rises east by late evening. Allow your eyes dark-adaptation time before attempting.'
     };
-    html += '<div class="result-item"><span class="result-detail" style="text-align:left;max-width:85%;opacity:0.9">' + (tips[seasonKey] || 'Observe from the darkest site you can reach.') + '</span></div>';
+    html += '<div class="result-item"><span class="result-detail" style="text-align:left;max-width:85%;opacity:0.9">' + (tips[key] || 'Observe from the darkest site you can reach.') + '</span></div>';
 
     resultsDiv.innerHTML = html;
   }
@@ -135,52 +126,38 @@
     });
   }
 
-  function handleSearch(e) {
-    if (e) e.preventDefault();
-    var dateInput = document.getElementById('finder-date');
-    var dateValue = dateInput ? dateInput.value : '';
-    if (!dateValue) {
-      renderResults(null, null);
-      return;
-    }
-    var parts = dateValue.split('-');
-    if (parts.length === 2 && /^\d{4}$/.test(parts[0]) && /^\d{1,2}$/.test(parts[1])) {
-      var month = parseInt(parts[1]) - 1;
-      if (month >= 0 && month <= 11) {
-        var season = getSeason(month);
-        renderResults(dateValue, season ? season.name : null);
-      }
-    }
-  }
-
   function init() {
     finderWidget.style.display = 'block';
-    var now = new Date();
 
-    var summary = document.querySelector('#finder-panel summary');
-    if (summary) {
-      summary.addEventListener('click', function(e) {
-        setTimeout(function() {
-          var input = document.getElementById('finder-date');
-          if (input && !document.activeElement) {
-            input.focus();
-          }
-        }, 100);
-      });
-    }
+    var chipsContainer = document.getElementById('season-chips');
+    if (chipsContainer) {
+      var seasons = Object.keys(VISIBILITY);
+      for (var s = 0; s < seasons.length; s++) {
+        var btn = document.createElement('button');
+        btn.className = 'chip';
+        btn.setAttribute('data-season', seasons[s]);
+        btn.textContent = capitalize(seasons[s]) + ' sky';
+        chipsContainer.appendChild(btn);
+      }
 
-    var dateInput = document.getElementById('finder-date');
-    var mm = ('0' + (now.getMonth() + 1)).slice(-2);
-    if (dateInput) {
-      dateInput.value = now.getFullYear() + '-' + mm;
-      dateInput.addEventListener('change', function() {
-        handleSearch();
-      });
-    }
+      for (var ci = 0; ci < chipsContainer.children.length; ci++) {
+        (function(chip) {
+          var seasonKey = chip.getAttribute('data-season');
+          chip.addEventListener('click', function() {
+            // Update aria-pressed on all chips
+            for (var c = 0; c < chipsContainer.children.length; c++) {
+              chipsContainer.children[c].setAttribute('aria-pressed', String(chipsContainer.children[c] === chip));
+            }
+            renderResults(seasonKey);
+          });
+        })(chipsContainer.children[ci]);
+      }
 
-    var searchBtn = document.getElementById('finder-search');
-    if (searchBtn) {
-      searchBtn.addEventListener('click', handleSearch);
+      // Default to current season
+      var currentSeason = getSeason(new Date().getMonth());
+      if (currentSeason) {
+        renderResults(currentSeason.name);
+      }
     }
   }
 
