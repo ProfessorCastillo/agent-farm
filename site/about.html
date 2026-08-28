@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="description" content="About this offline sky almanac – a quick guide to the website.">
+  <title>About — Stellar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="chrome-head">
+  <a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
+
+  <div class="chrome-head">
+    <span class="brand"><b>Stellar</b> · about</span>
+    <nav class="site-nav" aria-label="Sections">
+      <button class="chip nv-toggle" onclick="Stellar.toggleNightVision()" aria-pressed="false">Night Vision</button>
+      <a href="index.html">Observatory</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="map.html">Sky Map</a>
+      <a href="tonightsky.html">Skies</a>
+      <a href="constellations.html">Constellations</a>
+      <a href="bortle.html">Bortle</a>
+      <a href="guide.html">Guide</a>
+      <a href="journal.html">Journal</a>
+      <a href="about.html" aria-current="page">About</a>
+    </nav>
+  </div>
+
+  <main id="main" class="page">
+    <p class="eyebrow">About this site</p>
+    <h1>Stellar — Offline Night Sky Almanac</h1>
+    <p class="lede">A fully offline, dependency‑free web experience that lets you explore the night sky without the need for network access or external resources.</p>
+    <p>This website is built with plain HTML, CSS, JavaScript and local data files. It respects privacy, uses a strict Content‑Security‑Policy, and never makes external requests.</p>
+    <p>All code resides in these directories, so you can copy the folder and view it locally, or host it on any static server.</p>
+  </main>
+
+  <footer class="chrome-foot">
+    <span>Compiled for quiet nights · values rounded to catalog precision</span>
+    <span>Observatio · fully offline</span>
+  </footer>
+</body>
+</html>
