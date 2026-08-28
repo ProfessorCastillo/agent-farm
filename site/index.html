@@ -11,6 +11,25 @@
 <body class="observatory">
   <canvas id="sky" aria-label="Animated star field — move your pointer to shape it"></canvas>
   <canvas id="trails" class="hidden" aria-hidden="true"></canvas>
+  
+  <details class="moon-panel">
+    <summary>Moon phase</summary>
+    <div class="moon-content">
+      <div class="moon-phase-display">
+        <canvas class="moon-canvas" id="moon-canvas" width="64" height="64"></canvas>
+      </div>
+      <p class="moon-text" id="moon-text">Calculating...</p>
+    </div>
+  </details>
+
+  <div class="discovery-toast" id="discovery-toast" aria-live="polite">
+    <span class="toast-icon">✦</span>
+    <div class="toast-content">
+      <h4></h4>
+      <p class="toast-sub"></p>
+    </div>
+  </div>
+
   <div class="ui">
     <header class="ui-top">
       <div>

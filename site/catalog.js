@@ -14,12 +14,13 @@
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return map[c] || c;
     });
   }
 
   function card(o) {
-    return '<article class="card" data-type="' + esc(o.type) + '">' +
+    return '<article class="card" data-type="' + esc(o.type) + '" data-name="' + esc(o.name).toLowerCase() + '">' +
       '<div><h3>' + esc(o.name) + '<span class="cat">' + esc(o.desig) + '</span></h3>' +
       '<span class="type-badge ' + (typeClass[o.type] || '') + '">' + esc(o.type) + '</span></div>' +
       '<p class="blurb">' + esc(o.blurb) + '</p>' +
@@ -38,28 +39,55 @@
   wrap.innerHTML = items.map(card).join('');
 
   var chips = document.querySelectorAll('[data-filter]');
+  var searchInput = document.getElementById('catalog-search');
+  var filter = 'all';
+  var searchText = '';
 
-  function apply(filter) {
+  function apply() {
     var cards = wrap.querySelectorAll('.card');
     var shown = 0;
     for (var i = 0; i < cards.length; i++) {
-      var match = filter === 'all' || cards[i].getAttribute('data-type') === filter;
-      cards[i].classList.toggle('hidden', !match);
-      if (match) shown++;
+      var cardEl = cards[i];
+      var typeMatch = filter === 'all' || cardEl.getAttribute('data-type') === filter;
+      var nameAttr = cardEl.getAttribute('data-name') || '';
+      var searchMatch = !searchText || nameAttr.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
+      var match = typeMatch && searchMatch;
+      if (match) {
+        shown++;
+        if (isElementInDOM(cardEl)) {
+          cardEl.style.display = '';
+        } else {
+          cardEl.classList.remove('hidden');
+        }
+      } else {
+        cardEl.classList.add('hidden');
+      }
     }
     var label = filter === 'all' ? 'all types' : filter.toLowerCase() + 's';
+    var searchNote = searchText ? ' · matched "' + searchText + '"' : '';
     document.getElementById('countline').textContent =
-      'Showing ' + shown + ' of ' + items.length + ' objects · ' + label;
+      'Showing ' + shown + ' of ' + items.length + ' objects · ' + label + searchNote;
 
     for (var j = 0; j < chips.length; j++) {
       chips[j].setAttribute('aria-pressed', String(chips[j].getAttribute('data-filter') === filter));
     }
   }
 
+  function isElementInDOM(el) { return !!el.offsetParent; }
+
   for (var c = 0; c < chips.length; c++) {
     chips[c].addEventListener('click', function () {
-      apply(this.getAttribute('data-filter'));
+      filter = this.getAttribute('data-filter');
+      apply();
     });
   }
-  apply('all');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      searchText = this.value.trim();
+      apply();
+    });
+  }
+
+  apply();
 })();

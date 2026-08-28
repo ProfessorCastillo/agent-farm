@@ -41,6 +41,18 @@
     };
   }
 
+  function showDiscovery(obj) {
+    var toast = document.getElementById('discovery-toast');
+    if (toast) {
+      toast.querySelector('.toast-content h4').textContent = 'Discovered: ' + obj.name;
+      toast.querySelector('.toast-sub').textContent = obj.type + ' · ' + (obj.desig || obj.constellate || '');
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 3000);
+    }
+  }
+
+  var discoveryRings = [];
+
   function seed(n) {
     stars = [];
     for (var i = 0; i < n; i++) stars.push(makeStar());
@@ -104,6 +116,39 @@
       }
     }
     document.getElementById('stat-found').textContent = found + '/' + total;
+  }
+
+  function drawDiscoveryRings() {
+    for (var i = discoveryRings.length - 1; i >= 0; i--) {
+      var ring = discoveryRings[i];
+      ring.age++;
+      var alpha = 1 - ring.age / 60;
+      if (alpha <= 0) {
+        discoveryRings.splice(i, 1);
+        continue;
+      }
+    }
+    
+    ctx.globalCompositeOperation = 'lighter';
+    for (var j = 0; j < discoveryRings.length; j++) {
+      var r = discoveryRings[j];
+      var rad = r.radius + r.age * 2;
+      var alpha = (1 - r.age / 60) * 0.5;
+      var hue = cur.hsl[0] + 40;
+      var gr = ctx.createRadialGradient(r.x, r.y, 0, r.x, r.y, rad);
+      gr.addColorStop(0, 'hsla(' + hue + ', 80%, 70%, 0)');
+      gr.addColorStop(0.5, 'hsla(' + hue + ', 80%, 80%, ' + alpha.toFixed(3) + ')');
+      gr.addColorStop(1, 'hsla(' + hue + ', 80%, 70%, 0)');
+      ctx.fillStyle = gr;
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, rad, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function addDiscoveryRing(x, y) {
+    discoveryRings.push({ x: x, y: y, radius: 15, age: 0 });
   }
 
   function togglePause() {
@@ -182,6 +227,8 @@
           if (d_mouse < 15) {
             s.discovered = true;
             updateDiscovery();
+            showDiscovery(s.obj);
+            addDiscoveryRing(s.x, s.y);
           }
         }
       }
@@ -213,25 +260,40 @@
       }
     }
 
-    ctx.globalCompositeOperation = 'lighter';
-    for (i = 0; i < stars.length; i++) {
-      s = stars[i];
-      s.tw += s.ts * 0.016;
-      var twk = 0.6 + 0.4 * Math.sin(s.tw);
-      var rad = s.r * (1.3 + 0.6 * twk);
-      var hue = cur.hsl[0] + (s.tint - 1) * cur.hsl[1] * 0.6;
-      var rg = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rad * 3.4);
-      rg.addColorStop(0, 'hsla(' + hue + ',' + cur.hsl[1] + '%,88%,' + (0.85 * twk) + ')');
-      rg.addColorStop(0.45, 'hsla(' + hue + ',' + cur.hsl[1] + '%,65%,' + (0.25 * twk) + ')');
-      rg.addColorStop(1, 'hsla(0,0%,50%,0)');
-      ctx.fillStyle = rg;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, rad * 3.4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalCompositeOperation = 'source-over';
+      drawDiscoveryRings();
+      
+      ctx.globalCompositeOperation = 'lighter';
+      for (i = 0; i < stars.length; i++) {
+        s = stars[i];
+        s.tw += s.ts * 0.016;
+        var twk = 0.6 + 0.4 * Math.sin(s.tw);
+        var rad = s.r * (1.3 + 0.6 * twk);
+        var hue = cur.hsl[0] + (s.tint - 1) * cur.hsl[1] * 0.6;
+        
+        if (s.isDiscoverable && s.discovered) {
+          var rg = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rad * 4);
+          rg.addColorStop(0, 'hsla(' + hue + ',100%,95%,1)');
+          rg.addColorStop(0.3, 'hsla(' + hue + ',80%,75%,0.6)');
+          rg.addColorStop(0.8, 'hsla(40,100%,80%,0.2)');
+          rg.addColorStop(1, 'hsla(0,0%,50%,0)');
+          ctx.fillStyle = rg;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, rad * 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        var rg1 = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rad * 3.4);
+        rg1.addColorStop(0, 'hsla(' + hue + ',' + cur.hsl[1] + '%,88%,' + (0.85 * twk) + ')');
+        rg1.addColorStop(0.45, 'hsla(' + hue + ',' + cur.hsl[1] + '%,65%,' + (0.25 * twk) + ')');
+        rg1.addColorStop(1, 'hsla(0,0%,50%,0)');
+        ctx.fillStyle = rg1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, rad * 3.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'source-over';
 
-    fpsFrames++;
+      fpsFrames++;
     if (now - fpsLast >= 600) {
       document.getElementById('stat-fps').textContent = Math.round(fpsFrames * 1000 / (now - fpsLast));
       fpsFrames = 0; fpsLast = now;
@@ -330,5 +392,89 @@
         }
       });
     }
+   })();
+  
+  // Moon phase calculation and display
+  (function () {
+    var moonCanvas = document.getElementById('moon-canvas');
+    var moonText = document.getElementById('moon-text');
+    if (!moonCanvas || !moonText) return;
+    
+    var ctx = moonCanvas.getContext('2d');
+    var CYCLE_DAYS = 29.53;
+    var KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime() / 86400000;
+    
+    function getMoonAge(date) {
+      var daysSinceEpoch = (date.getTimezoneOffset() * 60 * 1000 + date.getTime()) / 86400000;
+      var cyclesSinceEpoch = (daysSinceEpoch - KNOWN_NEW_MOON) / CYCLE_DAYS;
+      return ((cyclesSinceEpoch % 1) * CYCLE_DAYS + CYCLE_DAYS) % CYCLE_DAYS;
+    }
+    
+    function getPhaseName(age) {
+      var phase = age / CYCLE_DAYS;
+      if (phase < 0.06 || phase > 0.94) return 'New Moon';
+      if (phase < 0.21) return 'Waxing Crescent';
+      if (phase < 0.26) return 'First Quarter';
+      if (phase < 0.41) return 'Waxing Gibbous';
+      if (phase < 0.46) return 'Full Moon';
+      if (phase < 0.61) return 'Waning Gibbous';
+      if (phase < 0.66) return 'Third Quarter';
+      return 'Waning Crescent';
+    }
+    
+    function drawMoon(age) {
+      var phase = age / CYCLE_DAYS;
+      var radius = 28;
+      var centerX = 32, centerY = 32;
+      
+      ctx.clearRect(0, 0, 64, 64);
+      
+      var gradient = ctx.createRadialGradient(centerX - 8, centerY - 8, 2, centerX, centerY, radius);
+      gradient.addColorStop(0, '#f5e6d3');
+      gradient.addColorStop(1, '#c4b599');
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fill();
+      
+      var illumination = (Math.cos(phase * Math.PI * 2) + 1) / 2;
+      var halfMoonPhase = phase - 0.5;
+      if (halfMoonPhase < 0) halfMoonPhase += 1;
+      halfMoonPhase = phase > 0.5 ? (phase - 0.5) * 2 : (0.5 - phase) * 2;
+      
+      var offset = Math.cos(phase * Math.PI * 2) * radius;
+      
+      ctx.fillStyle = '#0d0a08';
+      ctx.beginPath();
+      
+      if (phase <= 0.5) {
+        var leftEdge = centerX + offset / 2;
+        ctx.arc(centerX, centerY, radius, -Math.PI / 6, Math.PI * 7 - Math.PI / 6);
+        ctx.arc(leftEdge, centerY, Math.abs(offset), Math.PI * 7 - Math.PI / 6, -Math.PI / 6);
+      } else {
+        var rightEdge = centerX + offset / 2;
+        ctx.arc(centerX, centerY, radius, Math.PI - Math.PI / 6, Math.PI + Math.PI / 6);
+        ctx.arc(rightEdge, centerY, Math.abs(offset), Math.PI + Math.PI / 6, Math.PI - Math.PI / 6);
+      }
+      
+      ctx.fill();
+      
+      ctx.fillStyle = '#8a7f6b';
+      ctx.beginPath();
+      ctx.arc(centerX - 10, centerY - 8, 5, 0, Math.PI * 2);
+      ctx.arc(centerX + 8, centerY + 5, 4, 0, Math.PI * 2);
+      ctx.arc(centerX + 12, centerY - 12, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    
+    function updateMoon() {
+      var now = new Date();
+      var age = getMoonAge(now);
+      drawMoon(age);
+      moonText.textContent = getPhaseName(age) + ' · ' + (age / CYCLE_DAYS * 100).toFixed(1) + '% illuminated';
+    }
+    
+    updateMoon();
   })();
 })();
