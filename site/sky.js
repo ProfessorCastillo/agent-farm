@@ -88,7 +88,67 @@
       toast.classList.add('show');
       setTimeout(function () { toast.classList.remove('show'); }, 3000);
     }
+    openTelescope(obj);
   }
+
+  function openTelescope(obj) {
+    var view = document.getElementById('telescope-view');
+    if (!view) return;
+    
+    document.getElementById('tel-name').textContent = obj.name;
+    document.getElementById('tel-desig').textContent = obj.desig || obj.const;
+    document.getElementById('tel-desc').textContent = obj.long;
+    
+    view.classList.remove('hidden');
+    drawTelescopeObject(obj);
+  }
+
+  function drawTelescopeObject(obj) {
+    var canvas = document.getElementById('telescope-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 400, 400);
+    
+    var cx = 200, cy = 200;
+    var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 150);
+    
+    if (obj.type === 'Galaxy') {
+      grad.addColorStop(0, 'rgba(255,255,255,0.8)');
+      grad.addColorStop(0.2, 'rgba(200,220,255,0.4)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, 120, 40, Math.PI/4, 0, Math.PI*2);
+      ctx.fill();
+    } else if (obj.type === 'Nebula') {
+      grad.addColorStop(0, 'rgba(255,100,200,0.6)');
+      grad.addColorStop(0.5, 'rgba(150,50,100,0.3)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 100, 0, Math.PI*2);
+      ctx.fill();
+    } else if (obj.type === 'Cluster') {
+      ctx.fillStyle = 'white';
+      for(var i=0; i<50; i++) {
+        var r = Math.random() * 60;
+        var a = Math.random() * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a)*r, cy + Math.sin(a)*r, Math.random()*2, 0, Math.PI*2);
+        ctx.fill();
+      }
+    } else {
+      grad.addColorStop(0, 'white');
+      grad.addColorStop(0.1, 'rgba(255,255,200,0.5)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 80, 0, Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  // In the init/startup part of sky.js, we need to add the listener for the close button.
 
   var discoveryRings = [];
 
@@ -346,6 +406,11 @@
   size();
   window.addEventListener('resize', size);
   controls();
+  
+  document.getElementById('close-telescope').addEventListener('click', function() {
+    document.getElementById('telescope-view').classList.add('hidden');
+  });
+
   applyTheme('void');
   setDensity(density);
   requestAnimationFrame(frame);
