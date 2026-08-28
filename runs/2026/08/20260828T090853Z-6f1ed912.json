@@ -1,0 +1,39 @@
+{
+  "accepted": true,
+  "after": {
+    "file_count": 17,
+    "total_bytes": 152837,
+    "tree_sha256": "b3ada0540206f47adc9cb562c7904be0848dc236bd74cb23d1a79cf23bc66284"
+  },
+  "before": {
+    "file_count": 17,
+    "total_bytes": 152125,
+    "tree_sha256": "40cf0ce404829cfa0a33e9404ea22b816fbcb5549609b14ec19e36a1291bf020"
+  },
+  "changed_file_count": 2,
+  "duration_seconds": 260.694,
+  "epoch": 5,
+  "epoch_position": 9,
+  "epoch_seed": 9159849336293847993,
+  "finished_at": "2026-08-28T09:13:21+00:00",
+  "main_commit": "9bfceed3cd45b89c713d9426d1feb5c934ee3f43",
+  "model": "ollama/ornith-1.5:35b",
+  "opencode_version": "1.18.21",
+  "pool_version": 1,
+  "published_at": "2026-08-28T09:13:21+00:00",
+  "returncode": 0,
+  "run_id": "20260828T090853Z-6f1ed912",
+  "schema_version": 2,
+  "started_at": "2026-08-28T09:08:53+00:00",
+  "status": "accepted",
+  "timed_out": false,
+  "validation": {
+    "browser_error_count": 0,
+    "checked_files": 17,
+    "checked_pages": 6,
+    "ok": true,
+    "screenshot_count": 2,
+    "static_error_count": 0,
+    "total_bytes": 152837
+  }
+}
