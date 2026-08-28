@@ -26,6 +26,67 @@
       lines: [[0,1],[1,2],[2,3],[3,0],[0,3],[3,4],[4,5],[5,6]]
     },
     {
+      name: 'Ursa Minor',
+      subtitle: 'The Little Bear — Summer, circumpolar sky',
+      objects: ['Polaris (\u03b1 UMi)', 'Kochab (\u03b2 UMi)', 'Pherkad (\u03b3 UMi)'],
+      color: '#9db4ff',
+      stars: [
+        { x: 60, y: 60 },
+        { x: 45, y: 82 },
+        { x: 28, y: 78 },
+        { x: 18, y: 62 },
+        { x: 24, y: 42 },
+        { x: 42, y: 34 },
+        { x: 59, y: 44 }
+      ],
+      lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6]]
+    },
+    {
+      name: 'Cepheus',
+      subtitle: 'The King — Autumn, circumpolar sky',
+      objects: ['Algol (\u03b1 Per)', 'Enif (\u03b1 Aql)', 'Mu Cephei'],
+      color: '#9db4ff',
+      stars: [
+        { x: 60, y: 88 },
+        { x: 24, y: 62 },
+        { x: 30, y: 30 },
+        { x: 78, y: 22 },
+        { x: 94, y: 58 },
+        { x: 62, y: 46 }
+      ],
+      lines: [[0,1],[1,2],[2,3],[3,4],[4,0],[1,5],[5,3]]
+    },
+    {
+      name: 'Cassiopeia',
+      subtitle: 'The Queen — Autumn, circumpolar sky',
+      objects: ['Perseus (\u03b1 Per)', 'Schedar (\u03b1 Cas)', 'Caph (\u03b2 Cas)'],
+      color: '#9db4ff',
+      stars: [
+        { x: 18, y: 92 },
+        { x: 40, y: 70 },
+        { x: 52, y: 50 },
+        { x: 66, y: 72 },
+        { x: 86, y: 92 }
+      ],
+      lines: [[0,1],[1,2],[2,3],[3,4]]
+    },
+    {
+      name: 'Draco',
+      subtitle: 'The Serpent — Circumpolar northern sky',
+      objects: ['Elthon (\u03b2 Dra)', 'Ruchbah', 'Rastaban (\u03b3 Dra)'],
+      color: '#f0a6ff',
+      stars: [
+        { x: 86, y: 88 },
+        { x: 62, y: 74 },
+        { x: 40, y: 62 },
+        { x: 30, y: 38 },
+        { x: 48, y: 22 },
+        { x: 72, y: 18 },
+        { x: 92, y: 88 }
+      ],
+      lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]]
+    },
+    {
       name: 'Orion',
       subtitle: 'The Hunter — Winter, southern sky',
       objects: ['M42 (Orion Nebula)', 'B33 (Horsehead)', 'Betelgeuse (\u03b1 Ori)', 'Rigel (\u03b2 Ori)'],
@@ -47,23 +108,6 @@
       subtitle: 'The Lion — Spring, eastern sky',
       objects: ['M65 (Leo I)', 'M66 (Leo II)', 'M96 Group'],
       color: '#ffd98a',
-
-      stars: [
-        { x: 12, y: 80 },
-        { x: 25, y: 60 },
-        { x: 40, y: 45 },
-        { x: 60, y: 35 },
-        { x: 82, y: 30 },
-        { x: 100, y: 45 }
-      ],
-
-      lines: [[1,2],[2,3],[0,1],[3,4],[4,5],[1,0]]
-    },
-    {
-      name: 'Cassiopeia',
-      subtitle: 'The Queen — Autumn, circumpolar northern sky',
-      objects: ['NGC 457 (E Tetrady)', 'NGC 1474'],
-      color: '#7fe3c0',
 
       stars: [
         { x: 10, y: 65 },
@@ -245,20 +289,37 @@
       lines: [[0,2],[1,3],[2,4]]
     },
     {
-      name: 'Draco',
-      subtitle: 'The Serpent — Circumpolar northern sky',
-      objects: ['Elthon (\u03b2 Dra)', 'Ruchbah'],
-      color: '#f0a6ff',
+      name: 'Bo\u03f6tes',
+      subtitle: 'The Herdsman — Spring, eastern sky',
+      objects: ['Arcturus (\u03b1 Boo)', 'Epsilon Lyrae (double-double)'],
+      color: '#ffd98a',
 
       stars: [
-        { x: 10, y: 85 },
-        { x: 35, y: 75 },
-        { x: 60, y: 62 },
-        { x: 85, y: 45 },
-        { x: 98, y: 25 }
+        { x: 53, y: 18 },
+        { x: 22, y: 58 },
+        { x: 10, y: 92 },
+        { x: 55, y: 100 },
+        { x: 88, y: 78 },
+        { x: 102, y: 48 }
       ],
 
-      lines: [[0,1],[1,2],[2,3],[3,4]]
+      lines: [[0,1],[1,2],[2,3],[3,5],[5,4]]
+    },
+    {
+      name: 'Gemini',
+      subtitle: 'The Twins — Winter, northern sky',
+      objects: ['Castor (\u03b1 Gem)', 'Pollux (\u03b2 Gem)', 'M35'],
+      color: '#9db4ff',
+
+      stars: [
+        { x: 38, y: 28 },
+        { x: 62, y: 25 },
+        { x: 35, y: 55 },
+        { x: 58, y: 58 },
+        { x: 30, y: 85 }
+      ],
+
+      lines: [[0,2],[1,3],[2,4]]
     }
   ];
 
