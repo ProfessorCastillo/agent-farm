@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
   <meta name="description" content="A quiet corner for night-skies: drifting stars you can bend with gravity, warm brass UI, and a complete offline almanac for the eyes and the heart.">
-  <title>Stellar Almanac — Night Sky Explorer</title>
+  <title>Night Sky Almanac — The Quiet Sky</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="observatory">
@@ -33,47 +33,32 @@
   <div class="ui">
     <header class="ui-top">
       <div>
-        <span class="eyebrow">Stellar Explorer — Offline Almanac</span>
-        <h1 id="title">Stellar Voyage</h1>
-        <p class="hint" id="hint">drag to bend space — the dark between galaxies
-
-<p class="hint">Explore a curated catalog of galaxies, nebulae, and stars — all stored locally for offline browsing.</p></p>
-<div class="stats" aria-live="polite">
-   <span>Stars <b id="stat-count">140</b></span>
-   <span>Mode <b id="stat-mode">Drift</b></span>
-    <span>Found <b id="stat-found">0/9</b></span>
-    <span>fps <b id="stat-fps">—</b></span>
-   </div>
+        <span class="eyebrow">Night Sky Almanac • Offline</span>
+        <h1 id="title">The Quiet Sky</h1>
+        <p class="hint" id="hint">move your pointer to bend starlight — the dark between galaxies</p>
+        <p class="hint">A small local catalog of galaxies, nebulae, clusters, and stars you can explore without leaving the dark.</p>
+        <div class="stats" aria-live="polite">
+          <span>Stars <b id="stat-count">140</b></span>
+          <span>Mode <b id="stat-mode">Drift</b></span>
+          <span>Found <b id="stat-found">0/9</b></span>
+          <span>fps <b id="stat-fps">—</b></span>
+        </div>
       </div>
       <nav class="top-nav" aria-label="Sections">
-      <a href="catalog.html">Catalog</a>
-      <a href="map.html">Sky Map</a>
-      <a href="tonightsky.html">Skies</a>
-      <a href="constellations.html">Constellations</a>
-      <a href="guide.html">Guide</a>
-        <a href="#logbook" id="log-link">Logbook</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="map.html">Sky Map</a>
+        <a href="tonightsky.html">Skies</a>
+        <a href="constellations.html">Constellations</a>
+        <a href="guide.html">Guide</a>
       </nav>
     </header>
 
     <nav class="toolbar" id="controls" aria-label="Observatory controls"></nav>
 
-
-
     <div class="status" role="status" aria-live="polite">
       <span class="status-label">Tonight:</span> <b id="seasonal-what">—</b>
     </div>
-    <div class="finder-widget" id="finder" style="display:none;">
-      <details id="finder-panel">
-        <summary class="finder-summary">Find tonight's best targets →</summary>
-        <div class="finder-content">
-          <div class="finder-info">Enter a date to see what objects are favorably placed that night.</div>
-          <label for="finder-date"><b>Date:</b></label>
-          <input type="month" id="finder-date">
-          <button class="chip" id="finder-search">Find targets</button>
-          <div class="finder-results" id="finder-results" aria-live="polite"></div>
-        </div>
-      </details>
-    </div>
+
     <div class="night-dial" id="night-dial">
       <button class="chip icon" aria-label="Toggle star trails">⟲</button>
       <span class="trail-label">Star trails: <b id="trail-status">off</b></span>
@@ -83,6 +68,5 @@
   <script src="app.js"></script>
   <script src="data.js"></script>
   <script src="sky.js"></script>
-  <script src="finder.js"></script>
 </body>
 </html>
