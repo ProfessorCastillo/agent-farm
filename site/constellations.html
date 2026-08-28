@@ -4,13 +4,72 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
-    <meta name="description" content="The zodiac belt plus the four seasonal circumpolar constellations, rendered as star maps you can trace yourself — the shapes that frame the Sun's path and the patterns that wheel around the Pole through the year.">
+  <meta name="description" content="A star atlas: sixteen classic night-sky patterns drawn to their true star positions, sized by real brightness — fifteen constellations and the Pleiades asterism — with field notes on how to find each one.">
   <title>Constellations — Stellar</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .constellation-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(20, 18, 16, 0.9), rgba(8, 8, 8, 0.95));
+      border-radius: var(--radius);
+      padding: 1.35rem 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.85rem;
+      transition: border-color 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .constellation-card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-3px);
+    }
+    .c-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+    .c-name { font-size: 1.12rem; font-weight: 650; margin: 0; letter-spacing: -0.01em; }
+    .c-kind {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .c-kind.asterism { color: #d4a465; border-color: rgba(212, 164, 101, 0.4); }
+    .c-when { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+    .c-find {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.55;
+      border-top: 1px solid var(--line);
+      padding-top: 0.75rem;
+    }
+    .c-objs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .c-obj {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .season-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .season-note { margin-top: 1.4rem; font-size: 0.85rem; color: var(--muted); max-width: 44rem; line-height: 1.6; }
+    .season-note b { color: var(--fg); }
+  </style>
 </head>
 <body id="main" class="chrome-head">
   <a href="#main" class="skip-link" tabindex="0">Skip to main content</a>
-  
+
   <div class="chrome-head">
     <span class="brand"><b>Stellar</b> · constellations</span>
     <nav class="site-nav" aria-label="Sections">
@@ -26,16 +85,33 @@
   </div>
 
   <main class="page">
-    <p class="eyebrow">Constellation guide · seventeen patterns to trace</p>
-    <h1>Trace your own sky</h1>
-    <p class="lede">These drawings show you how to find each constellation yourself. Connect the dots the way you will see them above — no computer needed, just a dark patch of sky and patient eyes.</p>
+    <p class="eyebrow">Star atlas · sixteen patterns</p>
+    <h1>The patterns overhead</h1>
+    <p class="lede">Fifteen classic constellations — the shapes the stars make for us — plus one famous asterism, the Pleiades. Each is drawn from its true star positions, with stars sized by their real brightness, so the chart matches the sky. Read the finding note before you go out, and work the pattern from its brightest, labeled anchor.</p>
+
+    <h2>Trace them yourself</h2>
+    <div>
+      <div class="season-row">
+        <span class="glab" style="padding:0 0.5rem;">Filter</span>
+        <div class="chips" id="season-chips" role="group" aria-label="Filter by best season">
+          <button class="chip" data-season="all" aria-pressed="true">All patterns</button>
+          <button class="chip" data-season="winter" aria-pressed="false">Winter sky</button>
+          <button class="chip" data-season="spring" aria-pressed="false">Spring sky</button>
+          <button class="chip" data-season="summer" aria-pressed="false">Summer sky</button>
+          <button class="chip" data-season="autumn" aria-pressed="false">Autumn sky</button>
+        </div>
+      </div>
+      <p class="countline" id="const-count" aria-live="polite"></p>
+    </div>
 
     <div class="constellation-grid" id="constellations"></div>
+
+    <p class="season-note">The five circumpolar shapes — <b>Ursa Major, Ursa Minor, Cepheus, Cassiopeia, and Draco</b> — never set from mid-northern latitudes: they wheel continuously around the north pole and so appear under every season’s chip. The season filter simply tells you when the other patterns climb high enough to be worth your night. Star sizes are true to life: on any card, a 0.4-magnitude Betelgeuse or a 0.1-magnitude Rigel sits unmistakably larger than its 4th-magnitude neighbors.</p>
   </main>
 
   <footer class="chrome-foot">
-    <span>Compiled for quiet nights · draw the stars yourself</span>
-    <span>Observatio · fully offline</span>
+    <span>Compiled for quiet nights · star positions and brightnesses to catalog precision</span>
+    <span>Stellar · fully offline</span>
   </footer>
 
   <script src="app.js"></script>

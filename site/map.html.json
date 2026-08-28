@@ -101,7 +101,7 @@
           "tag": "p",
           "class": "countline",
           "id": "countline",
-          "aria-live`: "polite"
+          "aria-live": "polite"
         },
         {
           "tag": "h2",
