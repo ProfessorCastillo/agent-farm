@@ -91,5 +91,10 @@ window.Stellar = {
     }
   },
 
-  fmt: function (n) { return String(n).replace(/,/g, '\u2009'); }
+  fmt: function (n) { return String(n).replace(/,/g, '\u2009'); },
+  toggleNightVision: function () {
+    document.body.classList.toggle('night-vision');
+    const btn = document.querySelector('.nv-toggle');
+    if (btn) btn.setAttribute('aria-pressed', String(document.body.classList.contains('night-vision')));
+  }
 };

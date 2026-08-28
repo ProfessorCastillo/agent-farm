@@ -278,12 +278,30 @@ body.observatory { overflow: hidden; height: 100vh; height: 100dvh; display: fle
 /* focus visible improvements */
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .chip:hover { transition: none; }
-  .card:hover { transform: none; }
-  .constellation-card:hover { transform: none; }
+/* night vision mode (red light) */
+body.night-vision {
+  --bg: #120000;
+  --bg2: #220000;
+  --fg: #ff5555;
+  --muted: #883333;
+  --line: rgba(255, 0, 0, 0.2);
+  --panel: rgba(60, 0, 0, 0.4);
+  --accent: #ff0000;
+  --accent2: #aa0000;
+}
+body.night-vision #sky, 
+body.night-vision #trails, 
+body.night-vision .moon-canvas, 
+body.night-vision #wheel-canvas, 
+body.night-vision canvas {
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(4) brightness(0.8);
+}
+.nv-toggle {
+  margin-right: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 /* finder widget */
