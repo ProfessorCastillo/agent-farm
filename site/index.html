@@ -59,15 +59,28 @@
     <div class="status" role="status" aria-live="polite">
       <span class="status-label">Tonight:</span> <b id="seasonal-what">—</b>
     </div>
+  </div>
 
-    <div class="night-dial" id="night-dial">
+  <div class="night-dial" id="night-dial">
       <button class="chip icon" aria-label="Toggle star trails">⟲</button>
       <span class="trail-label">Star trails: <b id="trail-status">off</b></span>
     </div>
+
+  <div class="finder-widget" id="finder">
+    <details id="finder-panel">
+      <summary>Find tonight</summary>
+      <div class="finder-content">
+        <p class="finder-info">Pick a month and see what in the almanac is well placed to observe — peak season targets, plus a tip for the season.</p>
+        <label>Looking at <input type="month" id="finder-date" aria-label="Select a month"></label>
+        <button class="chip" id="finder-search">Show targets</button>
+        <div class="finder-results" id="finder-results" aria-live="polite"></div>
+      </div>
+    </details>
   </div>
 
   <script src="app.js"></script>
   <script src="data.js"></script>
   <script src="sky.js"></script>
+  <script src="finder.js"></script>
 </body>
 </html>

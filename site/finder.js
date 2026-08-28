@@ -155,7 +155,8 @@
 
   function init() {
     finderWidget.style.display = 'block';
-    
+    var now = new Date();
+
     var summary = document.querySelector('#finder-panel summary');
     if (summary) {
       summary.addEventListener('click', function(e) {
@@ -169,11 +170,12 @@
     }
 
     var dateInput = document.getElementById('finder-date');
+    var mm = ('0' + (now.getMonth() + 1)).slice(-2);
     if (dateInput) {
+      dateInput.value = now.getFullYear() + '-' + mm;
       dateInput.addEventListener('change', function() {
         handleSearch();
       });
-      dateInput.valueAsDate = new Date();
     }
 
     var searchBtn = document.getElementById('finder-search');
