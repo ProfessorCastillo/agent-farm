@@ -88,6 +88,10 @@ window.Stellar = {
         const s = Math.sin(Date.now() * 0.05) * 2.0 * (1 - d / R);
         return [dx / d * s, dy / d * s];
       }
+    },
+    constellations: {
+      label: 'Constellations',
+      fx: function () { return null; }
     }
   },
 

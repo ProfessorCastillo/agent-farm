@@ -7,15 +7,54 @@
 
   var MIN = 40, MAX = 420, STEP = 20;
   var CONN = 110;
-  var stars = [];
-  var mode = 'drift';
-  var density = 140;
-  var cur = THEMES.void;
-  var paused = false;
-  var constellationMode = false;
-  var userStars = [];
-  var mouse = { x: null, y: null, r: 150, active: false };
-  var fieldMax = 0;
+   var stars = [];
+   var meteors = [];
+   var mode = 'drift';
+   var density = 140;
+   var cur = THEMES.void;
+   var paused = false;
+   var constellationMode = false;
+   var userStars = [];
+   var mouse = { x: null, y: null, r: 150, active: false };
+   var comet = { x: -50, y: -50, vx: 0.5, vy: 0.5, active: true };
+   var fieldMax = 0;
+
+   function spawnMeteor() {
+     if (Math.random() < 0.01) {
+       meteors.push({
+         x: Math.random() * window.innerWidth,
+         y: -20,
+         vx: (Math.random() - 0.5) * 10,
+         vy: Math.random() * 10 + 5,
+         life: 1.0
+       });
+     }
+   }
+
+   function updateMeteors() {
+     for (var i = meteors.length - 1; i >= 0; i--) {
+       var m = meteors[i];
+       m.x += m.vx;
+       m.y += m.vy;
+       m.life -= 0.02;
+       if (m.life <= 0) {
+         meteors.splice(i, 1);
+       }
+     }
+   }
+
+   function drawMeteors(ctx) {
+     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+     ctx.lineWidth = 1;
+     for (var i = 0; i < meteors.length; i++) {
+       var m = meteors[i];
+       ctx.beginPath();
+       ctx.moveTo(m.x, m.y);
+       ctx.lineTo(m.x - m.vx * 2, m.y - m.vy * 2);
+       ctx.stroke();
+     }
+   }
+
 
   function size() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -216,31 +255,34 @@
     var fx = MODES[mode];
     var i, j, s, sp, a, b, dx, dy, d, al, d2;
 
-    for (i = 0; i < stars.length; i++) {
-      s = stars[i];
-      if (mouse.active && mouse.x !== null) {
-        var f = fx.fx(s.x, s.y, mouse);
-        if (f) { s.vx += f[0]; s.vy += f[1]; }
-        
-        if (s.isDiscoverable && !s.discovered) {
-          var d_mouse = Math.hypot(mouse.x - s.x, mouse.y - s.y);
-          if (d_mouse < 15) {
-            s.discovered = true;
-            updateDiscovery();
-            showDiscovery(s.obj);
-            addDiscoveryRing(s.x, s.y);
-          }
-        }
-      }
-      s.vx *= 0.985; s.vy *= 0.985;
-      sp = Math.hypot(s.vx, s.vy);
-      if (sp > 4) { s.vx *= 4 / sp; s.vy *= 4 / sp; }
-      s.x += s.vx; s.y += s.vy;
-      if (s.x < 0) s.x = W; else if (s.x > W) s.x = 0;
-      if (s.y < 0) s.y = H; else if (s.y > H) s.y = 0;
-    }
+     for (i = 0; i < stars.length; i++) {
+       s = stars[i];
+       if (mouse.active && mouse.x !== null) {
+         var f = fx.fx(s.x, s.y, mouse);
+         if (f) { s.vx += f[0]; s.vy += f[1]; }
+         
+         if (s.isDiscoverable && !s.discovered) {
+           var d_mouse = Math.hypot(mouse.x - s.x, mouse.y - s.y);
+           if (d_mouse < 15) {
+             s.discovered = true;
+             updateDiscovery();
+             showDiscovery(s.obj);
+             addDiscoveryRing(s.x, s.y);
+           }
+         }
+       }
+       s.vx *= 0.985; s.vy *= 0.985;
+       sp = Math.hypot(s.vx, s.vy);
+       if (sp > 4) { s.vx *= 4 / sp; s.vy *= 4 / sp; }
+       s.x += s.vx; s.y += s.vy;
+       if (s.x < 0) s.x = W; else if (s.x > W) s.x = 0;
+       if (s.y < 0) s.y = H; else if (s.y > H) s.y = 0;
+     }
+     updateMeteors();
+     drawMeteors(ctx);
+     
+     ctx.lineWidth = 0.7;
 
-    ctx.lineWidth = 0.7;
     ctx.strokeStyle = 'hsla(' + cur.hsl[0] + ',' + cur.hsl[1] + '%,75%,0.2)';
     for (i = 0; i < stars.length; i++) {
       a = stars[i];
