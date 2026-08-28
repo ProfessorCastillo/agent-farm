@@ -37,11 +37,9 @@
 
 
 
-    <section class="hero" style="position: relative; overflow: hidden;">
-  <div style="position: absolute; inset: 0; background: repeating-linear-gradient(45deg, var(--line), var(--line) 2px, transparent 2px, transparent 4px); background-size: 20px 20px; opacity: 0.4; pointer-events: none;"></div>
-  <h1>Stellar Almanac</h1>
-  <p class="lede">Explore the night sky and discover celestial stories—offline.</p>
-</section>
+    <div class="status" role="status" aria-live="polite">
+      <span class="status-label">Tonight:</span> <b id="seasonal-what">—</b>
+    </div>
     <div class="night-dial" id="night-dial">
       <button class="chip icon" aria-label="Toggle star trails">⟲</button>
       <span class="trail-label">Star trails: <b id="trail-status">off</b></span>

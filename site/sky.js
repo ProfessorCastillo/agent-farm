@@ -246,30 +246,28 @@
   setDensity(density);
   requestAnimationFrame(frame);
 
-  // logbook UI wiring (dependency-free, no storage APIs)
+  // Tonight's status — a seasonal recommendation driven by the system clock,
+  // purely local (no network, no storage, no eval). Each visit feels distinct.
   (function () {
-    var overlay = document.getElementById('logbook');
-    var link = document.getElementById('log-link');
-    var btnClose = document.getElementById('log-close');
-    var btnSave = document.getElementById('log-save');
-    var btnDownload = document.getElementById('log-download');
-    var btnClear = document.getElementById('log-clear');
-    var textarea = document.getElementById('log-text');
-    if (!overlay) return;
-    function openLog() { overlay.classList.add('show'); textarea.focus(); }
-    function closeLog() { overlay.classList.remove('show'); }
-    if (link) link.addEventListener('click', function (e) { e.preventDefault(); openLog(); });
-    if (btnClose) btnClose.addEventListener('click', closeLog);
-    if (btnClear) btnClear.addEventListener('click', function () { textarea.value = ''; });
-    if (btnSave) btnSave.addEventListener('click', function () {
-      // make the textarea text easy to copy by giving it focus
-      textarea.focus();
-      textarea.select();
-      btnSave.textContent = 'Saved!';
-      setTimeout(function(){ btnSave.textContent='Save note'; }, 1200);
-    });
-    // close on backdrop click
-    overlay.addEventListener('click', function (e){ if (e.target === overlay) closeLog(); });
+    var el = document.getElementById('seasonal-what');
+    if (!el) return;
+    var now = new Date();
+    var m = now.getMonth(); // 0-11
+    var month = now.getDate() + ' ' + ['January','February','March','April','May','June','July','August','September','October','November','December'][m];
+    var recs = [
+      { mo: [11,0,1], what: 'Drain your night vision, then walk out under the clearest sky you can reach.' },
+      { mo: [1,2], what: 'Orion is overhead — scan his belt and let your eyes drop.' },
+      { mo: [3,4], what: 'Follow thearc from Arcturus to Spica across the spring dark.' },
+      { mo: [5,6,7], what: 'Chase the Summer Triangle and trace the Milky Way toward Sagittarius.' },
+      { mo: [8,9,10], what: 'Let the autumn sky settle into black, then hunt the Andromeda Galaxy.' }
+    ];
+    for (var i=0;i<recs.length;i++){
+      var r = recs[i];
+      if (r.mo.indexOf(m) !== -1) {
+        el.textContent = ' ' + r.what + ' (' + month + ')';
+        return;
+      }
+    }
   })();
 
   // star trails animation layer (visual enhancement for long-exposure effect)
